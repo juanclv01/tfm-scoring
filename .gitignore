@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.env
+.pytest_cache/
+
+# Los modelos entrenados se regeneran con train_model.py; no se versionan
+models/*.joblib
+
+# El dataset SI se versiona: es pequeno (~80 KB) y de dominio publico (CC BY 4.0),
+# lo que hace el repositorio autocontenido y reproducible sin pasos manuales.
+!data/german.data

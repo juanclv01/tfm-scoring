@@ -1,0 +1,14 @@
+xgboost>=2.0.3
+shap>=0.45.0
+scikit-learn>=1.4
+pandas>=2.2
+numpy>=1.26
+scipy>=1.11
+langgraph>=0.1.5
+langchain-core>=0.2
+pydantic>=2.6
+joblib>=1.3
+pytest>=8.0
+matplotlib>=3.8
+ipykernel>=6.29
+ucimlrepo>=0.0.7

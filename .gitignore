@@ -10,4 +10,7 @@ models/*.joblib
 
 # El dataset SI se versiona: es pequeno (~80 KB) y de dominio publico (CC BY 4.0),
 # lo que hace el repositorio autocontenido y reproducible sin pasos manuales.
-!data/german.data
+# Se ignoran los demas ficheros del zip descargado (doc, variante numerica, etc.)
+# y se permite unicamente el fichero que el proyecto realmente usa.
+data/german-credit-data/*
+!data/german-credit-data/german.data

@@ -59,7 +59,7 @@ def tune_model(X_train, y_train) -> RandomizedSearchCV:
 
 
 if __name__ == "__main__":
-    df = load_german_credit("data/german.data")
+    df = load_german_credit("data/german-credit-data/german.data")
     X_train, X_test, y_train, y_test = split_data(df)
 
     search = tune_model(X_train, y_train)

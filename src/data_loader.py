@@ -29,7 +29,7 @@ NUMERIC_FEATURES = [
 ]
 
 
-def load_german_credit(path: str = "data/german.data") -> pd.DataFrame:
+def load_german_credit(path: str = "data/german-credit-data/german.data") -> pd.DataFrame:
     """Carga el dataset original (separado por espacios, sin cabecera)."""
     df = pd.read_csv(path, sep=" ", header=None, names=COLUMN_NAMES)
     # target original: 1=bueno, 2=malo -> remapeado a 0=bueno, 1=impago

@@ -36,7 +36,7 @@ if __name__ == "__main__":
     from data_loader import load_german_credit, split_data
 
     model = joblib.load("models/xgb_scoring_pipeline.joblib")
-    df = load_german_credit("data/german.data")
+    df = load_german_credit("data/german-credit-data/german.data")
     _, X_test, _, y_test = split_data(df)
 
     metrics = evaluate_model(model, X_test, y_test)

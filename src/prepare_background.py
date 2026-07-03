@@ -19,7 +19,7 @@ if __name__ == "__main__":
     model = joblib.load("models/xgb_scoring_pipeline.joblib")
     preprocessor = model.named_steps["preprocessor"]
 
-    df = load_german_credit("data/german.data")
+    df = load_german_credit("data/german-credit-data/german.data")
     X_train, _, _, _ = split_data(df)
 
     n = min(N_BACKGROUND, len(X_train))

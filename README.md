@@ -23,8 +23,14 @@ pip install -r requirements.txt
 
 ## Dataset
 
-German Credit Dataset (UCI, CC BY 4.0). Ya incluido en `data/german.data`.
+German Credit Dataset (UCI, CC BY 4.0). Coloca el fichero en:
+`data/german-credit-data/german.data`
+
 Fuente original: https://archive.ics.uci.edu/ml/machine-learning-databases/statlog/german/german.data
+
+Nota: el zip original de UCI trae 4 ficheros (`german.data`, `german.data-numeric`,
+`german.doc`, etc.). Solo `german.data` es necesario; el `.gitignore` ya excluye
+el resto para no versionar ficheros innecesarios.
 
 ## Orden de ejecución
 
@@ -49,7 +55,8 @@ pytest tests/ -v
 
 ```
 tfm-scoring-crediticio/
-├── data/german.data           # dataset original, sin modificar
+├── data/german-credit-data/
+│   └── german.data            # dataset original, sin modificar
 ├── models/                    # modelo entrenado + background SHAP (gitignored)
 ├── notebooks/                 # exploración inicial, no productivo
 ├── src/

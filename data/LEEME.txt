@@ -1,0 +1,15 @@
+Coloca el archivo german.data en:
+    data/german-credit-data/german.data
+
+Descarga desde:
+https://archive.ics.uci.edu/ml/machine-learning-databases/statlog/german/german.data
+
+El zip de UCI trae 4 ficheros (german.data, german.data-numeric, german.doc, etc.).
+Copia todos a data/german-credit-data/ si quieres, pero el proyecto SOLO usa
+german.data. El .gitignore ya excluye los otros 3 para no versionarlos.
+
+Alternativa desde Python (recomendada, sin descarga manual):
+
+    pip install ucimlrepo
+    from ucimlrepo import fetch_ucirepo
+    dataset = fetch_ucirepo(id=144)

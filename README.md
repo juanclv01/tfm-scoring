@@ -41,17 +41,27 @@ el modelo del pipeline de demo.
   Descárgalo con la Kaggle API: `kaggle competitions download -c home-credit-default-risk -f application_train.csv`
   y colócalo manualmente en `data/home-credit-default/`.
 
-## Datasets utilizados
+## Variables excluidas por decisión de diseño (fairness)
 
-| Dataset | Rol | Fuente | Ruta |
-|---|---|---|---|
-| German Credit | Prototipo inicial + modelo del pipeline en vivo | UCI | `data/german-credit-data/german.data` |
-| Default Credit Card | Validación cruzada de métricas | UCI/Kaggle | `data/credit-card-default/UCI_Credit_Card.csv` |
-| Home Credit Default | Validación final, prueba de escala | Kaggle | `data/home-credit-default/application_train.csv` |
+`personal_status` y `foreign_worker` (German Credit) y `SEX` (Credit Card) se
+excluyen deliberadamente del conjunto de features del modelo. Motivo documentado
+en `src/data_loader.py` y `src/data_loader_credit_card.py`: `personal_status`
+codifica sexo + estado civil en una sola columna, y `foreign_worker` tiene un
+error de codificación conocido en la documentación oficial de UCI (ver Ferrando
+et al., "Algorithmic Fairness Datasets: the Story so Far", 2022, arXiv:2202.01711).
+Alineado con el Art. 10 del EU AI Act (gobernanza de datos en sistemas de alto riesgo).
 
-**Importante:** el grafo en vivo (`graph.py`, `nodes.py`) sigue alimentado únicamente
-por German Credit. Los otros dos datasets son validaciones offline, no sustituyen
-el modelo del pipeline de demo.
+Ambos loaders exponen `audit_data_quality()` / `SENSITIVE_FEATURES_EXCLUDED` para
+que la exclusión y la calidad de datos (duplicados, nulos, rangos imposibles)
+queden documentadas y sean auditables desde el propio código, no solo en la memoria.
+
+## Métricas de evaluación
+
+`evaluate.py` reporta AUC-ROC, Gini, KS, Brier score (calibración) y coste
+esperado según la matriz de coste oficial de UCI (falso negativo = 5, falso
+positivo = 1). El coste se aplica al **umbral de decisión**, nunca al
+entrenamiento — así las probabilidades permanecen calibradas para que
+`sum(shap_values) + base_value == proba_default` (local accuracy) siga siendo válido.
 
 ## Orden de ejecución
 

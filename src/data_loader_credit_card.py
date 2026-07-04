@@ -23,9 +23,16 @@ TARGET_CANDIDATES = [
     "DEFAULT",
 ]
 
+# Excluida por ser variable protegida (sexo), en linea con la misma
+# decision aplicada a "personal_status" en German Credit (ver data_loader.py).
+SENSITIVE_FEATURES_EXCLUDED = ["SEX"]
+
 # Codificadas numericamente en el fichero original, pero son categoricas
 # por naturaleza (no existe un orden significativo entre sus valores).
-CATEGORICAL_FEATURES = ["SEX", "EDUCATION", "MARRIAGE"]
+# NOTA: EDUCATION y MARRIAGE tienen valores fuera de la documentacion
+# oficial (p.ej. EDUCATION=0,5,6; MARRIAGE=0) -- revisar con
+# audit_data_quality() antes de asumir que solo existen los valores 1-4/1-3.
+CATEGORICAL_FEATURES = ["EDUCATION", "MARRIAGE"]
 
 NUMERIC_FEATURES = [
     "LIMIT_BAL", "AGE",

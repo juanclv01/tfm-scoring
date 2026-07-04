@@ -21,33 +21,54 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-## Dataset
+## Datasets utilizados
 
-German Credit Dataset (UCI, CC BY 4.0). Coloca el fichero en:
-`data/german-credit-data/german.data`
+| Dataset | Rol | Fuente | Ruta |
+|---|---|---|---|
+| German Credit | Prototipo inicial + modelo del pipeline en vivo | UCI | `data/german-credit-data/german.data` |
+| Default Credit Card | Validación cruzada de métricas | UCI/Kaggle | `data/credit-card-default/UCI_Credit_Card.csv` |
+| Home Credit Default | Validación final, prueba de escala | Kaggle | `data/home-credit-default/application_train.csv` |
 
-Fuente original: https://archive.ics.uci.edu/ml/machine-learning-databases/statlog/german/german.data
+**Importante:** el grafo en vivo (`graph.py`, `nodes.py`) sigue alimentado únicamente
+por German Credit. Los otros dos datasets son validaciones offline, no sustituyen
+el modelo del pipeline de demo.
 
-Nota: el zip original de UCI trae 4 ficheros (`german.data`, `german.data-numeric`,
-`german.doc`, etc.). Solo `german.data` es necesario; el `.gitignore` ya excluye
-el resto para no versionar ficheros innecesarios.
+**Descarga:**
+- German Credit: ver `data/LEEME.txt`.
+- Default Credit Card: Kaggle — `uciml/default-of-credit-card-clients-dataset`. ~2-3 MB, sí se versiona en git.
+- Home Credit Default: Kaggle — competición `home-credit-default-risk`, fichero `application_train.csv`.
+  **No se versiona en git** (~150-160 MB, supera el límite de 100 MB/fichero de GitHub).
+  Descárgalo con la Kaggle API: `kaggle competitions download -c home-credit-default-risk -f application_train.csv`
+  y colócalo manualmente en `data/home-credit-default/`.
+
+## Datasets utilizados
+
+| Dataset | Rol | Fuente | Ruta |
+|---|---|---|---|
+| German Credit | Prototipo inicial + modelo del pipeline en vivo | UCI | `data/german-credit-data/german.data` |
+| Default Credit Card | Validación cruzada de métricas | UCI/Kaggle | `data/credit-card-default/UCI_Credit_Card.csv` |
+| Home Credit Default | Validación final, prueba de escala | Kaggle | `data/home-credit-default/application_train.csv` |
+
+**Importante:** el grafo en vivo (`graph.py`, `nodes.py`) sigue alimentado únicamente
+por German Credit. Los otros dos datasets son validaciones offline, no sustituyen
+el modelo del pipeline de demo.
 
 ## Orden de ejecución
 
 ```bash
-# 1. Entrenar y ajustar hiperparámetros del Nodo 1
+# --- German Credit (pipeline principal) ---
 python src/train_model.py
-
-# 2. Evaluar métricas (AUC-ROC, Gini, KS)
-python src/evaluate.py
-
-# 3. Generar el dataset de background para SHAP (necesario antes del Nodo 2)
 python src/prepare_background.py
-
-# 4. Ejecutar el grafo completo (Nodo 1 -> Nodo 2) end-to-end
 python src/graph.py
 
-# 5. Correr los tests (incluye el chequeo de local accuracy)
+# --- Datasets de validación adicional ---
+python src/train_model_credit_card.py
+python src/train_model_home_credit.py    # tarda mas: ~300k filas
+
+# --- Comparativa de metricas entre los tres ---
+python src/evaluate_cross_dataset.py
+
+# --- Tests ---
 pytest tests/ -v
 ```
 
@@ -60,14 +81,20 @@ tfm-scoring-crediticio/
 ├── models/                    # modelo entrenado + background SHAP (gitignored)
 ├── notebooks/                 # exploración inicial, no productivo
 ├── src/
-│   ├── data_loader.py         # Nodo 1 — carga y preprocesado
-│   ├── train_model.py         # Nodo 1 — entrenamiento y tuning
-│   ├── evaluate.py            # Nodo 1 — métricas AUC/KS/Gini
-│   ├── scoring.py             # Nodo 1 — conversión proba -> score
-│   ├── prepare_background.py  # Genera el background dataset para SHAP
-│   ├── graph_state.py         # Estado compartido del grafo
-│   ├── nodes.py                # Nodo 1 y Nodo 2 como funciones LangGraph
-│   └── graph.py                # Ensamblado del StateGraph
+│   ├── data_loader.py               # German Credit
+│   ├── data_loader_credit_card.py   # Default Credit Card
+│   ├── data_loader_home_credit.py   # Home Credit Default
+│   ├── dataset_utils.py             # split_data() generico compartido
+│   ├── train_model.py               # Entrenamiento German Credit
+│   ├── train_model_credit_card.py   # Entrenamiento Credit Card
+│   ├── train_model_home_credit.py   # Entrenamiento Home Credit (a escala)
+│   ├── evaluate.py                  # Métricas AUC/KS/Gini (genérico)
+│   ├── evaluate_cross_dataset.py    # Comparativa entre los 3 datasets
+│   ├── scoring.py                   # Nodo 1 — conversión proba -> score
+│   ├── prepare_background.py        # Background para SHAP (German Credit)
+│   ├── graph_state.py               # Estado compartido del grafo
+│   ├── nodes.py                     # Nodo 1 y Nodo 2 (LangGraph, German Credit)
+│   └── graph.py                     # Ensamblado del StateGraph
 └── tests/
     └── test_graph.py          # Test de integración: local accuracy
 ```

@@ -5,12 +5,19 @@ __pycache__/
 .env
 .pytest_cache/
 
-# Los modelos entrenados se regeneran con train_model.py; no se versionan
+# Los modelos entrenados se regeneran con los scripts train_model*.py; no se versionan
 models/*.joblib
 
-# El dataset SI se versiona: es pequeno (~80 KB) y de dominio publico (CC BY 4.0),
-# lo que hace el repositorio autocontenido y reproducible sin pasos manuales.
-# Se ignoran los demas ficheros del zip descargado (doc, variante numerica, etc.)
-# y se permite unicamente el fichero que el proyecto realmente usa.
+# Datasets: se versiona unicamente el fichero de datos real de cada uno,
+# no los ficheros auxiliares que traen los zips de descarga (doc, indices, etc.)
 data/german-credit-data/*
 !data/german-credit-data/german.data
+
+data/credit-card-default/*
+!data/credit-card-default/UCI_Credit_Card.csv
+
+# Home Credit Default (application_train.csv) NO se versiona bajo ningun
+# concepto: pesa ~150-160 MB, por encima del limite de 100 MB por fichero
+# de GitHub (requeriria Git LFS). Se documenta la descarga en README.md
+# en lugar de incluir el fichero.
+data/home-credit-default/*

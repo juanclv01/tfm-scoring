@@ -2,12 +2,13 @@
 Carga y preprocesamiento del German Credit Dataset (UCI).
 Fuente: archive.ics.uci.edu/dataset/144/statlog+german+credit+data
 
-NOTA SOBRE VARIABLES SENSIBLES (decision de diseno documentada):
-"personal_status" codifica sexo Y estado civil en una unica columna,
-y la codificacion de "foreign_worker" tiene un error de documentacion
+NOTA SOBRE VARIABLES SENSIBLES (decisión de diseño documentada):
+"personal_status" codifica sexo Y estado civil en una única columna,
+y la codificación de "foreign_worker" tiene un error de documentacion
 conocido en la version original de UCI (ver Ferrando et al., "Algorithmic
-Fairness Datasets: the Story so Far", 2022, arXiv:2202.01711). Ambas
-se EXCLUYEN deliberadamente del conjunto de features del modelo, en
+Fairness Datasets: the Story so Far", 2022, arXiv:2202.01711). 
+
+Ambas se EXCLUYEN deliberadamente del conjunto de features del modelo, en
 linea con el Art. 10 del EU AI Act (gobernanza de datos y no discriminacion
 en sistemas de IA de alto riesgo). Se mantienen en el DataFrame crudo
 (load_german_credit) mas no en CATEGORICAL_FEATURES / NUMERIC_FEATURES,
@@ -31,7 +32,7 @@ COLUMN_NAMES = [
 # Excluidas del modelo por ser variables protegidas / con error de
 # documentacion conocido. Se listan aqui explicitamente (en vez de solo
 # omitirlas) para que la exclusion sea auditable y quede documentada
-# en el propio codigo, no solo en la memoria.
+# en el propio código, no solo en la memoria.
 SENSITIVE_FEATURES_EXCLUDED = ["personal_status", "foreign_worker"]
 
 CATEGORICAL_FEATURES = [
@@ -56,7 +57,7 @@ def load_german_credit(path: str = "data/german-credit-data/german.data") -> pd.
 
 def audit_data_quality(df: pd.DataFrame) -> dict:
     """
-    Chequeos basicos de calidad que NINGUN script comprobaba hasta ahora:
+    Preproceso de auditoria de calidad de datos: nulos,
     duplicados exactos y valores numericos fuera de rango plausible.
     No elimina nada automaticamente -- informa, para que la decision de
     que hacer con cada hallazgo quede documentada y sea deliberada.

@@ -24,8 +24,8 @@ from data_loader_home_credit import (
     load_home_credit,
     infer_feature_types,
     build_preprocessor_home_credit,
+    split_data,
 )
-from dataset_utils import split_data
 
 RANDOM_STATE = 42
 
@@ -80,7 +80,7 @@ if __name__ == "__main__":
 
     df = load_home_credit()
     categorical, numeric = infer_feature_types(df)
-    X_train, X_test, y_train, y_test = split_data(df, target_col="target")
+    X_train, X_test, y_train, y_test = split_data(df)
 
     t_load = time.time()
     print(f"Carga y split: {t_load - t0:.1f} s ({len(df)} filas)")

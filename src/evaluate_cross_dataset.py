@@ -12,9 +12,8 @@ se comporta de forma consistente independientemente del dataset -- la
 import joblib
 
 from data_loader import load_german_credit, split_data as split_german
-from data_loader_credit_card import load_credit_card
-from data_loader_home_credit import load_home_credit
-from dataset_utils import split_data
+from data_loader_credit_card import load_credit_card, split_data as split_credit_card
+from data_loader_home_credit import load_home_credit, split_data as split_home_credit
 from evaluate import evaluate_model
 
 
@@ -26,13 +25,13 @@ def get_german_credit_test_set():
 
 def get_credit_card_test_set():
     df = load_credit_card()
-    _, X_test, _, y_test = split_data(df, target_col="target")
+    _, X_test, _, y_test = split_credit_card(df)
     return X_test, y_test
 
 
 def get_home_credit_test_set():
     df = load_home_credit()
-    _, X_test, _, y_test = split_data(df, target_col="target")
+    _, X_test, _, y_test = split_home_credit(df)
     return X_test, y_test
 
 

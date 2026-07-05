@@ -4,7 +4,6 @@ __pycache__/
 .ipynb_checkpoints/
 .env
 .pytest_cache/
-consideraciones.txt
 
 # Los modelos entrenados se regeneran con los scripts train_model*.py; no se versionan
 models/*.joblib

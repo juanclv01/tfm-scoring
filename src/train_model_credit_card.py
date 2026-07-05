@@ -10,8 +10,11 @@ from sklearn.pipeline import Pipeline
 from sklearn.model_selection import RandomizedSearchCV, StratifiedKFold
 from xgboost import XGBClassifier
 
-from data_loader_credit_card import load_credit_card, build_preprocessor_credit_card
-from dataset_utils import split_data
+from data_loader_credit_card import (
+    load_credit_card,
+    build_preprocessor_credit_card,
+    split_data,
+)
 
 RANDOM_STATE = 42
 
@@ -62,7 +65,7 @@ def tune_model(X_train, y_train) -> RandomizedSearchCV:
 
 if __name__ == "__main__":
     df = load_credit_card()
-    X_train, X_test, y_train, y_test = split_data(df, target_col="target")
+    X_train, X_test, y_train, y_test = split_data(df)
 
     search = tune_model(X_train, y_train)
     print(f"Mejor AUC en CV: {search.best_score_:.4f}")

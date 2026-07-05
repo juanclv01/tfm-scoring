@@ -1,0 +1,42 @@
+DECISIONES DE DISEÑO (FASE 1: CONEXIÓN DE NODO 1 (MODELO ML) CON NODO 2 xAI (SHAP))
+
+Respecto al scaffold original, he ido iterando aspectos en concreto. En este archivo voy a documentar las decisiones de diseño que voy
+tomando, así como la explicación del funcionamiento de los scripts.
+
+Primera "iteración":
+
+-Sección 3 (de la guía en PDF) (Nodo 1): La estrategia de preprocesamiento del dataset y el cálculo de KS/Gini, no está cubierto por 
+los papers xAI.
+
+-Sección 4 (de la guía en PDF) (LangGraph). shap.TreeExplainer tiene un parámetro model_output que puede ser "raw" (log-odds, valor por 
+defecto) o "probability". Si no lo configuras explícitamente en "probability" con un dataset de background, los valores SHAP sumarán al 
+margen log-odds, no a la probabilidad 0-1 que aprendiste conceptualmente con el valor base de 0.35. Lo dejé resuelto en el código de 
+nodes.py y marcado como 
+gap bibliográfico, porque es un detalle de la API de la librería, no una conclusión de Lundberg & Lee.
+
+-Test de local accuracy incluido: La Sección 4.4 trae un test de pytest que verifica automáticamente que
+sum(shap_values) + base_value == proba_default, que es la validación práctica de la propiedad que estudiaste en el paper original de SHAP.
+
+
+Respecto al dataset German Data:
+
+-Tras previsualizar dicho dataset, se puede comprobar que el nombre de las columnas tiene formato de texto, pero los registros no. Estos 
+están codificados como, e.g. A212, A24, etc. En esta fase no será necesario descodificar estos registros (e.g. A212 -> desempleado), ya
+que el modelo de XGBoost puede trabajar con los registros codificados para realizar la clasificación. Esta decodificación hay que 
+aplicarla en la fase 2, para que el LLM dé la explicación con la variable en lenguaje natural y no como código.
+
+-UCI documenta que este dataset presenta una "matriz de coste asimétrica". Esto quiere decir que aprobar a un cliente que en realidad
+impagará cuesta 5 veces más que rechazar a uno que sí habría pagado. Esto tiene implicaciones directas sobre el umbral de AUC 
+(no puede ser 0.5 [aprobado/rechazado] ya que este umbral implica simetría). La solución correcta es mantener el modelo bien calibrado 
+y aplicar el coste solo en el umbral de decisión: en vez de "aprobar si proba_default < 0.5", calcular qué umbral minimiza el coste 
+esperado según esa matriz.
+
+- Tras la consulta del paper (Algorithmic Fairness Datasets: the Story so Far, 2022) he percibido que german.data codifica sexo y estado 
+civil juntos en la variable personal_status. Esto entra en fricción directa con la normativa europea de no discriminación, y el EU AI Act 
+(art. 10, gobernanza de datos) exige explícitamente evitar sesgos discriminatorios en sistemas de IA de alto riesgo como este.
+La variable foreign_worker tiene, según ese mismo paper, la codificación invertida en la documentación oficial de UCI — literalmente
+menos del 5% de los solicitantes aparecerían como alemanes, lo cual es estadísticamente inverosímil para un banco alemán de los años 70. 
+Existe una versión corregida (South German Credit, Grömping 2019) donada a UCI precisamente para arreglar estos errores de documentación.
+
+De esta forma, excluyo personal_status y foreign_worker como variables predictivas del modelo, y documento esa exclusión en la memoria como 
+una decisión de diseño consciente alineada con el art. 10 del EU AI Act.

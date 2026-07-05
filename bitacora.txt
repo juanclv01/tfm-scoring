@@ -1,0 +1,52 @@
+Comienzo por verificar o instalar la versión de Python correcta. En este caso 3.11, ya que debe ser compatible con las librerías xgboost>=2.0 y shap>=0.45.
+
+Creo la carpeta del proyecto en la siguiente ruta: D:\Juan\tfm-scoring y la abro con VSCode.
+
+Creo el entorno virtual:
+
+py -3.11 -m venv .venv
+
+y lo activo:
+
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass (necesario para la ejecución de scripts)
+
+.venv\Scripts\Activate.ps1
+
+Ahora selecciono el intérprete, usando el comando  "Python: Select Interpreter" y elijo .venv\Scripts\python.exe
+
+Nota: Para usar los comandos debo escribir > primero en la barra superior
+
+
+Instalo las extensiones necesarias: Python, Pylance y Jupyter
+
+
+Me voy a la guía de implementación de los nodos 1 y 2. Replico la estructura, ya que incluye "requirements.txt"
+que es donde están las dependencias 
+
+Para ello, descargo el "scaffold" que me ha dado Claude. De esta forma, se despliega y replica la estructura del
+proyecto automáticamente.
+
+Una vez descomprimido el scaffold, instalo las dependencias.
+Para que las siguientes líneas de código funcionen, debo excluir la carpeta delpryecto en "Exclusiones" del Windows Defender
+
+pip install --upgrade pip
+pip install -r requirements.txt
+
+
+Inicializo Git y vinculo repo en GitHub
+
+git init
+git add .
+git commit -m "Estructura inicial del proyecto"
+git branch -M main
+
+
+git remote add origin https://github.com/juanclv01/tfm-scoring.git
+git push -u origin main
+
+
+
+Incluyo la explicación de qué hace cada script y sus (hiperparámetros) en los propios scripts.
+
+
+Flujo lógico de scripts: datasets_utils.py -> data_loader_* ->

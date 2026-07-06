@@ -25,6 +25,7 @@ from data_loader_home_credit import (
     infer_feature_types,
     build_preprocessor_home_credit,
     split_data,
+    audit_data_quality,
 )
 
 RANDOM_STATE = 42
@@ -79,6 +80,16 @@ if __name__ == "__main__":
     t0 = time.time()
 
     df = load_home_credit()
+
+    # CORRECTED: mismo gap de integracion que en los otros dos scripts
+    # de entrenamiento -- la auditoria existia pero no se ejecutaba como
+    # parte del flujo estandar. A esta escala es especialmente relevante
+    # dejar constancia del % de nulos y filas duplicadas eliminadas.
+    print("Auditoria de calidad de datos (Home Credit):")
+    for k, v in audit_data_quality(df).items():
+        print(f"  {k}: {v}")
+    print()
+
     categorical, numeric = infer_feature_types(df)
     X_train, X_test, y_train, y_test = split_data(df)
 

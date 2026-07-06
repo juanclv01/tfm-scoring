@@ -7,7 +7,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.model_selection import RandomizedSearchCV, StratifiedKFold
 from xgboost import XGBClassifier
 
-from data_loader import load_german_credit, build_preprocessor, split_data
+from data_loader import load_german_credit, build_preprocessor, split_data, audit_data_quality
 
 RANDOM_STATE = 42
 
@@ -60,6 +60,17 @@ def tune_model(X_train, y_train) -> RandomizedSearchCV:
 
 if __name__ == "__main__":
     df = load_german_credit("data/german-credit-data/german.data")
+
+    # CORRECTED: audit_data_quality() existia pero solo se ejecutaba si
+    # alguien corria data_loader.py por separado -- gap de integracion
+    # real entre el loader y el entrenamiento. Ahora forma parte del
+    # flujo estandar: el log de calidad de datos usado para entrenar
+    # queda documentado en cada ejecucion, no es un paso opcional.
+    print("Auditoria de calidad de datos (German Credit):")
+    for k, v in audit_data_quality(df).items():
+        print(f"  {k}: {v}")
+    print()
+
     X_train, X_test, y_train, y_test = split_data(df)
 
     search = tune_model(X_train, y_train)

@@ -63,8 +63,11 @@ def load_home_credit(path: str = "data/home-credit-default/application_train.csv
     return df
 
 
-def audit_data_quality(df: pd.DataFrame, target_col: str = "target") -> dict:
+def audit_data_quality(df: pd.DataFrame) -> dict:
     """
+    # CORRECTED: se elimino el parametro target_col (no se usaba en el
+    cuerpo de la funcion -- parametro muerto, inconsistente con la firma
+    audit_data_quality(df) de data_loader.py y data_loader_credit_card.py).
     Mismo espiritu que en German Credit y Credit Card. Con 122 columnas
     no se listan rangos plausibles uno a uno; se reporta el porcentaje
     de nulos por columna, duplicados, la anomalia de CODE_GENDER='XNA'

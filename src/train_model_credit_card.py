@@ -14,6 +14,7 @@ from data_loader_credit_card import (
     load_credit_card,
     build_preprocessor_credit_card,
     split_data,
+    audit_data_quality,
 )
 
 RANDOM_STATE = 42
@@ -65,6 +66,14 @@ def tune_model(X_train, y_train) -> RandomizedSearchCV:
 
 if __name__ == "__main__":
     df = load_credit_card()
+
+    # CORRECTED: mismo gap de integracion que en train_model.py -- la
+    # auditoria existia pero no formaba parte del flujo de entrenamiento.
+    print("Auditoria de calidad de datos (Credit Card):")
+    for k, v in audit_data_quality(df).items():
+        print(f"  {k}: {v}")
+    print()
+
     X_train, X_test, y_train, y_test = split_data(df)
 
     search = tune_model(X_train, y_train)

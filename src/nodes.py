@@ -67,3 +67,25 @@ def node_explainability(state: PipelineState) -> dict:
             {"feature": f, "shap_value": float(v)} for f, v in top_features
         ],
     }
+
+
+# NODE_3_ENTRY_POINT
+# El Nodo 3 (narrador LLM) se define aqui como una tercera funcion con
+# la misma forma que las anteriores: node_narrative(state) -> dict.
+# No se implementa en esta pasada -- el objetivo de esta correccion es
+# dejar todo lo que el Nodo 3 necesita ya disponible y sin bloqueos:
+#
+#   from data_loader import decode_shap_feature
+#
+#   def node_narrative(state: PipelineState) -> dict:
+#       top_features_decoded = [
+#           {**f, "feature_legible": decode_shap_feature(f["feature"])}
+#           for f in state["top_features"]
+#       ]
+#       # ... construir prompt con state["score"], state["proba_default"]
+#       # y top_features_decoded, llamar al LLM, devolver:
+#       return {"top_features_decoded": top_features_decoded, "narrative": "..."}
+#
+# graph.py debera anadir: graph.add_node("narrative", node_narrative) y
+# graph.add_edge("explainability", "narrative") en lugar de
+# graph.add_edge("explainability", END).

@@ -12,3 +12,8 @@ pytest>=8.0
 matplotlib>=3.8
 ipykernel>=6.29
 ucimlrepo>=0.0.7
+xlrd>=2.0.1
+openpyxl>=3.1.0
+
+# Opcional: solo necesario para scripts/download_home_credit.py
+kagglehub>=0.3.0

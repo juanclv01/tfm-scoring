@@ -1,0 +1,255 @@
+
+DESCRIPCIÓN DE LOS SCRIPTS 
+ El flujo de ejecución será el siguiente: 
+ 
+ 
+ FASE 0 — Fundamentos compartidos (sin ejecucion propia)
+  dataset_utils.py ─────────────────────────────────────────┐
+                                                              │ (importado por los 3 loaders)
+FASE 1 — German Credit: entrenamiento del pipeline en vivo   │
+  data_loader.py ◄────────────────────────────────────────────┘
+       │  load_german_credit() → DataFrame limpio
+       │  audit_data_quality() → log de calidad
+       │  build_preprocessor() → ColumnTransformer sin ajustar
+       │  split_data() → X_train, X_test, y_train, y_test
+       ▼
+  train_model.py
+       │  build_pipeline() + get_param_distributions() + tune_model()
+       │  → RandomizedSearchCV.best_estimator_
+       ▼
+  models/xgb_scoring_pipeline.joblib  [ARTEFACTO EN DISCO]
+       │
+       ▼
+  prepare_background.py
+       │  carga el .joblib, extrae el preprocesador, muestrea 100 filas
+       ▼
+  models/background_sample.joblib  [ARTEFACTO EN DISCO]
+       │
+       ▼
+  graph_state.py (define PipelineState, sin dependencias de ejecucion)
+       │
+       ▼
+  nodes.py
+       │  _model = joblib.load(...) al importar el modulo (carga ansiosa)
+       │  node_scoring(state) → {score, proba_default}
+       │  node_explainability(state) → {shap_values, base_value,
+       │                                 feature_names, top_features}
+       │  [scoring.py existe pero NO se importa aqui — logica duplicada
+       │   inline en vez de reutilizada, hallazgo pendiente]
+       ▼
+  graph.py
+       │  build_graph(): ensambla StateGraph con 2 nodos + 1 arista fija
+       │  app.invoke({"client_data": cliente}) → estado final completo
+       │  (usa data_loader.decode_shap_feature() solo para el print de demo)
+       ▼
+  tests/test_graph.py
+       │  build_graph() → 3 asserts (local accuracy, rango score, top-5)
+
+
+FASE 2 — Datasets de validacion (independientes entre si y de la Fase 1)
+  data_loader_credit_card.py → train_model_credit_card.py
+       → models/xgb_credit_card_pipeline.joblib
+
+  data_loader_home_credit.py → train_model_home_credit.py
+       → models/xgb_home_credit_pipeline.joblib
+
+
+FASE 3 — Comparacion final (requiere que Fase 1 y Fase 2 ya hayan corrido)
+  evaluate.py (modulo de metricas, importado, no ejecutado directamente aqui)
+       │
+       ▼
+  evaluate_cross_dataset.py
+       │  carga los 3 .joblib
+       │  evaluate_model() sobre cada uno, con parametros de coste propios
+       ▼
+  Tabla impresa: Dataset | AUC-ROC | Gini | KS | Brier | Coste oficial (si/no)
+
+
+  A continuación explicaré la función y la lógica de cada script.
+
+     $$ dataset_utils.py
+        ·Posición en el flujo: Se trata del primer script de la cadena, ya que todos los data_loader*.py lo necesitan.
+       
+        ·Propósito: Se encarga de implementar la partición estratificada en train/test del dataset que se le aporte como input. Por ello, se reutiliza por los tres loaders.
+       
+        ·Funciones y parámetros [split_data(df, target_col, test_size=0.2, seed=42)]:
+            *df-> dataframe completo. Cuando el loader carge el dataset y lo convierta a objeto dataframe, se introducirá en esta función.
+            *target_col-> nombre de la columna objetivo  (e.g en German Credit, "target" (la variable objetivo se llama literalmente así en este dataset))
+            *Output:  Tupla de 4 elementos (X_train, X_test, y_train, y_test). POR QUÉ HAY DOS PAREJAS EN VEZ DE UNA?
+            *test_size=0.2: reserva el 20% de las filas para test. Se eligió porque con el dataset más pequeño (German Credit, 1.000 filas) deja 200 filas de test
+             un tamaño mínimo razonable para que AUC/Gini/KS no tengan varianza excesiva.
+            *seed=42: fija la semilla de forma que cada llamada a split_data() genere la misma partición cada vez que se ejecute. 
+            *stratify=y: obliga a que la proporción de clases 0/1 sea igual en train y test
+
+        ·Integración: Nunca se importa directamente en train_model*.py — cada data_loader_*.py lo importa como _split_data_generic (alias con guion bajo, señalando que 
+         es un detalle de implementación interno) y expone su propio split_data(df) con target_col="target" ya fijado. Esto es deliberado: los scripts de entrenamiento 
+         llaman siempre split_data(df) sin el segundo argumento, con una interfaz idéntica sea cual sea el dataset.
+
+         ·Decisión de diseño: Se creó como módulo separado en vez de duplicar la llamada a train_test_split en cada loader.
+
+     $$ data_loader.py. NOTA: data_loader_credit_card y data_loader_home_credit son totalmente análogos.
+        ·Posición en el flujo: Se ejecuta seguidamente de dataset_utils, ya que depende de él.
+       
+        ·Propósito: Carga, limpia, documenta la calidad de datos y expone la codificación semántica del German Credit Dataset 
+
+        ·Funciones y parámetros: 
+            - load_german_credit(path="data/german-credit-data/german.data")
+                *Input: ruta al fichero de texto plano separado por espacios, sin cabecera (formato nativo de German Credit)
+                *Output: DataFrame de como máximo 1.000 filas (menos si hubiera duplicados) × 21 columnas.
+                *pd.read_csv(path, sep=" ", header=None, names=COLUMN_NAMES):
+                    -path: ruta
+                    -sep=" ", header=None. Indican, respetivamente, que el archivo tiene espacios como separadosres y no tiene cabecera
+                    -names=COLUMN_NAMES.  Inyecta los 21 nombres. Para ello se han consultado el nombre de las columnas en la página del dataset y se han guardado en
+                    la lista COLUMN_NAMES
+               *df["target"].map({1: 0, 2: 1}). En el dataset original, la variable objetivo adquiere valores 1 (buen pagador) y 2 (mal pagador). Se remapea según la convención, 
+                es decir, a valores 0 (bueno) y 1 (malo). Esto es coherente con que, para clasificación binaria, la clase positiva (1) suele representar el evento de interés 
+                que en este caso, constituye el impago.
+               *df.drop_duplicates().reset_index(drop=True). Elimina filas duplicadas y reasigna los índices para que no queden huecos.
+
+            - audit_data_quality(df):
+               *Input: El DataFrame ya cargado
+               *Output: diccionario con 4 claves: filas_totales (int), duplicados_exactos, nulos_por_columna, valores_fuera_de_rango. AQUÍ LA IDEA ES CORREGIRLOS ANTES DE METERLOS AL MODELO,
+               NO SOLO SEÑALARLOS
+               *ELIMINAR RANGOS PLAUSIBLES, NO ME GUSTA LO QUE HA ELEGIDO (o cambiar rango para age y credit_amount)
+           
+            - build_preprocessor(). Se encarga de aplica un ColumnTransformer sobre las columnas del dataset.
+               *OneHotEncoder(handle_unknown="ignore") aplica la transformación sobre CATEGORICAL_FEATURES. handle_unknown="ignore" modela la gestión de errores (si llega un cliente
+                con una categoría no vista en entrenamiento).
+                * "passthrough" aplicado a NUMERIC_FEATURES. Se encarga de no transformar en absoluto la columna. XGBoost, al ser un modelo de árboles, es invariante a 
+                transformaciones monótonas de las variables — escalar no cambiaría en qué punto se hacen los cortes del árbol, solo añadiría coste computacional sin beneficio---BUSCAR REFERENCIA BIBLIOGRÁFICA DE Esto
+            
+            - parse_onehot_feature_name(shap_feature_name):
+               *Input: un string como "cat__checking_status_A14". La nomenclatura sigue la siguiente fórmula: el prefijo indica el tipo de variable que guarda la columna 
+               (cat/num), el cuerpo indica el nombre concreto que adquiere la columna y el código final (e.g A14) el valor del registro para esa fila.
+               *Output: tupla (nombre_columna, codigo). 
+
+               Un ejemplo del funcionamiento: parse_onehot_feature_name(cat__checking_status_A14)---> (checking_status, A14)
+               Inciso importante. Puede parecer redundante el uso de está función. Por qué no procesar las columnas directamente como (checking_status, A14)?
+               Pues porque tengo que aplicar primero el transformador de columnas antes de meterlas al modelo y al aplicar esta transformación se me devuelven objetos con
+               la sintaxis del tipo "cat__checking_status_A14".
+
+           - decode_feature_value(feature_name, code). Traduce un codigo crudo (p.ej. 'A14') a su descripcion legible. Si la feature o el codigo no estan mapeados, devuelve
+            el codigo original sin modificar ####un dato no traducible no debe romper la generacion del informe del Nodo 3, solo degradar la legibilidad de
+           ese factor concreto.###### RECONSIDERAR ESTO ÚLTIMO
+
+           - decode_shap_feature(shap_feature_name). Combina las dos funciones anteriores en una sola llamada. Es el único punto de entrada que el Nodo 3 necesitará 
+           tocar; las dos funciones internas (parse_onehot_feature_name, decode_feature_value) existen por separado para que cada una tenga una única responsabilidad
+           (parsear vs. traducir), no porque el Nodo 3 vaya a llamarlas por separado.
+
+          ·Integración: Es importado por train_model.py (todas sus funciones excepto las de decodificación), por prepare_background.py (load_german_credit, split_data),
+           por evaluate.py en su bloque __main__ (load_german_credit, split_data), por graph.py (solo decode_shap_feature, en el bloque de demo), y por evaluate_cross_dataset.py
+           (load_german_credit, split_data con alias). nodes.py NO lo importa directamente para la lógica de los nodos — solo graph.py lo hace, y únicamente para la impresión de
+            depuración, no para el flujo de datos del grafo en sí.
+
+          ·Decisión de diseño: Toda la metadata de este dataset concreto (nombres de columna, qué es categórico, qué está excluido por sensible, y ahora la decodificación) vive 
+           en un único archivo en vez de repartirse entre varios, porque son datos que solo tienen sentido juntos — separarlos en, por ejemplo, un archivo de constantes y otro 
+           de funciones habría obligado a sincronizar dos archivos cada vez que UCI aclarase o corrigiera algo sobre una columna.
+
+     $$ train_model.py. 
+          ·Posición: Segundo paso de la cadena — se ejecuta después de que data_loader.py exista (lo importa) y antes de prepare_background.py 
+          (que necesita el .joblib que este script produce).
+
+          ·Propósito: Entrena el modelo XGBoost del Nodo 1 sobre German Credit, buscando los mejores hiperparámetros mediante validación cruzada, y persiste el resultado en disco.
+
+          ·Funciones y parámetros: 
+               -build_pipeline():Sin inputs. Construye un sklearn.pipeline.Pipeline de 2 pasos: ("preprocessor", build_preprocessor()) y ("model", XGBClassifier(...)).
+                ¿Por qué un Pipeline y no llamar al preprocesador y al modelo por separado? porque dentro de la validación cruzada (RandomizedSearchCV más abajo), cada fold
+                 necesita que el OneHotEncoder se ajuste (.fit()) solo sobre los datos de entrenamiento de ese fold concreto, nunca sobre los de validación. Si se ajustara 
+                 el encoder una vez sobre todo el dataset antes de la búsqueda de hiperparámetros, el encoder "vería" categorías del fold de validación durante su ajuste
+                  — una fuga de datos sutil que Pipeline previene automáticamente al re-ajustar el preprocesador en cada fold.
+
+               - XGBClassifier(objective="binary:logistic", eval_metric="auc", random_state=RANDOM_STATE, n_jobs=-1):
+                    *objective="binary:logistic": le dice a XGBoost que la tarea es clasificación binaria con salida en forma de probabilidad (tras aplicar sigmoide internamente),
+                    que es lo que busco para el nodo SHAP.
+                    *eval_metric="auc": métrica que XGBoost registra internamente durante el entrenamiento (visible si se usara un log de validación).
+                    n_jobs=-1: usa todos los núcleos de CPU disponibles para construir los árboles en paralelo. Si se pusiera n_jobs=1, el entrenamiento sería secuencial 
+                    y notablemente más lento, sin cambiar el resultado (el paralelismo de XGBoost no introduce no-determinismo adicional dado random_state fijo).
+
+               - get_param_distributions().  Devuelve el diccionario de 9 hiperparámetros con sus distribuciones de búsqueda (randint, uniform de scipy.stats).
+                    * n_estimators: randint(100, 500) — si se bajara el límite superior a, por ejemplo, 50, el modelo tendría menos capacidad y probablemente peor AUC;
+                      si se subiera a 2.000, el riesgo de sobreajuste aumenta con solo 800 filas de entrenamiento, y el tiempo de búsqueda crecería proporcionalmente.  
+                    * max_depth: randint(2, 6) — acotado deliberadamente bajo. Si se ampliara a, por ejemplo, randint(2, 15) (un rango más habitual en datasets grandes), 
+                      con solo 800 filas cada árbol probablemente memorizaría particularidades del conjunto de entrenamiento en vez de generalizar — el AUC de validación 
+                      cruzada bajaría respecto al de entrenamiento, síntoma de sobreajuste.  
+                    * learning_rate: uniform(0.01, 0.29) — la sintaxis de scipy.stats.uniform(loc, scale) es loc=0.01, scale=0.29, lo que da un rango real de [0.01, 0.30],
+                      Un learning_rate más alto (por ejemplo, cerca de 1.0) haría que cada árbol individual tenga demasiado peso, perdiendo el efecto gradual de "boosting"; 
+                      uno muy bajo (por ejemplo, 0.001) requeriría muchos más árboles para converger.          
+                    *subsample y colsample_bytree: uniform(0.6, 0.4) — rango real [0.6, 1.0]. Si se bajara el mínimo a, por ejemplo, 0.3, cada árbol vería una fracción tan
+                     pequeña de filas/columnas que podría no capturar patrones reales, aumentando la varianza del modelo final.
+                    *min_child_weight: randint(1, 10) — si se fijara a 1 siempre (sin búsqueda), el modelo permitiría hojas con muy pocos clientes, más propensas a capturar ruido.
+                    *gamma: uniform(0, 0.5) — es la penalización mínima de ganancia para justificar un split (la γ de la fórmula de ganancia). Si se pusiera a 0 fijo, el árbol
+                     dividiría siempre que hubiera cualquier mejora, por pequeña que fuera.
+                    *reg_alpha: uniform(0, 1) (L1) y reg_lambda: uniform(0.5, 2) (L2, rango real [0.5, 2.5]) — regularización de los pesos de las hojas. Si ambos se pusieran a 0,
+                     se recupera el gradient boosting clásico sin regularización, más propenso a sobreajustar en un dataset de 800 filas
+
+                     QUE CRITERIOS HA SEGUIDO PARA ELEGIR ESTOS PARAMETROS??
+
+               - tune_model(X_train, y_train).
+                    *Input: conjuntos de entrenamiento (no toca X_test/y_test en ningún momento — la separación se mantiene estrictamente).
+                    *Output: el objeto RandomizedSearchCV ya ajustado (search.fit(X_train, y_train) mutó el objeto internamente); se accede después a search.best_estimator_, 
+                    search.best_score_, search.best_params_.
+                    *StratifiedKFold(n_splits=5, shuffle=True, random_state=RANDOM_STATE): 5 particiones estratificadas. shuffle=True es necesario porque, sin él,
+                     StratifiedKFold tomaría las particiones en el orden original de las filas, lo que sería problemático si el dataset estuviera ordenado por alguna 
+                     variable (por ejemplo, si todos los "malos" pagadores estuvieran al final del fichero original). random_state aquí fija qué filas concretas caen 
+                     en cada uno de los 5 folds, de forma independiente de la semilla usada en el split train/test inicial.
+                    *RandomizedSearchCV(..., n_iter=100, scoring="roc_auc", cv=cv, ..., verbose=1):
+                         -n_iter=100: número de combinaciones aleatorias de hiperparámetros a probar, de las prácticamente infinitas combinaciones posibles en un espacio 
+                          de 9 parámetros continuos/discretos. Se eligió 100 como equilibrio entre exhaustividad y tiempo — con GridSearchCV (la alternativa que prueba todas
+                          las combinaciones de una rejilla), el número de entrenamientos crecería multiplicativamente con cada hiperparámetro añadido, haciéndolo inviable en 
+                          tiempo razonable para este espacio de búsqueda. POR QUE 100?
+                         -scoring="roc_auc": la métrica que decide qué combinación de hiperparámetros es "mejor". No es "accuracy" deliberadamente, por el desbalance de clases
+                          (~70/30) discutido en turnos anteriores.
+                         -verbose=1: imprime progreso por consola (una línea por combinación probada aproximadamente). Es puramente informativo, no afecta al resultado.
+               -Bloque if __name__ == "__main__": 
+                    * Carga el DataFrame, imprime la auditoría de calidad de datos (llamada añadida en la corrección de la sesión anterior — antes de eso, audit_data_quality()
+                     existía pero nadie la invocaba en el flujo real de entrenamiento), separa train/test, ejecuta la búsqueda de hiperparámetros, imprime el mejor AUC de 
+                     validación cruzada y los mejores hiperparámetros encontrados, y finalmente serializa el mejor Pipeline completo (preprocesador + modelo, ya ajustados) 
+                     con joblib.dump(...) en models/xgb_scoring_pipeline.joblib.
+                    *Por qué serializar el Pipeline completo y no solo el XGBClassifier: porque nodes.py necesita acceder tanto al modelo entrenado como al preprocesador ya
+                     ajustado (para transformar los datos de un cliente nuevo exactamente igual que se transformaron los de entrenamiento) — serializar por separado obligaría
+                     a guardar y cargar dos ficheros en vez de uno, y a mantener sincronizados dos objetos que en realidad forman una sola unidad lógica.
+
+          ·Integración:  Importa de data_loader.py. Produce el fichero que consumen prepare_background.py, nodes.py (vía joblib.load directo) y 
+           evaluate.py/evaluate_cross_dataset.py. No tiene ninguna dependencia hacia adelante — ningún otro script importa nada de train_model.py; su única salida útil para el
+           resto del sistema es el fichero en disco, no ninguna función reutilizable.
+
+          ·Decisión de diseño: Es un script "de un solo uso" (se ejecuta una vez, o cada vez que se quiera reentrenar), no una librería — de ahí que casi toda su lógica 
+           relevante viva dentro del bloque if __name__ == "__main__" en vez de en funciones exportables, salvo build_pipeline, get_param_distributions y tune_model, que sí se 
+           extrajeron como funciones porque son las piezas que train_model_credit_card.py y train_model_home_credit.py replican con variaciones — mantenerlas como funciones 
+           documenta claramente qué es idéntico entre los tres scripts y qué varía.
+
+     $$ prepare_background.py
+          · Posición:  Tercer paso — se ejecuta después de train_model.py (necesita el modelo ya entrenado) y antes de la primera ejecución de graph.py/nodes.py
+           (que cargan el fichero que este script produce).
+
+          · Propósito: Genera y persiste la muestra de referencia ("background") que el explicador SHAP del Nodo 2 necesita para calcular contribuciones en espacio de probabilidad.
+
+          ·Funciones y parámetros: 
+               -No define funciones reutilizables — todo el contenido vive en el bloque if __name__ == "__main__". Esto es coherente con su naturaleza de script de preparación de un 
+               solo uso, igual que la mayor parte de train_model.py.
+
+               -N_BACKGROUND = 100 (constante a nivel de módulo, no parámetro de función): número de filas de X_train que se muestrean como background. Por qué 100 y no, por ejemplo,
+                todo X_train (800 filas) o solo 10: un background más grande da una estimación más estable del valor esperado del modelo (base_value), pero cada fila adicional incrementa 
+                el coste computacional de inicializar el TreeExplainer con feature_perturbation="interventional" (que evalúa el árbol contra cada fila del background). 100 es un valor de 
+                compromiso extendido en la práctica de SHAP, ni tan pequeño que el valor base sea inestable, ni tan grande que ralentice cada llamada al Nodo 2 de forma perceptible.
+
+               - Proceso interno: 
+                    *Carga el Pipeline completo con joblib.load(...).
+                    *Extrae específicamente model.named_steps["preprocessor"] — el paso llamado "preprocessor" dentro del Pipeline, tal como se nombró en build_pipeline() de train_model.py.
+                         Este acoplamiento por nombre de string es implícito pero funciona porque ambos scripts usan literalmente la cadena "preprocessor".
+                    *X_train.sample(n=min(N_BACKGROUND, len(X_train)), random_state=42): el min(...) es una salvaguarda para datasets más pequeños que 100 filas (no aplica a German Credit con 800
+                         filas de entrenamiento, pero hace la función robusta si se reutilizara sobre un dataset diminuto). random_state=42 asegura que la muestra de background sea la misma en cada ejecución,
+                         para que dos llamadas sucesivas al Nodo 2 sobre el mismo cliente den exactamente los mismos valores SHAP.
+                    *preprocessor.transform(background_raw): transforma la muestra cruda (con columnas categóricas como strings "A11", etc.) al mismo espacio numérico one-hot que ve el modelo. 
+                         Por qué transformar el background y no pasarlo crudo al TreeExplainer: porque TreeExplainer opera directamente sobre el modelo XGBoost interno (no sobre el Pipeline), que
+                         solo entiende su matriz numérica de entrada, no los strings originales.
+                         joblib.dump(background_transformed, "models/background_sample.joblib").
+                    *Resultado: Side effects: escribe un fichero en disco; imprime la forma (shape) del array resultante.
+
+          ·Integración:  Importa de data_loader.py (load_german_credit, split_data). Su única salida es el fichero models/background_sample.joblib, consumido exclusivamente por node_explainability() 
+               en nodes.py. No hay ninguna otra vía de comunicación entre ambos scripts — si nodes.py se ejecutara sin que este script se haya corrido antes, fallaría con FileNotFoundError al intentar
+               joblib.load("models/background_sample.joblib").
+          
+          ·Decisión de diseño:  Se separó en un script independiente en vez de generar el background dentro de nodes.py en el momento de la primera llamada, porque generar la muestra requiere X_train, 
+          que a su vez requiere volver a cargar y dividir el dataset completo — un coste que no tiene sentido pagar en cada arranque del grafo en producción; se paga una vez, offline, y se reutiliza indefinidamente desde el fichero serializado.
+          

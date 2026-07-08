@@ -23,23 +23,42 @@ pip install -r requirements.txt
 
 ## Datasets utilizados
 
-| Dataset | Rol | Fuente | Ruta |
-|---|---|---|---|
-| German Credit | Prototipo inicial + modelo del pipeline en vivo | UCI | `data/german-credit-data/german.data` |
-| Default Credit Card | Validación cruzada de métricas | UCI/Kaggle | `data/credit-card-default/UCI_Credit_Card.csv` |
-| Home Credit Default | Validación final, prueba de escala | Kaggle | `data/home-credit-default/application_train.csv` |
+| Dataset | Rol | Fuente | Ruta | Estado actual |
+|---|---|---|---|---|
+| German Credit | Prototipo inicial + modelo del pipeline en vivo | UCI | `data/german-credit-data/german.data` | **En uso** |
+| Default Credit Card | Validación cruzada de métricas | UCI (.xls original) | `data/default-of-credit-card-clients/` | **En uso** |
+| Home Credit Default | Validación final, prueba de escala | Kaggle | `data/home-credit-default/application_train.csv` | Diferido — código presente, no ejecutado todavía |
 
 **Importante:** el grafo en vivo (`graph.py`, `nodes.py`) sigue alimentado únicamente
 por German Credit. Los otros dos datasets son validaciones offline, no sustituyen
 el modelo del pipeline de demo.
 
+**Sobre Home Credit (diferido):** todo el código (`data_loader_home_credit.py`,
+`train_model_home_credit.py`, `scripts/download_home_credit.py`) permanece en el
+repositorio y es funcional, pero no forma parte del flujo de trabajo actual. El
+pipeline **no depende** de que este dataset se haya entrenado: `evaluate_cross_dataset.py`
+detecta si el `.joblib` de Home Credit no existe todavía y lo salta (imprime
+"(modelo no entrenado aun)" en esa fila) sin fallar el resto de la ejecución.
+Retómalo más adelante ejecutando únicamente los pasos de Home Credit de la
+sección "Orden de ejecución" — no requiere ningún cambio de código.
+
 **Descarga:**
 - German Credit: ver `data/LEEME.txt`.
-- Default Credit Card: Kaggle — `uciml/default-of-credit-card-clients-dataset`. ~2-3 MB, sí se versiona en git.
-- Home Credit Default: Kaggle — competición `home-credit-default-risk`, fichero `application_train.csv`.
-  **No se versiona en git** (~150-160 MB, supera el límite de 100 MB/fichero de GitHub).
-  Descárgalo con la Kaggle API: `kaggle competitions download -c home-credit-default-risk -f application_train.csv`
-  y colócalo manualmente en `data/home-credit-default/`.
+- Default Credit Card: descarga el `.xls` original de UCI y colócalo (el fichero,
+  con cualquier nombre) dentro de la carpeta `data/default-of-credit-card-clients/`.
+  `load_credit_card()` localiza automáticamente el `.xls`/`.xlsx` dentro de esa
+  carpeta — no hace falta indicar el nombre exacto del fichero ni renombrarlo.
+  Requiere `xlrd` (`.xls`) u `openpyxl` (`.xlsx`), ya incluidos en `requirements.txt`.
+- Home Credit Default: competición de Kaggle, requiere **aceptar las reglas en
+  el navegador primero** (https://www.kaggle.com/competitions/home-credit-default-risk/rules)
+  — sin esto, cualquier descarga por API (kagglehub, kaggle CLI) falla con error 403,
+  independientemente del método usado. Una vez aceptadas las reglas:
+  ```
+  python scripts/download_home_credit.py
+  ```
+  Este script descarga únicamente `application_train.csv` (no el resto de tablas
+  auxiliares, ver sección de decisiones de diseño) y lo copia a
+  `data/home-credit-default/application_train.csv`.
 
 ## Variables excluidas por decisión de diseño (fairness)
 
@@ -71,15 +90,18 @@ python src/train_model.py
 python src/prepare_background.py
 python src/graph.py
 
-# --- Datasets de validación adicional ---
+# --- Credit Card (validacion cruzada de metricas) ---
 python src/train_model_credit_card.py
-python src/train_model_home_credit.py    # tarda mas: ~300k filas
 
-# --- Comparativa de metricas entre los tres ---
+# --- Comparativa de metricas (funciona con 2 o 3 datasets entrenados) ---
 python src/evaluate_cross_dataset.py
 
 # --- Tests ---
 pytest tests/ -v
+
+# --- Home Credit: DIFERIDO. Descomentar/ejecutar mas adelante si procede ---
+# python scripts/download_home_credit.py
+# python src/train_model_home_credit.py    # tarda mas: ~300k filas
 ```
 
 ## Estructura

@@ -5,13 +5,16 @@ Fuente: archive.ics.uci.edu/dataset/350/default+of+credit+card+clients
 Rol en el TFM: validacion cruzada de metricas (AUC/Gini/KS) frente a un
 segundo dataset de scoring, independiente del German Credit. Es tambien
 el dataset del estudio de caso en el paper de inestabilidad de SHAP
-(Risks 13(12), 2025) ya citado en la bibliografia del TFM -- conexion
-directa que puedes explotar en la memoria.
+(Risks 13(12), 2025) ya citado en la bibliografia del TFM.
 
-Formato esperado: CSV con cabecera (variante Kaggle/UCI mas comun).
-Si partes del .xls original de UCI, expórtalo antes a CSV o usa
-pd.read_excel(path, header=1) para saltar la primera fila (nombres X1..X23).
+Formato de entrada: el .xls original de UCI (no CSV). load_credit_card()
+acepta tanto una RUTA A CARPETA (busca el .xls/.xlsx dentro automaticamente,
+sin depender de conocer el nombre exacto del fichero) como una ruta directa
+a un fichero concreto.
 """
+import glob
+import os
+
 import pandas as pd
 
 from dataset_utils import split_data as _split_data_generic
@@ -23,25 +26,10 @@ TARGET_CANDIDATES = [
     "DEFAULT",
 ]
 
-# Excluida por ser variable protegida (sexo), en linea con la misma
-# decision aplicada a "personal_status" en German Credit (ver data_loader.py).
 SENSITIVE_FEATURES_EXCLUDED = ["SEX"]
 
-# Codificadas numericamente en el fichero original, pero son categoricas
-# por naturaleza (no existe un orden significativo entre sus valores).
-# NOTA: EDUCATION y MARRIAGE tienen valores fuera de la documentacion
-# oficial (p.ej. EDUCATION=0,5,6; MARRIAGE=0) -- audit_data_quality()
-# los detecta explicitamente en lugar de asumir silenciosamente que
-# solo existen los valores documentados 1-4 / 1-3.
 CATEGORICAL_FEATURES = ["EDUCATION", "MARRIAGE"]
 
-# PAY_0/PAY_2-6 se dejan como NUMERICAS (no OneHot) de forma deliberada:
-# son ordinales (a mayor valor, mas meses de retraso), y el passthrough
-# preserva esa ordinalidad, mientras que OneHot la destruiria. La
-# documentacion oficial de UCI solo define -1 (paga puntual) y 1-8
-# (meses de retraso); los valores -2 y 0 que aparecen en los datos NO
-# estan documentados (ver audit_data_quality). No se remapean sin una
-# fuente oficial que confirme su significado -- se reportan, no se inventan.
 NUMERIC_FEATURES = [
     "LIMIT_BAL", "AGE",
     "PAY_0", "PAY_2", "PAY_3", "PAY_4", "PAY_5", "PAY_6",
@@ -54,10 +42,57 @@ VALORES_DOCUMENTADOS = {
     "MARRIAGE": {1, 2, 3},
 }
 
-# Rango documentado oficialmente por UCI para las columnas PAY_*.
-# -1 y 1-8 estan definidos; -2 y 0 NO tienen definicion oficial.
 PAY_COLUMNS = ["PAY_0", "PAY_2", "PAY_3", "PAY_4", "PAY_5", "PAY_6"]
 PAY_VALORES_DOCUMENTADOS = {-1, 1, 2, 3, 4, 5, 6, 7, 8}
+
+
+def _resolve_data_file(path: str) -> str:
+    """
+    Si 'path' es una carpeta, busca dentro el primer .xls/.xlsx y devuelve
+    su ruta completa. Si 'path' ya es un fichero, lo devuelve tal cual.
+
+    # CORRECTED: evita depender de conocer el nombre exacto del fichero
+    descargado (UCI, Kaggle y reexportaciones manuales lo nombran de forma
+    distinta), ya que el usuario solo indico la CARPETA de destino, no un
+    nombre de archivo concreto.
+    """
+    if os.path.isdir(path):
+        candidatos = sorted(
+            glob.glob(os.path.join(path, "*.xls"))
+            + glob.glob(os.path.join(path, "*.xlsx"))
+        )
+        if not candidatos:
+            raise FileNotFoundError(
+                f"No se encontro ningun fichero .xls/.xlsx dentro de: {path}"
+            )
+        if len(candidatos) > 1:
+            print(f"[load_credit_card] Aviso: varios ficheros Excel encontrados "
+                  f"en '{path}'; usando el primero por orden alfabetico: "
+                  f"{os.path.basename(candidatos[0])}")
+        return candidatos[0]
+
+    if not os.path.isfile(path):
+        raise FileNotFoundError(f"No se encontro el fichero: {path}")
+    return path
+
+
+def _read_raw_file(file_path: str) -> pd.DataFrame:
+    """
+    El .xls/.xlsx original de UCI tiene DOS filas de cabecera: la fila 0
+    trae las etiquetas genericas del paper (ID, X1, X2... Y); la fila 1
+    trae los nombres reales de columna (LIMIT_BAL, SEX, EDUCATION...).
+    Por eso header=1 (saltar fila 0, usar fila 1 como cabecera real) --
+    verificado con un fichero de prueba que replica esta estructura exacta
+    antes de integrar esta funcion. El CSV (variante Kaggle, si se usara
+    en el futuro) ya trae una unica fila de cabecera correcta.
+
+    Requiere 'xlrd' instalado para leer .xls legacy, u 'openpyxl' para
+    .xlsx (ver requirements.txt).
+    """
+    ext = os.path.splitext(file_path)[1].lower()
+    if ext in (".xls", ".xlsx"):
+        return pd.read_excel(file_path, header=1)
+    return pd.read_csv(file_path)
 
 
 def _normalize_target_column(df: pd.DataFrame) -> pd.DataFrame:
@@ -66,18 +101,18 @@ def _normalize_target_column(df: pd.DataFrame) -> pd.DataFrame:
         if candidate in df.columns:
             return df.rename(columns={candidate: "target"})
     raise ValueError(
-        f"No se encontro la columna objetivo. Se esperaba una de: {TARGET_CANDIDATES}"
+        f"No se encontro la columna objetivo. Se esperaba una de: {TARGET_CANDIDATES}. "
+        f"Columnas encontradas: {list(df.columns)}"
     )
 
 
-def load_credit_card(path: str = "data/credit-card-default/UCI_Credit_Card.csv") -> pd.DataFrame:
+def load_credit_card(path: str = "data/default-of-credit-card-clients") -> pd.DataFrame:
     """
-    Carga el dataset, descarta la columna ID (no aporta señal predictiva)
-    y elimina duplicados exactos -- filas identicas en TODAS las columnas
-    no aportan informacion nueva y contaminarian el split train/test si
-    una copia cae en cada lado.
+    Carga el dataset (acepta ruta a carpeta o a fichero concreto),
+    descarta la columna ID y elimina duplicados exactos.
     """
-    df = pd.read_csv(path)
+    file_path = _resolve_data_file(path)
+    df = _read_raw_file(file_path)
     df = _normalize_target_column(df)
     if "ID" in df.columns:
         df = df.drop(columns=["ID"])
@@ -95,16 +130,11 @@ def audit_data_quality(df: pd.DataFrame) -> dict:
     """
     Duplicados, nulos, valores fuera de rango/documentacion. Se ejecuta
     DESPUES de que load_credit_card() ya haya eliminado duplicados, por
-    lo que aqui "duplicados_exactos" deberia dar 0 -- si no da 0, es que
-    se llamo a audit_data_quality() sobre un df cargado sin pasar por
-    load_credit_card() (p.ej. leido directamente con pd.read_csv).
+    lo que "duplicados_exactos" deberia dar 0 en uso normal.
     """
     n_duplicados = df.duplicated().sum()
 
-    rangos_plausibles = {
-        "AGE": (18, 100),
-        "LIMIT_BAL": (0, 2_000_000),
-    }
+    rangos_plausibles = {"AGE": (18, 100), "LIMIT_BAL": (0, 2_000_000)}
     valores_fuera_de_rango = {}
     for col, (lo, hi) in rangos_plausibles.items():
         if col in df.columns:
@@ -115,20 +145,16 @@ def audit_data_quality(df: pd.DataFrame) -> dict:
     codigos_no_documentados = {}
     for col, valores_validos in VALORES_DOCUMENTADOS.items():
         if col in df.columns:
-            encontrados = set(df[col].unique())
-            no_documentados = encontrados - valores_validos
-            if no_documentados:
-                codigos_no_documentados[col] = sorted(no_documentados)
+            no_doc = set(df[col].unique()) - valores_validos
+            if no_doc:
+                codigos_no_documentados[col] = sorted(no_doc)
 
-    # PAY_0/PAY_2-6: mismo chequeo que EDUCATION/MARRIAGE pero sobre un
-    # rango en vez de un conjunto fijo, porque -1..8 es un rango ordinal.
-    pay_valores_no_documentados = {}
+    pay_no_documentados = {}
     for col in PAY_COLUMNS:
         if col in df.columns:
-            encontrados = set(df[col].unique())
-            no_documentados = encontrados - PAY_VALORES_DOCUMENTADOS
-            if no_documentados:
-                pay_valores_no_documentados[col] = sorted(no_documentados)
+            no_doc = set(df[col].unique()) - PAY_VALORES_DOCUMENTADOS
+            if no_doc:
+                pay_no_documentados[col] = sorted(no_doc)
 
     return {
         "filas_totales": len(df),
@@ -136,7 +162,7 @@ def audit_data_quality(df: pd.DataFrame) -> dict:
         "nulos_por_columna": df.isnull().sum().to_dict(),
         "valores_fuera_de_rango": valores_fuera_de_rango,
         "codigos_categoricos_no_documentados": codigos_no_documentados,
-        "valores_pay_no_documentados": pay_valores_no_documentados,
+        "valores_pay_no_documentados": pay_no_documentados,
     }
 
 
@@ -152,11 +178,7 @@ def build_preprocessor_credit_card():
 
 
 def split_data(df: pd.DataFrame, test_size: float = 0.2, seed: int = 42):
-    """
-    Wrapper sobre dataset_utils.split_data con el nombre de la columna
-    objetivo ya fijado. Permite llamar split_data(df) igual que en
-    data_loader.py (German Credit), sin duplicar la logica de split.
-    """
+    """Wrapper sobre dataset_utils.split_data, mismo patron que en los otros loaders."""
     return _split_data_generic(df, target_col="target", test_size=test_size, seed=seed)
 
 

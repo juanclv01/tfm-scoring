@@ -1,5 +1,9 @@
 DECISIONES DE DISEÑO (FASE 1: CONEXIÓN DE NODO 1 (MODELO ML) CON NODO 2 xAI (SHAP))
 
+ NOTA ACLARATORIA: El nodo 1 (Modelo ML:XGBoost) resuelve un problema de aprendizaje supervisado: en el dataset German Credit Data 
+     se conoce el target (si los clientes pagaron o no). Tu XGBoost recibe explícitamente la columna target durante .fit(X_train, y_train)
+     — eso es la definición misma de supervisado. 
+
 Respecto al scaffold original, he ido iterando aspectos en concreto. En este archivo voy a documentar las decisiones de diseño que voy
 tomando, así como la explicación del funcionamiento de los scripts.
 
@@ -23,7 +27,14 @@ Respecto al dataset German Data:
 -Tras previsualizar dicho dataset, se puede comprobar que el nombre de las columnas tiene formato de texto, pero los registros no. Estos 
 están codificados como, e.g. A212, A24, etc. En esta fase no será necesario descodificar estos registros (e.g. A212 -> desempleado), ya
 que el modelo de XGBoost puede trabajar con los registros codificados para realizar la clasificación. Esta decodificación hay que 
-aplicarla en la fase 2, para que el LLM dé la explicación con la variable en lenguaje natural y no como código.
+aplicarla en la fase 2, para que el LLM dé la explicación con la variable en lenguaje natural y no como código. Nodo 3 (el narrador LLM)
+es donde la tabla se vuelve obligatoria, no opcional. Si el informe regulatorio dice "el factor checking_status_A14 contribuyó +18 puntos", 
+eso no es una explicación comprensible para un cliente — es justo lo que el art. 22 del RGPD exige evitar. La tabla es lo que permite que 
+esa misma línea se convierta en "no disponer de cuenta corriente contribuyó positivamente a la decisión".
+
+    IMPORTANTE: Tú, como investigador, también la necesitas, aunque el modelo no: para hacer sanity-check de que los resultados de SHAP 
+    tienen sentido de negocio (¿es razonable que esta categoría suba o baje el riesgo?), para el capítulo de metodología de tu memoria, 
+    donde tienes que describir qué variables usa tu modelo.
 
 -UCI documenta que este dataset presenta una "matriz de coste asimétrica". Esto quiere decir que aprobar a un cliente que en realidad
 impagará cuesta 5 veces más que rechazar a uno que sí habría pagado. Esto tiene implicaciones directas sobre el umbral de AUC 
@@ -37,6 +48,91 @@ civil juntos en la variable personal_status. Esto entra en fricción directa con
 La variable foreign_worker tiene, según ese mismo paper, la codificación invertida en la documentación oficial de UCI — literalmente
 menos del 5% de los solicitantes aparecerían como alemanes, lo cual es estadísticamente inverosímil para un banco alemán de los años 70. 
 Existe una versión corregida (South German Credit, Grömping 2019) donada a UCI precisamente para arreglar estos errores de documentación.
+    
+    TRABAJO EXTRA SI PROCEDE: Una advertencia importante que debes incluir en tu memoria, para que tu tratamiento sea completo: simplemente
+     eliminar la variable (lo que se llama fairness through unawareness) es un enfoque conocido pero insuficiente en la literatura de fairness
+     en ML — variables aparentemente neutras pueden actuar como proxies (por ejemplo, ciertos patrones de checking_status podrían correlacionar 
+     indirectamente con nacionalidad). Un tratamiento más completo auditaría métricas de equidad (disparate impact, equalized odds) usando las 
+     variables sensibles solo para medir sesgo, nunca como entrada del modelo. Con el tiempo disponible de tu TFM, te recomiendo mencionar esto 
+     explícitamente como limitación reconocida en el capítulo de discusión — muestra rigor sin obligarte a implementar un framework de fairness 
+     completo que se saldría del alcance.
 
 De esta forma, excluyo personal_status y foreign_worker como variables predictivas del modelo, y documento esa exclusión en la memoria como 
 una decisión de diseño consciente alineada con el art. 10 del EU AI Act.
+
+NECESIDAD DE PREPROCESAMIENTO DE LOS DATASETS 
+    -Nulos: German Credit no tiene ninguno (dataset limpio de origen). Home Credit sí tiene muchos
+    -Duplicados ?
+    -Outliers: por defecto no se tratan para modelos basados en árboles, pero es necesario un chequeo de valores imposibles.
+     en modelos de árboles, un valor extremo simplemente crea una hoja separada — no distorsiona el modelo entero como pasaría
+     en una regresión lineal (donde un outlier tira de la recta de ajuste). Por eso no recomiendo eliminar outliers "porque son
+     outliers". Lo que sí hay que comprobar es si un valor es imposible, no solo extremo (una edad de 470 años es un error de 
+     captura de datos, no un outlier legítimo).
+    -Categóricos sucios
+    -Codificación 
+    -Normalización/escalado. De nuevo, correcto para XGBoost. un árbol de decisión pregunta "¿es esta variable mayor o menor que X?".
+     Esa pregunta no cambia si multiplicas toda la columna por 1000 o le restas la media. La normalización solo importa para algoritmos 
+     que miden distancias (KNN, SVM, redes neuronales) o que asumen escalas comparables entre variables (regresión con regularización). 
+     XGBoost no pertenece a esa familia.
+    -Variables con sesgo sensible
+    -Otros: la búsqueda confirma un problema de calidad de datos muy documentado en este dataset: la columna DAYS_EMPLOYED usa 365243 
+    como valor placeholder para "no empleado" — un valor imposible (equivale a más de 1.000 años de antigüedad laboral) en lugar de un
+    nulo. Lo corrijo también.
+    -Home Credit: Confirmado: CODE_GENDER='XNA' aparece exactamente en 4 filas de las 307.511 (dato reproducido de forma consistente 
+    en múltiples fuentes). Verifico una última cosa específica del dataset de Credit Card antes de escribir el código: el estado de las
+    columnas PAY_0 a PAY_6, que tienen fama de estar mal documentadas. onfirmado también: las columnas PAY_0/PAY_2-PAY_6 tienen documentados 
+    oficialmente los valores -1 (paga puntual) y 1-8 (meses de retraso), pero -2 y 0 no aparecen en ninguna documentación oficial 
+    — el mismo patrón que ya vimos en EDUCATION/MARRIAGE.
+
+
+
+ALGUNAS CONSIDERACIONES:
+   -¿Qué es un .joblib? Es una librería de serialización optimizada específicamente para objetos que contienen arrays de NumPy grandes 
+   que convierte un objeto de Python en memoria (como tu Pipeline entrenado, con el árbol de XGBoost y el OneHotEncoder ya ajustado) 
+   en un archivo en disco, y viceversa. 
+
+        pythonjoblib.dump(modelo_entrenado, "models/xgb_scoring_pipeline.joblib")  # guarda
+        modelo = joblib.load("models/xgb_scoring_pipeline.joblib")           # carga
+    Por qué importa en tu arquitectura: entrenar el modelo (train_model.py) es lento — implica cientos de combinaciones de hiperparámetros
+    con validación cruzada. Con joblib, haces ese trabajo pesado una sola vez y lo guardas; después, evaluate.py, nodes.py y graph.py 
+    simplemente cargan el resultado ya calculado en milisegundos, sin volver a entrenar nada.
+
+
+
+   -¿No sería mejor entrenar con Home Credit o Credit Card, que tienen más datos?
+    La respuesta a esta pregunta sería afirmativa si mi objetivo primordial consistiera en elaborar el mejor modelo ML para scoring 
+    posible. Mi TFM tiene como objetivo principal la explicabilidad regulatoria, por ello el dataset German Credit resulta una decisión
+    más robusta.
+        ·Comparabilidad con la literatura: Buena parte de la literatura de XAI en scoring (e.g. xAIStories) usan precisamente datasets
+         pequeños y curados como este. Si usas German Credit, puedes comparar tus resultados de faithfulness/completeness directamente 
+         con los de esos papers. Si usas Home Credit, pierdes esa comparabilidad porque nadie en tu bibliografía lo usa.
+        ·Velocidad de iteración. Vas a iterar mucho sobre el diseño del Nodo 3 (el prompt del narrador) y el Nodo 4 (el validador). 
+        Con 1.000 filas, cada ciclo de prueba tarda segundos. Con 300k filas y búsqueda de hiperparámetros completa, tardaría mucho 
+        más — por eso diseñé train_model_home_credit.py con una búsqueda reducida, precisamente para no bloquear tu ritmo de trabajo.
+    Así pues, German Credit demuestra el método funciona y es comparable con la literatura; Credit Card confirma que tus métricas de 
+    evaluación no son un artefacto de un solo dataset; Home Credit confirma que el pipeline no se rompe a escala real. Señalar esto 
+    en la discusión de la limitación del proyecto.
+
+    -Las métricas AUC/Gini/KS son consistentes en el estado del arte a la hora de medir la capacidad de discriminación? 
+    Por lo visto sí, (asegurarme) pero es necesario incluir también el coste de negocio (matriz asimétrica).
+        Dónde debo tenerlo en cuenta? Dónde debes tenerlo en cuenta exactamente: no en el entrenamiento (no distorsiones
+        las probabilidades con scale_pos_weight, porque tu Nodo 2 de SHAP depende de que esas probabilidades estén bien 
+        calibradas para que sum(shap_values) + base_value == proba_default siga siendo válido) — sino en el umbral de decisión 
+        que convierte una probabilidad en un "aprobado/rechazado". Añado esto a evaluate.py, junto con el Brier score, que mide
+        exactamente la calidad de calibración de las probabilidades — una métrica que conecta directamente con tu chequeo de local 
+        accuracy y que no tenías todavía.
+
+Para el entrenamineto del modelo con German Credit, se usa RandomizedSearchCV en lugar de GridSearchCV, coherente con la metodologia observada en Martens
+et al. (2023) para el mismo dataset. La metrica de optimizacion es AUC-ROC, no accuracy, porque el dataset
+esta desbalanceado (accuracy puede ser enganosamente alta prediciendo siempre la clase mayoritaria). 
+
+Estas tres metricas son el estandar de facto en scoring crediticio y son las que reporta el caso de produccion de
+QuickBooks Capital citado en la bibliografia (mejora del 7% en el estadistico K-S frente al scorecard tradicional).
+Scikit-learn calcula AUC-ROC de forma nativa; Gini y KS requieren una implementacion propia de dos lineas
+cada una.
+
+El calculo explicito del estadistico KS y del coeficiente de Gini no aparece desarrollado en ninguno de los
+papers de XAI revisados (son metricas estandar de riesgo de credito, no de explicabilidad). Se
+implementan aqui siguiendo la definicion habitual en la industria financiera, no una formula citada de la
+bibliografia de tu TFM.
+

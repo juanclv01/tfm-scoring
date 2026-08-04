@@ -6,8 +6,15 @@ de test, para servir de base a las narrativas hand-written (H) del NARRATOR.
 Reutiliza node_scoring() y node_explainability() de nodes.py en vez de
 reimplementar el calculo de score/SHAP: evita logica duplicada, y garantiza
 que los ejemplares se generan exactamente con el mismo pipeline (mismo
-model_output='probability', mismo top-5 por |SHAP|, mismo build_narrator_tuple)
-que usara luego el NARRATOR en produccion.
+model_output='probability', mismo top-5 por |SHAP|, mismo build_narrator_tuple,
+mismo umbral optimo de coste para 'aprobado') que usara luego el NARRATOR
+en produccion.
+
+# CORRECTED: cada instancia generada incluye ahora 'aprobado' (bool), tal
+# como lo devuelve node_scoring() usando el umbral optimo de coste
+# persistido en models/decision_threshold.joblib -- necesario para que
+# las narrativas hand-written (H) puedan comunicar el resultado real de
+# la decision, no solo el score numerico.
 
 Criterio de diversidad (para reducir sesgo, tal como pide el TFM):
     (a) Cobertura del rango de riesgo: se parte de percentiles equiespaciados
@@ -156,10 +163,13 @@ def main():
             "client_data": estado["client_data"],
             "score": estado["score"],
             "proba_default": estado["proba_default"],
+            "aprobado": estado["aprobado"],
             "top_features": estado["top_features"],
         })
 
+        decision = "APROBADA" if estado["aprobado"] else "RECHAZADA"
         print(f"--- Instancia {i} (indice testset: {idx}) ---")
+        print(f"Solicitud: {decision}")
         print(f"Score: {estado['score']} / 1000  |  "
               f"Probabilidad de impago: {estado['proba_default']:.2%}")
         print("Top 5 factores SHAP (formato NARRATOR):")

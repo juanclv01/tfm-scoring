@@ -1,9 +1,45 @@
 """
-Metricas de evaluacion del Nodo 1: AUC-ROC, Gini, KS statistic,
-coste esperado (matriz de coste) y Brier score (calibracion).
+Metricas de evaluacion del Nodo 1.
+
+Separacion deliberada entre metricas de SELECCION y de EVALUACION FINAL:
+
+  - SELECCION (durante RandomizedSearchCV, ver train_model.py): solo
+    ROC-AUC (scoring="roc_auc"). No requiere fijar un umbral de decision
+    todavia, y es razonablemente robusta al desbalance ~70/30 para
+    COMPARAR configuraciones de hiperparametros entre si.
+
+  - EVALUACION FINAL (evaluate_model(), sobre el test, una sola vez):
+      * auc_roc / gini / ks_statistic -> poder de discriminacion (orden)
+      * pr_auc                        -> discriminacion especifica sobre
+                                          la clase minoritaria (impago);
+                                          complementa a ROC-AUC, no la sustituye
+      * brier_score                   -> calibracion (SHAP necesita
+                                          proba_default fiable, no solo bien
+                                          ordenada)
+      * precision/recall/f1 y matriz de confusion, evaluadas en el UMBRAL
+        OPTIMO DE COSTE (no en 0.5, que no tiene significado de negocio
+        para este problema)
+      * coste esperado                -> traduce todo a la metrica de
+                                          negocio real (la matriz 5:1 de UCI)
+
+  Deliberadamente NO se incluyen:
+      * accuracy como metrica principal -- con ~70/30 de desbalance, un
+        clasificador que prediga siempre "bueno" ya obtendria ~70% de
+        accuracy sin discriminar nada; seria enganosa.
+      * log loss -- redundante con Brier score para este caso de uso
+        (ambas miden calibracion); Brier es mas facil de interpretar en
+        el contexto de "coste esperado" ya usado en el resto del pipeline.
+        Supuesto explicito, no un olvido.
 """
 import numpy as np
-from sklearn.metrics import roc_auc_score, roc_curve, brier_score_loss
+from sklearn.metrics import (
+    roc_auc_score,
+    roc_curve,
+    brier_score_loss,
+    average_precision_score,
+    precision_recall_fscore_support,
+    confusion_matrix,
+)
 
 # Matriz de coste oficial del German Credit Dataset (UCI): aprobar a un
 # cliente que en realidad impagara cuesta 5x mas que rechazar a uno que
@@ -55,6 +91,19 @@ def calibration_score(y_true, y_proba) -> float:
     Rango: 0 (calibracion perfecta) a 1 (peor caso).
     """
     return float(brier_score_loss(y_true, y_proba))
+
+
+def pr_auc_score(y_true, y_proba) -> float:
+    """
+    Area bajo la curva Precision-Recall. Se anade como COMPLEMENTO a
+    ROC-AUC, no como sustituto: con ~70/30 de desbalance, ROC-AUC puede
+    parecer buena aunque el modelo distinga mal la clase minoritaria
+    (impago), porque los falsos positivos se diluyen entre la mayoria de
+    negativos. PR-AUC es mas sensible especificamente al comportamiento
+    del modelo sobre la clase que mas importa desde el punto de vista de
+    riesgo.
+    """
+    return float(average_precision_score(y_true, y_proba))
 
 
 def expected_cost(
@@ -126,17 +175,36 @@ def evaluate_model(
     respaldo documental oficial para el dataset evaluado (True solo para
     German Credit) o si es un supuesto simplificador (False para Credit
     Card / Home Credit, que no tienen matriz de coste publicada por UCI/Kaggle).
+
+    # AMPLIADO: se anaden pr_auc y, sobre el umbral optimo de coste (no
+    sobre 0.5), precision/recall/f1 y matriz de confusion -- ver docstring
+    del modulo para la justificacion de por que estas metricas y no otras
+    (p.ej. accuracy o log loss).
     """
     y_proba = model.predict_proba(X_test)[:, 1]
     resultado_coste = find_cost_optimal_threshold(
         y_test, y_proba, cost_aprobar_malo=cost_aprobar_malo,
         cost_rechazar_bueno=cost_rechazar_bueno,
     )
+
+    y_pred_umbral_optimo = (y_proba >= resultado_coste["umbral_optimo"]).astype(int)
+    precision, recall, f1, _ = precision_recall_fscore_support(
+        y_test, y_pred_umbral_optimo, average="binary", zero_division=0,
+    )
+    tn, fp, fn, tp = confusion_matrix(y_test, y_pred_umbral_optimo).ravel()
+
     return {
         "auc_roc": roc_auc_score(y_test, y_proba),
         "gini": gini_coefficient(y_test, y_proba),
         "ks_statistic": ks_statistic(y_test, y_proba),
+        "pr_auc": pr_auc_score(y_test, y_proba),
         "brier_score": calibration_score(y_test, y_proba),
+        "precision_umbral_optimo": float(precision),
+        "recall_umbral_optimo": float(recall),
+        "f1_umbral_optimo": float(f1),
+        "confusion_matrix_umbral_optimo": {
+            "TN": int(tn), "FP": int(fp), "FN": int(fn), "TP": int(tp),
+        },
         "cost_matrix_is_official": cost_matrix_is_official,
         **resultado_coste,
     }

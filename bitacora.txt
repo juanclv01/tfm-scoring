@@ -50,3 +50,90 @@ Incluyo la explicación de qué hace cada script y sus (hiperparámetros) en los
 
 
 Flujo lógico de scripts: datasets_utils.py -> data_loader_* ->
+
+
+
+Camino mínimo: German Credit + grafo en vivo
+Este es el que te da algo funcionando de principio a fin más rápido.
+
+python src/train_model.py
+
+Qué esperar: primero la auditoría de calidad de datos impresa, luego el progreso de RandomizedSearchCV (verbose=1, verás líneas tipo [CV] END ...),
+y al final algo como:
+
+Mejor AUC en CV: 0.78xx
+Mejores hiperparametros: {...}
+Modelo guardado en models/xgb_scoring_pipeline.joblib
+
+Tarda entre 1 y 3 minutos según tu CPU (500 entrenamientos completos, 100 combinaciones × 5 folds).
+
+python src/prepare_background.py
+
+Qué esperar: una sola línea, Background guardado: shape=(100, N), donde N es el número de columnas tras el one-hot (más de 18, porque cada categoría se expande). 
+Tarda segundos.
+
+python src/graph.py
+
+Qué esperar: el pipeline completo ejecutado sobre el cliente de ejemplo:
+Score: 712 / 1000
+Probabilidad de impago: 28.80%
+Top 5 factores SHAP (nombre crudo -> version legible, Nodo 3):
+  cat__checking_status_A11 (cuenta corriente con saldo negativo): +0.xxxx
+  ...
+
+Si ves esto, el Nodo 1 y el Nodo 2 ya están conectados y funcionando de verdad, no solo compilando.
+
+pytest tests/ -v
+
+Qué esperar: 3 tests en verde (PASSED). Si test_local_accuracy_holds falla, revisa primero que prepare_background.py se haya ejecutado después del 
+último train_model.py (un background desincronizado del modelo actual rompe esa propiedad).
+Con estos 4 comandos ya tienes el sistema completo funcionando para tu demo y para la defensa.
+
+Camino completo: añadiendo los datasets de validación
+Solo necesario si quieres generar la tabla comparativa de métricas (Credit Card, Home Credit). Requiere tener descargados data/credit-card-default/UCI_Credit_Card.csv y
+ data/home-credit-default/application_train.csv (recuerda: este último no va en git, hay que descargarlo aparte con la Kaggle API).
+
+python src/train_model_credit_card.py
+
+Similar al de German Credit, tarda algo más por tener 30.000 filas, pero sigue siendo cuestión de minutos.
+
+python src/train_model_home_credit.py
+
+Este es el que puede tardar de verdad — con 307.511 filas, incluso con la búsqueda reducida (15 combinaciones × 3 folds = 45 entrenamientos), puede llevar varios 
+minutos u horas según tu máquina. Verás impreso el tiempo de cada fase al final:
+
+Carga y split: X.X s (307511 filas)
+Busqueda de hiperparametros: XXX.X s
+Tiempo total: XXX.X s
+
+Si tarda demasiado en tu equipo, es un resultado válido en sí mismo para la memoria (evidencia de la "prueba de escala"), no necesitas forzar que termine rápido.
+powershellpython src/evaluate_cross_dataset.py
+Qué esperar, la tabla comparativa final:
+Dataset                 AUC-ROC     Gini       KS    Brier  Coste ofic.
+-----------------------------------------------------------------------
+German Credit            0.7xxx   0.5xxx   0.4xxx   0.1xxx           si
+Default Credit Card      0.7xxx   0.5xxx   0.4xxx   0.1xxx  NO (supuesto)
+Home Credit Default      0.7xxx   0.5xxx   0.4xxx   0.1xxx  NO (supuesto)
+
+Si alguno de los tres modelos no se ha entrenado todavía, esa fila mostrará (modelo no entrenado aun) en vez de fallar todo el script — es el comportamiento esperado, 
+no un error.
+
+Orden resumido, de principio a fin
+
+# Obligatorio para tener el grafo funcionando
+python src/train_model.py
+python src/prepare_background.py
+python src/graph.py
+pytest tests/ -v
+
+# Opcional, solo para la tabla comparativa de la memoria
+python src/train_model_credit_card.py
+#python src/train_model_home_credit.py
+python src/evaluate_cross_dataset.py
+
+Un detalle que ya viste en la auditoría de código de antes: prepare_background.py siempre debe ejecutarse después del último train_model.py,
+ porque el background se genera a partir del modelo ya entrenado. Si reentrenas el modelo por cualquier motivo (cambias un hiperparámetro, 
+ actualizas el dataset), tienes que volver a correr prepare_background.py antes de graph.py, o el test de local accuracy podría fallar por estar 
+ comparando un explainer construido sobre un modelo distinto al que realmente está cargado.
+
+

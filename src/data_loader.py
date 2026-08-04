@@ -8,13 +8,7 @@ y la codificacion de "foreign_worker" tiene un error de documentacion
 conocido en la version original de UCI (ver Ferrando et al., "Algorithmic
 Fairness Datasets: the Story so Far", 2022, arXiv:2202.01711). Ambas
 se EXCLUYEN deliberadamente del conjunto de features del modelo, en
-linea con el Art. 10 del EU AI Act (gobernanza de datos y no discriminacion
-en sistemas de IA de alto riesgo). Se mantienen en el DataFrame crudo
-(load_german_credit) mas no en CATEGORICAL_FEATURES / NUMERIC_FEATURES,
-por lo que el ColumnTransformer las ignora automaticamente al construir
-la matriz de entrenamiento. Se mantienen tambien decodificadas en
-FEATURE_VALUE_LABELS (mas abajo) solo a efectos de auditoria/documentacion
--- nunca se exponen al Nodo 3 como parte de una explicacion.
+linea con el Art. 10 del EU AI Act.
 """
 import pandas as pd
 from sklearn.compose import ColumnTransformer
@@ -31,10 +25,6 @@ COLUMN_NAMES = [
     "foreign_worker", "target",
 ]
 
-# Excluidas del modelo por ser variables protegidas / con error de
-# documentacion conocido. Se listan aqui explicitamente (en vez de solo
-# omitirlas) para que la exclusion sea auditable y quede documentada
-# en el propio codigo, no solo en la memoria.
 SENSITIVE_FEATURES_EXCLUDED = ["personal_status", "foreign_worker"]
 
 CATEGORICAL_FEATURES = [
@@ -49,57 +39,54 @@ NUMERIC_FEATURES = [
 ]
 
 # ---------------------------------------------------------------------------
-# DECODIFICACION DE CODIGOS (Attribute 1-20, decode.txt / Statlog UCI).
-# Fuente primaria para el Nodo 3: el LLM narrador no puede citar "A14" en
-# una explicacion regulatoria -- necesita "sin cuenta corriente". Los
-# diccionarios cubren TODAS las columnas cualitativas del dataset,
-# incluidas personal_status y foreign_worker (excluidas del modelo, pero
-# decodificadas igualmente por completitud documental y trazabilidad de
-# auditoria; el Nodo 3 nunca debe recibir estas dos claves).
+# DECODIFICACION DE VALORES CATEGORICOS (decode.txt / Statlog UCI)
+# Fuente primaria para el NARRATOR: sustituye los codigos crudos (A11, A32...)
+# por su significado real en espanol.
+# personal_status y foreign_worker se incluyen solo a efectos de auditoria
+# -- el NARRATOR NUNCA debe recibirlas como features activas.
 # ---------------------------------------------------------------------------
 FEATURE_VALUE_LABELS = {
     "checking_status": {
-        "A11": "cuenta corriente con saldo negativo",
-        "A12": "cuenta corriente con saldo entre 0 y 200 DM",
-        "A13": "cuenta corriente con saldo >= 200 DM o nomina domiciliada al menos 1 ano",
+        "A11": "saldo negativo en cuenta corriente",
+        "A12": "saldo entre 0 y 200 DM en cuenta corriente",
+        "A13": "saldo de 200 DM o mas en cuenta corriente, o nomina domiciliada al menos 1 ano",
         "A14": "sin cuenta corriente",
     },
     "credit_history": {
         "A30": "sin creditos previos o todos pagados puntualmente en otras entidades",
         "A31": "todos los creditos en este banco pagados puntualmente",
         "A32": "creditos existentes pagados puntualmente hasta la fecha",
-        "A33": "retraso en pagos en el pasado",
-        "A34": "cuenta critica / otros creditos existentes fuera de este banco",
+        "A33": "retraso en pagos registrado en el pasado",
+        "A34": "cuenta critica o creditos existentes en otras entidades",
     },
     "purpose": {
-        "A40": "coche nuevo",
-        "A41": "coche usado",
-        "A42": "mobiliario o equipamiento",
-        "A43": "radio o television",
-        "A44": "electrodomesticos",
-        "A45": "reparaciones",
-        "A46": "educacion",
+        "A40": "compra de coche nuevo",
+        "A41": "compra de coche usado",
+        "A42": "compra de mobiliario o equipamiento del hogar",
+        "A43": "compra de television o radio",
+        "A44": "compra de electrodomesticos",
+        "A45": "reparaciones del hogar",
+        "A46": "educacion o formacion",
         "A47": "vacaciones",
-        "A48": "reciclaje profesional",
-        "A49": "negocio",
-        "A410": "otros",
+        "A48": "reciclaje o formacion profesional",
+        "A49": "negocio o actividad empresarial",
+        "A410": "otros propositos",
     },
     "savings_status": {
-        "A61": "ahorros por debajo de 100 DM",
+        "A61": "ahorros inferiores a 100 DM",
         "A62": "ahorros entre 100 y 500 DM",
         "A63": "ahorros entre 500 y 1000 DM",
         "A64": "ahorros de 1000 DM o mas",
-        "A65": "sin cuenta de ahorros o desconocido",
+        "A65": "sin cuenta de ahorros o importe desconocido",
     },
     "employment": {
         "A71": "desempleado",
         "A72": "empleado desde hace menos de 1 ano",
-        "A73": "empleado desde hace entre 1 y 4 anos",
-        "A74": "empleado desde hace entre 4 y 7 anos",
+        "A73": "empleado entre 1 y 4 anos",
+        "A74": "empleado entre 4 y 7 anos",
         "A75": "empleado desde hace 7 anos o mas",
     },
-    # EXCLUIDA DEL MODELO -- decodificada solo para auditoria.
-    "personal_status": {
+    "personal_status": {  # EXCLUIDA DEL MODELO -- solo auditoria
         "A91": "hombre divorciado o separado",
         "A92": "mujer divorciada, separada o casada",
         "A93": "hombre soltero",
@@ -114,7 +101,7 @@ FEATURE_VALUE_LABELS = {
     "property_magnitude": {
         "A121": "propietario de bienes inmuebles",
         "A122": "seguro de vida o plan de ahorro-vivienda",
-        "A123": "coche u otros bienes",
+        "A123": "propietario de coche u otros bienes",
         "A124": "sin propiedades conocidas",
     },
     "other_payment_plans": {
@@ -129,32 +116,204 @@ FEATURE_VALUE_LABELS = {
     },
     "job": {
         "A171": "desempleado o no cualificado, no residente",
-        "A172": "no cualificado, residente",
+        "A172": "trabajador no cualificado residente",
         "A173": "empleado cualificado o funcionario",
         "A174": "directivo, autonomo o empleado altamente cualificado",
     },
     "own_telephone": {
-        "A191": "sin telefono registrado",
-        "A192": "telefono registrado a nombre del cliente",
+        "A191": "sin telefono registrado a su nombre",
+        "A192": "telefono registrado a nombre del solicitante",
     },
-    # EXCLUIDA DEL MODELO -- decodificada solo para auditoria. Codificacion
-    # con error de documentacion conocido (ver docstring del modulo).
-    "foreign_worker": {
+    "foreign_worker": {  # EXCLUIDA DEL MODELO -- solo auditoria
         "A201": "trabajador extranjero",
         "A202": "no es trabajador extranjero",
     },
 }
 
+# ---------------------------------------------------------------------------
+# TRADUCCIONES AL ESPANOL DE LOS NOMBRES DE VARIABLES
+# Cubre tanto las categoricas como las numericas.
+# El NARRATOR recibe estos nombres en espanol para que la narrativa
+# generada sea directamente comprensible para el cliente final.
+# ---------------------------------------------------------------------------
+FEATURE_NAME_LABELS_ES = {
+    # Categoricas (activas en el modelo)
+    "checking_status":      "Estado de la cuenta corriente",
+    "credit_history":       "Historial crediticio",
+    "purpose":              "Proposito del credito",
+    "savings_status":       "Estado de la cuenta de ahorros",
+    "employment":           "Situacion laboral",
+    "other_parties":        "Avalistas o codeudores",
+    "property_magnitude":   "Propiedades del solicitante",
+    "other_payment_plans":  "Otros planes de pago activos",
+    "housing":              "Tipo de vivienda",
+    "job":                  "Categoria profesional",
+    "own_telephone":        "Telefono registrado",
+    # Numericas
+    "duration":             "Duracion del prestamo (meses)",
+    "credit_amount":        "Importe del credito (DM)",
+    "installment_rate":     "Cuota como porcentaje de ingresos",
+    "residence_since":      "Anos en la residencia actual",
+    "age":                  "Edad del solicitante (anos)",
+    "existing_credits":     "Numero de creditos activos en este banco",
+    "num_dependents":       "Numero de personas a cargo",
+    # Excluidas del modelo -- se incluyen solo para trazabilidad
+    "personal_status":      "Estado civil y sexo (EXCLUIDA)",
+    "foreign_worker":       "Trabajador extranjero (EXCLUIDA)",
+}
+
+# ---------------------------------------------------------------------------
+# FORMATO DE VALORES NUMERICOS PARA EL NARRATOR
+# Permite presentar los valores numericos con contexto y unidades,
+# no como cifras aisladas. El template usa {value} como placeholder.
+#
+# NOTA (pendiente de revisar en otra sesion, fuera del alcance de esta
+# limpieza de ingesta/modelo): "installment_rate" en Statlog UCI documenta
+# el Attribute 8 como valores discretos 1-4, probablemente un tramo/bracket
+# y no un porcentaje continuo. El template actual "{value}% de los ingresos
+# netos" puede sugerir una precision que el dato no tiene. No se toca aqui
+# porque afecta al Nodo 3 (Narrator), fuera del alcance de esta revision
+# centrada en ingesta y en el modelo XGBoost.
+# ---------------------------------------------------------------------------
+NUMERIC_FEATURE_FORMAT = {
+    "duration":          "{value} meses",
+    "credit_amount":     "{value} DM",
+    "installment_rate":  "{value}% de los ingresos netos",
+    "residence_since":   "{value} anos",
+    "age":               "{value} anos",
+    "existing_credits":  "{value} credito(s)",
+    "num_dependents":    "{value} persona(s) a cargo",
+}
+
+
+# ---------------------------------------------------------------------------
+# FUNCIONES DE DECODIFICACION PARA EL NARRATOR
+# ---------------------------------------------------------------------------
+
+def _format_numeric_value(feature_name: str, value) -> str:
+    """Formatea un valor numerico aplicando el template de unidades."""
+    template = NUMERIC_FEATURE_FORMAT.get(feature_name, "{value}")
+    try:
+        return template.format(value=int(value) if float(value) == int(float(value)) else round(float(value), 2))
+    except (ValueError, TypeError):
+        return str(value)
+
+
+def parse_onehot_feature_name(shap_feature_name: str) -> tuple:
+    """
+    Convierte un nombre de feature transformado por ColumnTransformer
+    (p.ej. 'cat__checking_status_A14') en (nombre_columna, codigo).
+    Para features numericas (prefijo 'num__') devuelve (nombre, None).
+    Usa la lista conocida de nombres de columna para separar correctamente
+    nombre de columna y codigo, evitando el problema de los guiones bajos
+    dentro del propio nombre de columna (p.ej. 'checking_status').
+    """
+    if shap_feature_name.startswith("num__"):
+        return shap_feature_name.replace("num__", "", 1), None
+
+    if shap_feature_name.startswith("cat__"):
+        resto = shap_feature_name.replace("cat__", "", 1)
+        for nombre_columna in FEATURE_VALUE_LABELS:
+            if resto.startswith(nombre_columna + "_"):
+                codigo = resto[len(nombre_columna) + 1:]
+                return nombre_columna, codigo
+
+    return shap_feature_name, None
+
+
+def decode_feature_value(feature_name: str, code: str) -> str:
+    """
+    Traduce un codigo categorico crudo (p.ej. 'A14') a su descripcion
+    en espanol. Si no se encuentra, devuelve el codigo original sin modificar
+    para no romper la generacion del informe del NARRATOR.
+    """
+    return FEATURE_VALUE_LABELS.get(feature_name, {}).get(code, code)
+
+
+def decode_shap_feature(shap_feature_name: str) -> str:
+    """
+    Devuelve el nombre de la feature en espanol a partir del nombre
+    transformado por el preprocesador.
+    - 'cat__checking_status_A14' -> 'Estado de la cuenta corriente'
+    - 'num__age' -> 'Edad del solicitante (anos)'
+    """
+    nombre_columna, _ = parse_onehot_feature_name(shap_feature_name)
+    return FEATURE_NAME_LABELS_ES.get(nombre_columna, nombre_columna)
+
+
+def build_narrator_tuple(
+    shap_feature_name: str,
+    client_data: dict,
+    shap_value: float,
+) -> dict:
+    """
+    Construye la tupla completa que necesita el NARRATOR segun el formato
+    de Explingo (Zytek et al., 2024):
+        (feature_name, feature_value, SHAP contribution)
+
+    donde feature_name y feature_value estan en espanol y son directamente
+    legibles por el cliente final sin necesidad de conocer los codigos de UCI.
+
+    Para features categoricas: extrae el valor real del cliente desde
+    client_data y lo decodifica a su descripcion en espanol.
+    Para features numericas: formatea el valor numerico con sus unidades.
+
+    Args:
+        shap_feature_name: nombre de la feature en el espacio del
+                           preprocesador (p.ej. 'cat__checking_status_A14').
+        client_data:       diccionario con los datos crudos del cliente
+                           (las mismas claves que COLUMN_NAMES, sin 'target').
+        shap_value:        contribucion SHAP de esta feature para este cliente,
+                           en espacio de proba_default (P("malo")/impago).
+                           Convencion confirmada: shap_value > 0 -> sube el
+                           riesgo -> BAJA el score; shap_value < 0 -> SUBE
+                           el score. El NARRATOR debe usar directamente este
+                           signo (no invertirlo) para describir la direccion.
+
+    Returns:
+        Diccionario con las tres claves del formato Explingo:
+            feature_name    (str, en espanol)
+            feature_value   (str, legible y en espanol)
+            shap_value      (float, escala proba_default; signo ya
+                            correcto y listo para el NARRATOR)
+    """
+    nombre_columna, codigo_ohe = parse_onehot_feature_name(shap_feature_name)
+
+    # CORRECTED: antes se repetia aqui el mismo lookup
+    # (FEATURE_NAME_LABELS_ES.get(nombre_columna, nombre_columna)) que ya
+    # hace decode_shap_feature(). Se reutiliza en vez de duplicar.
+    nombre_es = decode_shap_feature(shap_feature_name)
+
+    if codigo_ohe is not None:
+        # Feature categorica: el codigo decodificado ya es el valor del cliente.
+        # No se necesita client_data porque el nombre de la columna OHE ya
+        # incluye el valor (p.ej. 'cat__checking_status_A14' -> codigo = 'A14').
+        valor_es = decode_feature_value(nombre_columna, codigo_ohe)
+    else:
+        # Feature numerica: obtener el valor real del cliente y formatearlo.
+        valor_crudo = client_data.get(nombre_columna, "")
+        valor_es = _format_numeric_value(nombre_columna, valor_crudo)
+
+    return {
+        "feature_name":  nombre_es,
+        "feature_value": valor_es,
+        "shap_value":    round(float(shap_value), 4),
+        # Campos adicionales para trazabilidad interna y el GRADER:
+        "feature_raw":   nombre_columna,
+        "codigo_ohe":    codigo_ohe,
+    }
+
+
+# ---------------------------------------------------------------------------
+# CARGA, AUDITORIA Y PREPROCESAMIENTO
+# ---------------------------------------------------------------------------
 
 def load_german_credit(path: str = "data/german-credit-data/german.data") -> pd.DataFrame:
     """
     Carga el dataset original (separado por espacios, sin cabecera) y
-    elimina duplicados exactos. # CORRECTED: antes esta funcion no
-    deduplicaba, a diferencia de load_credit_card() y load_home_credit(),
-    lo que era una inconsistencia real entre los tres loaders.
+    elimina duplicados exactos.
     """
     df = pd.read_csv(path, sep=" ", header=None, names=COLUMN_NAMES)
-    # target original: 1=bueno, 2=malo -> remapeado a 0=bueno, 1=impago
     df["target"] = df["target"].map({1: 0, 2: 1})
 
     n_antes = len(df)
@@ -167,17 +326,12 @@ def load_german_credit(path: str = "data/german-credit-data/german.data") -> pd.
 
 
 def audit_data_quality(df: pd.DataFrame) -> dict:
-    """
-    Chequeos basicos de calidad: duplicados exactos y valores numericos
-    fuera de rango plausible. Tras la correccion de load_german_credit(),
-    duplicados_exactos deberia dar 0 en uso normal (mismo comportamiento
-    documentado en data_loader_credit_card.py).
-    """
+    """Duplicados, nulos y valores fuera de rango plausible."""
     n_duplicados = df.duplicated().sum()
 
     rangos_plausibles = {
         "age": (18, 100),
-        "duration": (1, 120),        # meses
+        "duration": (1, 120),
         "credit_amount": (0, 200_000),
     }
     valores_fuera_de_rango = {}
@@ -207,66 +361,8 @@ def build_preprocessor() -> ColumnTransformer:
 
 
 def split_data(df: pd.DataFrame, test_size: float = 0.2, seed: int = 42):
-    """
-    Wrapper sobre dataset_utils.split_data. # CORRECTED: antes esta
-    funcion reimplementaba train_test_split de forma independiente en
-    vez de reutilizar dataset_utils.py, siendo la 3a copia casi identica
-    de la misma logica (junto a Credit Card y Home Credit). Se elimina
-    la redundancia sin cambiar la firma ni el comportamiento externo.
-    """
+    """Wrapper sobre dataset_utils.split_data."""
     return _split_data_generic(df, target_col="target", test_size=test_size, seed=seed)
-
-
-def parse_onehot_feature_name(shap_feature_name: str) -> tuple:
-    """
-    Convierte un nombre de feature transformado por el ColumnTransformer
-    (p.ej. 'cat__checking_status_A14') en (nombre_original, codigo).
-    Necesario porque OneHotEncoder concatena columna + categoria con un
-    guion bajo, y las columnas ya contienen guiones bajos en su propio
-    nombre (p.ej. 'checking_status'), por lo que un split() simple no
-    basta para separar ambas partes correctamente.
-    Para features numericas (prefijo 'num__') devuelve (nombre, None).
-    """
-    if shap_feature_name.startswith("num__"):
-        return shap_feature_name.replace("num__", "", 1), None
-
-    if shap_feature_name.startswith("cat__"):
-        resto = shap_feature_name.replace("cat__", "", 1)
-        for nombre_columna in FEATURE_VALUE_LABELS:
-            prefijo = nombre_columna + "_"
-            if resto.startswith(prefijo):
-                codigo = resto[len(prefijo):]
-                return nombre_columna, codigo
-
-    # Formato no reconocido: se devuelve tal cual, sin decodificar.
-    return shap_feature_name, None
-
-
-def decode_feature_value(feature_name: str, code: str) -> str:
-    """
-    Traduce un codigo crudo (p.ej. 'A14') a su descripcion legible.
-    Si la feature o el codigo no estan mapeados, devuelve el codigo
-    original sin modificar -- un dato no traducible no debe romper la
-    generacion del informe del Nodo 3, solo degradar la legibilidad de
-    ese factor concreto.
-    """
-    return FEATURE_VALUE_LABELS.get(feature_name, {}).get(code, code)
-
-
-# NODE_3_ENTRY_POINT: el Nodo 3 debe llamar a decode_shap_feature() sobre
-# cada "feature" de state["top_features"] antes de construir el prompt
-# del narrador, para no exponer nombres crudos tipo "cat__checking_status_A14"
-# en la explicacion regulatoria.
-def decode_shap_feature(shap_feature_name: str) -> str:
-    """
-    Punto de entrada principal para el Nodo 3: traduce un nombre de
-    feature tal como lo devuelve el preprocesador (via SHAP) a una
-    descripcion humana completa en una sola llamada.
-    """
-    nombre_columna, codigo = parse_onehot_feature_name(shap_feature_name)
-    if codigo is None:
-        return nombre_columna  # feature numerica, ya es legible (p.ej. 'age')
-    return decode_feature_value(nombre_columna, codigo)
 
 
 if __name__ == "__main__":
@@ -277,5 +373,20 @@ if __name__ == "__main__":
     for k, v in audit_data_quality(df).items():
         print(f"  {k}: {v}")
     print(f"\nVariables sensibles excluidas del modelo: {SENSITIVE_FEATURES_EXCLUDED}")
-    print(f"\nEjemplo de decodificacion: decode_shap_feature('cat__checking_status_A14') "
-          f"-> '{decode_shap_feature('cat__checking_status_A14')}'")
+
+    # Verificacion del builder de tuplas con un cliente de ejemplo
+    cliente_demo = {
+        "checking_status": "A11", "duration": 24, "credit_history": "A32",
+        "credit_amount": 3500, "age": 34,
+    }
+    print("\nEjemplo de tuplas para el NARRATOR:")
+    casos = [
+        ("cat__checking_status_A11", -0.0871),
+        ("cat__credit_history_A32", +0.0520),
+        ("num__duration", +0.1074),
+        ("num__credit_amount", -0.1041),
+        ("num__age", +0.0320),
+    ]
+    for feat, shap_val in casos:
+        t = build_narrator_tuple(feat, cliente_demo, shap_val)
+        print(f"  ({t['feature_name']}, {t['feature_value']}, {t['shap_value']:+.4f})")

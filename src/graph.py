@@ -25,11 +25,9 @@ def build_graph():
 if __name__ == "__main__":
     app = build_graph()
 
-    # personal_status y foreign_worker se incluyen aqui porque un cliente
-    # real trae estos campos en su solicitud -- pero el ColumnTransformer
-    # del modelo (ver data_loader.CATEGORICAL_FEATURES) no los referencia,
-    # por lo que se ignoran automaticamente al construir la matriz de
-    # entrada. No es necesario eliminarlos de este diccionario de ejemplo.
+    # personal_status y foreign_worker se incluyen porque un cliente
+    # real trae todos los campos en su solicitud -- el ColumnTransformer
+    # los ignora automaticamente al no estar en CATEGORICAL_FEATURES.
     cliente_ejemplo = {
         "checking_status": "A11", "duration": 24, "credit_history": "A32",
         "purpose": "A43", "credit_amount": 3500, "savings_status": "A61",
@@ -45,8 +43,9 @@ if __name__ == "__main__":
 
     print(f"Score: {resultado['score']} / 1000")
     print(f"Probabilidad de impago: {resultado['proba_default']:.2%}")
-    print("Top 5 factores SHAP (nombre crudo -> version legible, Nodo 3):")
-    from data_loader import decode_shap_feature
+    print()
+    print("Top 5 factores SHAP en formato NARRATOR (feature_name_es, feature_value_es, shap):")
+    print()
     for f in resultado["top_features"]:
-        legible = decode_shap_feature(f["feature"])
-        print(f"  {f['feature']} ({legible}): {f['shap_value']:+.4f}")
+        signo = "+" if f["shap_value"] > 0 else ""
+        print(f"  ({f['feature_name']}, {f['feature_value']}, {signo}{f['shap_value']:.4f})")

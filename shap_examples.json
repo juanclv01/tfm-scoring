@@ -1,0 +1,327 @@
+[
+  {
+    "instancia_id": 1,
+    "indice_test": 45,
+    "client_data": {
+      "checking_status": "A14",
+      "duration": 12,
+      "credit_history": "A34",
+      "purpose": "A43",
+      "credit_amount": 522,
+      "savings_status": "A63",
+      "employment": "A75",
+      "installment_rate": 4,
+      "personal_status": "A93",
+      "other_parties": "A101",
+      "residence_since": 4,
+      "property_magnitude": "A122",
+      "age": 42,
+      "other_payment_plans": "A143",
+      "housing": "A152",
+      "existing_credits": 2,
+      "job": "A173",
+      "num_dependents": 2,
+      "own_telephone": "A192",
+      "foreign_worker": "A201"
+    },
+    "score": 812,
+    "proba_default": 0.18750698864459991,
+    "top_features": [
+      {
+        "feature_name": "Estado de la cuenta corriente",
+        "feature_value": "sin cuenta corriente",
+        "shap_value": -0.0762,
+        "feature_raw": "checking_status",
+        "codigo_ohe": "A14"
+      },
+      {
+        "feature_name": "Historial crediticio",
+        "feature_value": "cuenta critica o creditos existentes en otras entidades",
+        "shap_value": -0.0082,
+        "feature_raw": "credit_history",
+        "codigo_ohe": "A34"
+      },
+      {
+        "feature_name": "Duracion del prestamo (meses)",
+        "feature_value": "12 meses",
+        "shap_value": -0.0064,
+        "feature_raw": "duration",
+        "codigo_ohe": null
+      },
+      {
+        "feature_name": "Otros planes de pago activos",
+        "feature_value": "sin planes de pago adicionales",
+        "shap_value": -0.0057,
+        "feature_raw": "other_payment_plans",
+        "codigo_ohe": "A143"
+      },
+      {
+        "feature_name": "Otros planes de pago activos",
+        "feature_value": "planes de pago adicionales en otro banco",
+        "shap_value": -0.0047,
+        "feature_raw": "other_payment_plans",
+        "codigo_ohe": "A141"
+      }
+    ]
+  },
+  {
+    "instancia_id": 2,
+    "indice_test": 107,
+    "client_data": {
+      "checking_status": "A12",
+      "duration": 9,
+      "credit_history": "A32",
+      "purpose": "A43",
+      "credit_amount": 2118,
+      "savings_status": "A61",
+      "employment": "A73",
+      "installment_rate": 2,
+      "personal_status": "A93",
+      "other_parties": "A101",
+      "residence_since": 2,
+      "property_magnitude": "A121",
+      "age": 37,
+      "other_payment_plans": "A143",
+      "housing": "A152",
+      "existing_credits": 1,
+      "job": "A172",
+      "num_dependents": 2,
+      "own_telephone": "A191",
+      "foreign_worker": "A201"
+    },
+    "score": 753,
+    "proba_default": 0.24654926359653473,
+    "top_features": [
+      {
+        "feature_name": "Duracion del prestamo (meses)",
+        "feature_value": "9 meses",
+        "shap_value": -0.0513,
+        "feature_raw": "duration",
+        "codigo_ohe": null
+      },
+      {
+        "feature_name": "Estado de la cuenta corriente",
+        "feature_value": "sin cuenta corriente",
+        "shap_value": 0.0281,
+        "feature_raw": "checking_status",
+        "codigo_ohe": "A14"
+      },
+      {
+        "feature_name": "Propiedades del solicitante",
+        "feature_value": "propietario de bienes inmuebles",
+        "shap_value": -0.014,
+        "feature_raw": "property_magnitude",
+        "codigo_ohe": "A121"
+      },
+      {
+        "feature_name": "Importe del credito (DM)",
+        "feature_value": "2118 DM",
+        "shap_value": -0.01,
+        "feature_raw": "credit_amount",
+        "codigo_ohe": null
+      },
+      {
+        "feature_name": "Cuota como porcentaje de ingresos",
+        "feature_value": "2% de los ingresos netos",
+        "shap_value": -0.0075,
+        "feature_raw": "installment_rate",
+        "codigo_ohe": null
+      }
+    ]
+  },
+  {
+    "instancia_id": 3,
+    "indice_test": 30,
+    "client_data": {
+      "checking_status": "A14",
+      "duration": 6,
+      "credit_history": "A31",
+      "purpose": "A43",
+      "credit_amount": 1750,
+      "savings_status": "A63",
+      "employment": "A75",
+      "installment_rate": 2,
+      "personal_status": "A93",
+      "other_parties": "A101",
+      "residence_since": 4,
+      "property_magnitude": "A122",
+      "age": 45,
+      "other_payment_plans": "A141",
+      "housing": "A152",
+      "existing_credits": 1,
+      "job": "A172",
+      "num_dependents": 2,
+      "own_telephone": "A191",
+      "foreign_worker": "A201"
+    },
+    "score": 700,
+    "proba_default": 0.3002103865146637,
+    "top_features": [
+      {
+        "feature_name": "Otros planes de pago activos",
+        "feature_value": "planes de pago adicionales en otro banco",
+        "shap_value": 0.0356,
+        "feature_raw": "other_payment_plans",
+        "codigo_ohe": "A141"
+      },
+      {
+        "feature_name": "Estado de la cuenta corriente",
+        "feature_value": "sin cuenta corriente",
+        "shap_value": -0.0312,
+        "feature_raw": "checking_status",
+        "codigo_ohe": "A14"
+      },
+      {
+        "feature_name": "Otros planes de pago activos",
+        "feature_value": "sin planes de pago adicionales",
+        "shap_value": 0.0244,
+        "feature_raw": "other_payment_plans",
+        "codigo_ohe": "A143"
+      },
+      {
+        "feature_name": "Duracion del prestamo (meses)",
+        "feature_value": "6 meses",
+        "shap_value": -0.0165,
+        "feature_raw": "duration",
+        "codigo_ohe": null
+      },
+      {
+        "feature_name": "Importe del credito (DM)",
+        "feature_value": "1750 DM",
+        "shap_value": -0.0082,
+        "feature_raw": "credit_amount",
+        "codigo_ohe": null
+      }
+    ]
+  },
+  {
+    "instancia_id": 4,
+    "indice_test": 154,
+    "client_data": {
+      "checking_status": "A11",
+      "duration": 15,
+      "credit_history": "A32",
+      "purpose": "A40",
+      "credit_amount": 2511,
+      "savings_status": "A61",
+      "employment": "A71",
+      "installment_rate": 1,
+      "personal_status": "A92",
+      "other_parties": "A101",
+      "residence_since": 4,
+      "property_magnitude": "A123",
+      "age": 23,
+      "other_payment_plans": "A143",
+      "housing": "A151",
+      "existing_credits": 1,
+      "job": "A173",
+      "num_dependents": 1,
+      "own_telephone": "A191",
+      "foreign_worker": "A201"
+    },
+    "score": 640,
+    "proba_default": 0.3597916066646576,
+    "top_features": [
+      {
+        "feature_name": "Estado de la cuenta corriente",
+        "feature_value": "sin cuenta corriente",
+        "shap_value": 0.0472,
+        "feature_raw": "checking_status",
+        "codigo_ohe": "A14"
+      },
+      {
+        "feature_name": "Estado de la cuenta corriente",
+        "feature_value": "saldo negativo en cuenta corriente",
+        "shap_value": 0.013,
+        "feature_raw": "checking_status",
+        "codigo_ohe": "A11"
+      },
+      {
+        "feature_name": "Importe del credito (DM)",
+        "feature_value": "2511 DM",
+        "shap_value": -0.0098,
+        "feature_raw": "credit_amount",
+        "codigo_ohe": null
+      },
+      {
+        "feature_name": "Cuota como porcentaje de ingresos",
+        "feature_value": "1% de los ingresos netos",
+        "shap_value": -0.0096,
+        "feature_raw": "installment_rate",
+        "codigo_ohe": null
+      },
+      {
+        "feature_name": "Estado de la cuenta de ahorros",
+        "feature_value": "ahorros inferiores a 100 DM",
+        "shap_value": 0.0078,
+        "feature_raw": "savings_status",
+        "codigo_ohe": "A61"
+      }
+    ]
+  },
+  {
+    "instancia_id": 5,
+    "indice_test": 68,
+    "client_data": {
+      "checking_status": "A12",
+      "duration": 48,
+      "credit_history": "A30",
+      "purpose": "A410",
+      "credit_amount": 18424,
+      "savings_status": "A61",
+      "employment": "A73",
+      "installment_rate": 1,
+      "personal_status": "A92",
+      "other_parties": "A101",
+      "residence_since": 2,
+      "property_magnitude": "A122",
+      "age": 32,
+      "other_payment_plans": "A141",
+      "housing": "A152",
+      "existing_credits": 1,
+      "job": "A174",
+      "num_dependents": 1,
+      "own_telephone": "A192",
+      "foreign_worker": "A202"
+    },
+    "score": 575,
+    "proba_default": 0.4247462749481201,
+    "top_features": [
+      {
+        "feature_name": "Importe del credito (DM)",
+        "feature_value": "18424 DM",
+        "shap_value": 0.0333,
+        "feature_raw": "credit_amount",
+        "codigo_ohe": null
+      },
+      {
+        "feature_name": "Estado de la cuenta corriente",
+        "feature_value": "sin cuenta corriente",
+        "shap_value": 0.031,
+        "feature_raw": "checking_status",
+        "codigo_ohe": "A14"
+      },
+      {
+        "feature_name": "Duracion del prestamo (meses)",
+        "feature_value": "48 meses",
+        "shap_value": 0.0309,
+        "feature_raw": "duration",
+        "codigo_ohe": null
+      },
+      {
+        "feature_name": "Estado de la cuenta de ahorros",
+        "feature_value": "ahorros inferiores a 100 DM",
+        "shap_value": 0.0146,
+        "feature_raw": "savings_status",
+        "codigo_ohe": "A61"
+      },
+      {
+        "feature_name": "Cuota como porcentaje de ingresos",
+        "feature_value": "1% de los ingresos netos",
+        "shap_value": -0.0109,
+        "feature_raw": "installment_rate",
+        "codigo_ohe": null
+      }
+    ]
+  }
+]

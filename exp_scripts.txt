@@ -253,3 +253,154 @@ FASE 3 — Comparacion final (requiere que Fase 1 y Fase 2 ya hayan corrido)
           ·Decisión de diseño:  Se separó en un script independiente en vez de generar el background dentro de nodes.py en el momento de la primera llamada, porque generar la muestra requiere X_train, 
           que a su vez requiere volver a cargar y dividir el dataset completo — un coste que no tiene sentido pagar en cada arranque del grafo en producción; se paga una vez, offline, y se reutiliza indefinidamente desde el fichero serializado.
           
+     $$ evaluate.py 
+          ·Posición:  Puede ejecutarse de forma independiente en cualquier momento después de train_model.py (su bloque __main__ así lo hace), pero su uso principal es como módulo importado por evaluate_cross_dataset.py — no forma parte del camino
+           crítico hacia graph.py.
+
+          ·Propósito: Calcula el conjunto completo de métricas de evaluación del modelo de scoring — discriminación (AUC, Gini, KS), calibración (Brier) y coste de negocio (umbral óptimo según una matriz de coste parametrizable.)
+
+          ·Funciones y parámetros: 
+               *COST_APROBAR_MALO_DEFAULT = 5, COST_RECHAZAR_BUENO_DEFAULT = 1 (constantes a nivel de módulo): la matriz de coste oficial de UCI para German Credit. Son valores por defecto de los parámetros homónimos en las funciones 
+                de abajo, no valores fijos inmutables — corrección aplicada en la sesión anterior tras detectar que se aplicaban sin más a los otros dos datasets.
+
+               *gini_coefficient(y_true, y_proba):
+                    -Input: y_true (array de 0/1 reales), y_proba (array de probabilidades predichas, no de clases).
+                    -Calcula 2 * roc_auc_score(y_true, y_proba) - 1. Por qué esta fórmula y no una implementación directa del coeficiente de Gini de la curva de Lorenz: ambas son matemáticamente equivalentes para un clasificador binario;
+                     reutilizar roc_auc_score (ya importado para otra métrica) evita implementar dos algoritmos distintos que deberían dar el mismo resultado.
+                    -Output: float en, típicamente, [0, 1] para un modelo mejor que el azar (puede ser negativo si el modelo predice sistemáticamente al revés, aunque no debería ocurrir en la práctica).
+               
+               *ks_statistic(y_true, y_proba):
+                    -roc_curve(y_true, y_proba) devuelve fpr, tpr y los umbrales correspondientes (el tercer valor se descarta con _, ya que no se necesita el umbral exacto, solo el máximo de la diferencia). 
+                    np.max(np.abs(tpr - fpr)): la máxima distancia vertical entre ambas curvas a lo largo de todos los umbrales posibles.
+                    -Output: float en [0, 1].
+
+               *calibration_score(y_true, y_proba)
+                   -Wrapper directo de sklearn.metrics.brier_score_loss. Por qué no implementarlo manualmente (sería solo np.mean((y_proba - y_true)**2)): usar la función de scikit-learn evita reimplementar 
+                    una fórmula trivial pero da consistencia con el resto de métricas, todas importadas de la misma librería.
+
+               *expected_cost(y_true, y_pred, cost_aprobar_malo=..., cost_rechazar_bueno=...)
+                    -Diferencia importante de input respecto a las anteriores: recibe y_pred (predicciones binarias ya decididas con algún umbral), no y_proba — esta función opera después de que se haya tomado 
+                     una decisión de aprobar/rechazar, no sobre probabilidades continuas.
+
+                    -falsos_negativos = np.sum((y_true == 1) & (y_pred == 0)): cuenta clientes que en realidad impagarán (y_true==1) pero el modelo aprobó (y_pred==0, recordando 
+                     que 0=bueno en la codificación de este proyecto).
+
+                    -falsos_positivos = np.sum((y_true == 0) & (y_pred == 1)): clientes que habrían pagado pero el modelo rechazó.
+
+                    -Output: coste total dividido entre len(y_true) — es decir, coste medio por cliente, no coste absoluto. Esto hace el número comparable entre datasets de tamaños distintos (German Credit con 200 clientes de test frente a Home Credit con decenas de miles).
+
+               *find_cost_optimal_threshold(y_true, y_proba, n_steps=200, cost_aprobar_malo=..., cost_rechazar_bueno=...)
+                    -np.linspace(0.01, 0.99, n_steps): genera 200 umbrales equiespaciados entre 0.01 y 0.99 (no entre 0 y 1 exactos, para evitar los casos degenerados de aprobar o rechazar absolutamente a todo el mundo). Qué pasa si n_steps bajara a, por ejemplo, 10: la búsqueda 
+                     del umbral óptimo sería más gruesa, con mayor probabilidad de no encontrar el mínimo real de coste si este cae entre dos de los umbrales evaluados; subir n_steps a 2.000 daría más precisión a costa de 10 veces más cómputo, con retornos decrecientes dado que el coste esperado es una función suave del umbral.
+
+                    -Para cada umbral candidato, convierte y_proba en predicciones binarias (y_proba >= umbral) y calcula el coste con expected_cost. Se queda con el umbral de menor coste (if coste < mejor_coste).
+
+                    -También calcula explícitamente el coste al umbral fijo de 0.5, para poder comparar en el resultado final "cuánto se ahorra" usando el umbral óptimo frente al umbral ingenuo por defecto.
+
+                    -Output: diccionario con 3 claves (umbral_optimo, coste_esperado_optimo, coste_esperado_umbral_0.5).
+
+               *evaluate_model(model, X_test, y_test, cost_aprobar_malo=..., cost_rechazar_bueno=..., cost_matrix_is_official=True)
+                    -Función de orquestación: llama a model.predict_proba(X_test)[:, 1] una sola vez (columna 1 = probabilidad de la clase positiva, impago) y reutiliza ese array para las 4 métricas y el cálculo de umbral óptimo, en vez de que cada métrica recalculara las 
+                     probabilidades por separado.
+
+                    -cost_matrix_is_official: booleano puramente documental, no afecta a ningún cálculo — se incluye en el diccionario de salida para que quien lea los resultados sepa si el 5:1 usado tiene respaldo oficial de UCI (German Credit) o es un supuesto de trabajo 
+                     sin verificar (Credit Card, Home Credit).
+
+                    -Output: diccionario que fusiona 5 claves propias (auc_roc, gini, ks_statistic, brier_score, cost_matrix_is_official) con las 3 del resultado de coste, mediante **resultado_coste (desempaquetado de diccionario dentro de otro diccionario literal).
+
+          ·Integración:  Importa data_loader.py solo en su bloque __main__ (import local, no a nivel de módulo — deliberado para que evaluate.py pueda importarse desde evaluate_cross_dataset.py sin arrastrar una dependencia específica de German Credit si en algún momento se quisiera usar evaluate_model() de forma completamente aislada).
+           Es importado por evaluate_cross_dataset.py, que es quien realmente explota el hecho de que los parámetros de coste sean configurables.
+
+          ·Decisión de diseño: Separar expected_cost (opera sobre predicciones binarias) de find_cost_optimal_threshold (opera sobre probabilidades y barre umbrales) en dos funciones en vez de una sola, permite testear o reutilizar el cálculo de coste de un umbral fijo concreto sin tener que ejecutar el barrido completo — por ejemplo, 
+           si en el futuro se quisiera evaluar específicamente el coste al umbral 0.5 sin buscar el óptimo.
+
+     $$ graph_state.py 
+          ·Posición:  No tiene ejecución propia (no tiene bloque __main__, es puramente declarativo). Se importa antes que cualquier nodo, ya que tanto nodes.py como graph.py dependen de la clase PipelineState que aquí se define.
+
+          ·Propósito: Define el contrato de datos único que todos los nodos del grafo comparten — qué claves existen en el estado y de qué tipo es cada una.
+
+          ·Funciones y parámetros: 
+               * class PipelineState(TypedDict): no es una función, es una definición de tipo. Cada atributo:
+                    -client_data: dict — la única clave que se proporciona como input inicial al invocar el grafo (app.invoke({"client_data": ...})); todas las demás claves las rellenan los nodos.
+                    -score: Optional[int], proba_default: Optional[float] — pobladas por el Nodo 1.
+                    -shap_values: Optional[list], base_value: Optional[float], feature_names: Optional[list], top_features: Optional[list] — pobladas por el Nodo 2.
+                    -top_features_decoded: Optional[list], narrative: Optional[str] — reservadas para el Nodo 3, sin poblar todavía por ningún nodo existente.
+                    -validation_result: Optional[dict] — reservada para el Nodo 4.
+                    -Por qué todas son Optional: un TypedDict en Python no impone en tiempo de ejecución que todas las claves estén presentes (a diferencia de, por ejemplo, un dataclass con valores obligatorios) — es únicamente una ayuda para herramientas de tipado estático (mypy, Pyright) y para quien lea el código. 
+                     Marcarlas como Optional documenta honestamente que, en cualquier punto intermedio de la ejecución del grafo, varias de estas claves todavía no existen en el diccionario real.
+                    -Efecto de haber añadido las 3 claves nuevas (top_features_decoded, narrative, validation_result) sin que ningún nodo las pueble todavía: ninguno en tiempo de ejecución — TypedDict no valida nada al ejecutar, así que el estado real que circula por el grafo simplemente no contendrá esas claves hasta
+                     que el Nodo 3/4 se implementen y las escriban. No rompe nada de lo ya construido.
+          ·Integración:  Importado por nodes.py (para tipar el parámetro state de cada función de nodo) y por graph.py (para tipar el StateGraph(PipelineState) que LangGraph usa internamente).
+
+          ·Decisión de diseño: Se centraliza en un archivo propio en vez de definir el TypedDict dentro de nodes.py o graph.py, porque es el contrato compartido entre ambos — si viviera dentro de uno de los dos, el otro tendría que importarlo desde ahí, generando una dependencia direccional 
+          artificial entre archivos que conceptualmente están al mismo nivel.
+
+     $$ nodes.py
+          ·Posición: Se ejecuta como parte de la construcción del grafo, tras graph_state.py (que importa) y después de que existan en disco tanto models/xgb_scoring_pipeline.joblib (de train_model.py) como models/background_sample.joblib (de prepare_background.py) 
+          — sin ambos ficheros, el simple hecho de importar este módulo falla. 
+
+          ·Propósito: Implementa la lógica de negocio real del Nodo 1 (scoring) y el Nodo 2 (explicabilidad SHAP) como funciones compatibles con la interfaz de nodo de LangGraph.
+
+          ·Funciones y parámetros: 
+               *Variables de módulo _model, _explainer, _background:
+                    -_model = joblib.load("models/xgb_scoring_pipeline.joblib") se ejecuta en el momento en que el módulo se importa, no dentro de ninguna función. Esto es un patrón de carga "eager" (ansiosa) en vez de "lazy" (perezosa). Consecuencia concreta: cualquier import nodes o from nodes import ...,
+                     en cualquier script, dispara inmediatamente una lectura de disco de varios cientos de KB y una deserialización del Pipeline completo, incluso si ese script solo quería inspeccionar, por ejemplo, la firma de node_scoring sin ejecutarla.
+
+                    -_explainer = None y _background = None: inicializados a None a propósito, para implementar inicialización perezosa solo para estos dos objetos (a diferencia de _model). Por qué el modelo se carga ansiosamente pero el explainer no: cargar el modelo es necesario para ambos nodos 
+                    (node_scoring y node_explainability), así que no hay beneficio en retrasarlo; el explainer, en cambio, requiere adicionalmente el fichero de background y una inicialización más costosa (shap.TreeExplainer(...)), que solo tiene sentido pagar si efectivamente se va a llamar a node_explainability
+                     — si alguien solo quisiera ejecutar node_scoring de forma aislada (por ejemplo, en un test), no pagaría ese coste.
+               
+               *node_scoring(state)
+                    -Input: el estado completo del grafo (PipelineState), aunque solo lee state["client_data"] — el resto de claves, si existieran, se ignoran.
+                    -pd.DataFrame([state["client_data"]]): envuelve el diccionario en una lista de un elemento antes de pasarlo a pd.DataFrame(...). Por qué la lista: pd.DataFrame({"a": 1, "b": 2}) (sin la lista) interpretaría cada valor como una columna con un único valor escalar, pero fallaría si los valores tuvieran 
+                    tipos mixtos de forma inconsistente con esa interpretación; pd.DataFrame([{"a": 1, "b": 2}]) (con la lista) crea explícitamente una fila con esas columnas — la forma correcta y sin ambigüedad de construir un DataFrame de una sola fila a partir de un diccionario plano.
+                    -_model.predict_proba(df)[0, 1]: predict_proba devuelve una matriz de forma (n_filas, n_clases) — aquí (1, 2) porque hay una fila y dos clases. [0, 1] selecciona la fila 0 (la única) y la columna 1 (probabilidad de la clase positiva, impago). La columna 0 (probabilidad de la clase negativa) se descarta
+                     porque es simplemente 1 - proba_clase_1 y no aporta información nueva.
+                    -int(round(1000 - proba_default * 1000)): fórmula de escala lineal invertida — reimplementa exactamente lo que hace scoring.probability_to_score(), sin importarla. Esto es una duplicación de lógica no resuelta en la auditoría anterior (ver la sección de scoring.py más abajo).
+                    -Output: {"score": score, "proba_default": proba_default} — un diccionario parcial, no el estado completo. LangGraph se encarga de fusionar estas dos claves en el estado acumulado; node_scoring no necesita (ni debe) devolver client_data de vuelta.
+                    -Side effects: ninguno más allá de la llamada a predict_proba (que no muta nada externo).
+               *node_explainability(state)
+                    -Input: de nuevo, solo usa state["client_data"]. No usa state["score"] ni state["proba_default"] aunque ya estén disponibles en el estado en el momento en que este nodo se ejecuta (después de node_scoring en el grafo) — porque SHAP necesita solo la instancia transformada y el modelo, no la predicción ya calculada;
+                     recalcula internamente la predicción de forma implícita al construir las contribuciones.
+                    -global _explainer, _background: necesario porque la función reasigna estas variables (no solo las lee) — sin la declaración global, Python trataría cualquier asignación dentro de la función como la creación de una variable local nueva, dejando las variables de módulo sin modificar tras la primera llamada, y forzando
+                     una reinicialización costosa del explainer en cada invocación del nodo.
+                    -preprocessor = _model.named_steps["preprocessor"], xgb_model = _model.named_steps["model"]: extrae los dos componentes del Pipeline por su nombre de string, el mismo acoplamiento implícito ya mencionado en prepare_background.py.
+                    -if _explainer is None: — patrón de inicialización perezosa con memoización manual: la primera vez que se llama a este nodo (tras importar el módulo), _explainer es None, se carga el background y se construye el TreeExplainer; en llamadas subsiguientes (por ejemplo, si el grafo se invocara varias veces en el mismo proceso, 
+                    para distintos clientes), el bloque if se salta y se reutiliza el explainer ya construido — evitando reconstruirlo (una operación no trivial) en cada cliente.
+                    -shap.TreeExplainer(xgb_model, data=_background, feature_perturbation="interventional", model_output="probability"):
+                         -feature_perturbation="interventional": en vez del valor por defecto "tree_path_dependent", que no requiere un dataset de background pero calcula las contribuciones asumiendo que las features están correlacionadas según la estructura interna del árbol. "interventional" calcula el efecto de "intervenir" sobre cada feature de forma independiente del resto, usando el data=_background como referencia — es la opción coherente con querer contribuciones en espacio de probabilidad bien definidas.
+                         -model_output="probability": en vez del valor por defecto "raw" (log-odds). Esta es la decisión técnica más importante del nodo, ya explicada en profundidad en un turno anterior: garantiza que sum(shap_values) + base_value == proba_default, la propiedad de local accuracy que el test de integración verifica.
+                    -shap_values = _explainer.shap_values(X_transformed): para un modelo binario con model_output="probability", devuelve un array 2D de forma (1, n_features) — de ahí que el código acceda después a shap_values[0] para obtener el vector de la única instancia.
+                    -base_value = _explainer.expected_value; if hasattr(base_value, "__len__"): base_value = base_value[0]: salvaguarda porque, según la versión de la librería shap, expected_value puede devolverse como un escalar float directo o como un array de un solo elemento — el chequeo hasattr(..., "__len__") distingue ambos casos sin necesitar saber de antemano qué versión exacta de la librería está instalada.
+                    -preprocessor.get_feature_names_out(): devuelve los nombres de columna después de la transformación (con los prefijos "cat__"/"num__" que parse_onehot_feature_name de data_loader.py sabe interpretar).
+                    -sorted(contributions, key=lambda x: abs(x[1]), reverse=True)[:5]: ordena por valor absoluto del SHAP (no por el valor con signo), porque tanto una contribución muy positiva como muy negativa son igualmente "importantes" para la explicación — quedarse solo con los 5 valores más positivos ignoraría, por ejemplo, un factor que reduce mucho el riesgo. reverse=True porque sorted por defecto ordena ascendente, y aquí se necesita descendente (de mayor a menor magnitud).
+               *Output: diccionario con 4 claves (shap_values, base_value, feature_names, top_features), esta última una lista de 5 diccionarios {"feature": ..., "shap_value": ...}.
+               *Bloque comentado # NODE_3_ENTRY_POINT: no es código ejecutable — es un pseudocódigo documentado explícitamente como no-funcional, que muestra exactamente qué forma debería tener node_narrative() y qué debería hacer, sin implementarlo. Cumple la restricción de "no dejar TODOs sin marcar" al estar explícitamente etiquetado como punto de entrada, no como una función a medio terminar.
+          
+          ·Integración: Importa graph_state.PipelineState (solo para anotaciones de tipo, no se instancia nunca directamente) y las librerías joblib, shap, pandas. Es importado por graph.py, que es el único lugar donde node_scoring y node_explainability se registran como nodos reales de un grafo ejecutable.
+          ·Decisión de diseño:Ambos nodos viven en el mismo archivo (en vez de uno por nodo, como sí ocurre con los loaders de datasets) porque comparten estado de módulo (_model) y tienen un ciclo de vida acoplado — separar node_scoring y node_explainability en dos ficheros obligaría a decidir en cuál vive _model, y el otro archivo tendría que importarlo, sin ganar ninguna claridad real a cambio.
+
+     $$ graph.py 
+          ·Posición: Último eslabón del camino "en vivo" — se ejecuta después de que nodes.py pueda importarse sin error (es decir, tras train_model.py y prepare_background.py).
+
+          ·Propósito: Ensambla los nodos definidos en nodes.py en un grafo de LangGraph ejecutable de principio a fin, y sirve como punto de entrada de demostración del pipeline completo.
+
+          ·Funciones y parámetros: 
+               *build_graph():
+                    -Sin inputs.
+                    -graph = StateGraph(PipelineState): instancia el grafo, parametrizado por el esquema de estado — LangGraph usa esta clase para saber qué forma tiene el diccionario que va a circular, aunque (como ya se explicó) no lo valida estrictamente en tiempo de ejecución.
+                    -graph.add_node("scoring", node_scoring), graph.add_node("explainability", node_explainability): registra cada función bajo un nombre de string. Estos nombres ("scoring", "explainability") son arbitrarios en el sentido de que podrían haberse llamado de cualquier otra forma — lo único que importa es que coincidan con los nombres usados después en add_edge y set_entry_point.
+                    -graph.set_entry_point("scoring"): designa el primer nodo a ejecutar cuando se invoque el grafo.
+                    -graph.add_edge("scoring", "explainability"): arista fija (no condicional) — siempre que termine "scoring", el control pasa a "explainability", sin ninguna lógica de decisión intermedia. Esto contrasta con lo que necesitará el Nodo 4 (una arista condicional que decida si continuar o volver al Nodo 3).
+                    -graph.add_edge("explainability", END): END es un valor especial importado de langgraph.graph, no un nodo definido por el usuario — señala el final del grafo.
+                    -return graph.compile(): convierte la definición declarativa en un objeto ejecutable (CompiledGraph, aunque el código no anota ese tipo explícitamente). Por qué compilar en una función separada en vez de dejarlo como código suelto a nivel de módulo: permitir que tests/test_graph.py pueda llamar build_graph() para obtener una instancia nueva del grafo en cada test, sin depender de un estado global ya compilado una única vez al importar el módulo.
+                    
+                    -Output: el objeto grafo compilado, con un método .invoke(estado_inicial) que ejecuta el grafo de principio a fin.
+               *Bloque if __name__ == "__main__": Construye el grafo, define un diccionario cliente_ejemplo con las 19 claves de features (incluyendo personal_status y foreign_worker, aunque el modelo no las use — comentario explicativo añadido en la corrección de la sesión anterior).
+               
+               -resultado = app.invoke({"client_data": cliente_ejemplo}): única llamada real de ejecución del grafo completo. El diccionario pasado como argumento se convierte en el estado inicial; solo se proporciona client_data porque las demás claves de PipelineState no existen todavía en ese punto — no hace falta inicializarlas explícitamente a None.
+               -Imprime score, proba_default (formateado como porcentaje con :.2%) y, para cada uno de los 5 top_features, tanto el nombre crudo como su versión decodificada mediante decode_shap_feature (importado de data_loader.py dentro del propio bloque __main__, no a nivel de módulo — import local deliberado para no acoplar la lógica del grafo en sí a la decodificación, que es solo una utilidad de la demo).
+
+          ·Integración: Importa langgraph.graph.StateGraph y END (la librería externa), graph_state.PipelineState, y node_scoring/node_explainability de nodes.py. Es importado por tests/test_graph.py (from graph import build_graph) — el único consumidor externo de build_graph().
+          ·Decisión de diseño:  Aunque con solo dos nodos fijos este grafo podría escribirse como dos llamadas de función secuenciales en Python puro (como se discutió en un turno anterior de esta conversación), se optó por LangGraph desde el principio porque el Nodo 4 necesitará una arista condicional (reintentar el Nodo 3 si la narrativa no pasa la validación), un patrón que resulta natural expresar como grafo pero incómodo como código imperativo con bucles y condicionales anidados.
+     $$

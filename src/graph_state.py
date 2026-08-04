@@ -15,6 +15,13 @@ class PipelineState(TypedDict):
     client_data: dict                      # input: features crudas
     score: Optional[int]                   # output Nodo 1
     proba_default: Optional[float]         # output Nodo 1
+    # CORRECTED: se anade 'aprobado' como output de Nodo 1. Necesario para
+    # construir las narrativas de ejemplo de Nodo 3 (necesitan saber si la
+    # solicitud fue aprobada o rechazada, no solo el score numerico). La
+    # decision usa el umbral optimo de coste (compute_decision_threshold.py),
+    # NO un corte fijo en score=500/proba=0.5 -- ver justificacion en
+    # evaluate.py (docstring de find_cost_optimal_threshold).
+    aprobado: Optional[bool]               # output Nodo 1
     shap_values: Optional[list]            # output Nodo 2
     base_value: Optional[float]            # output Nodo 2
     feature_names: Optional[list]          # output Nodo 2 (nombres crudos, p.ej. 'cat__checking_status_A14')

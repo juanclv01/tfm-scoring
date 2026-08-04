@@ -41,11 +41,13 @@ if __name__ == "__main__":
 
     resultado = app.invoke({"client_data": cliente_ejemplo})
 
+    decision = "APROBADA" if resultado["aprobado"] else "RECHAZADA"
+    print(f"Solicitud: {decision}")
     print(f"Score: {resultado['score']} / 1000")
     print(f"Probabilidad de impago: {resultado['proba_default']:.2%}")
     print()
-    print("Top 5 factores SHAP en formato NARRATOR (feature_name_es, feature_value_es, shap):")
+    print("Top 5 factores SHAP en formato NARRATOR (feature_name_es, feature_value_es, shap en pts de score):")
     print()
     for f in resultado["top_features"]:
         signo = "+" if f["shap_value"] > 0 else ""
-        print(f"  ({f['feature_name']}, {f['feature_value']}, {signo}{f['shap_value']:.4f})")
+        print(f"  ({f['feature_name']}, {f['feature_value']}, {signo}{f['shap_value']:.2f} pts)")

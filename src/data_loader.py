@@ -263,19 +263,21 @@ def build_narrator_tuple(
                            preprocesador (p.ej. 'cat__checking_status_A14').
         client_data:       diccionario con los datos crudos del cliente
                            (las mismas claves que COLUMN_NAMES, sin 'target').
-        shap_value:        contribucion SHAP de esta feature para este cliente,
-                           en espacio de proba_default (P("malo")/impago).
-                           Convencion confirmada: shap_value > 0 -> sube el
-                           riesgo -> BAJA el score; shap_value < 0 -> SUBE
-                           el score. El NARRATOR debe usar directamente este
-                           signo (no invertirlo) para describir la direccion.
+        shap_value:        contribucion de esta feature para este cliente,
+                           YA CONVERTIDA a PUNTOS DE SCORE por node_explainability
+                           (Nodo 2) antes de llamar a esta funcion -- no es la
+                           salida cruda del explainer, que esta en espacio de
+                           proba_default. Convencion: shap_value > 0 -> SUBE
+                           el score; shap_value < 0 -> BAJA el score. El
+                           NARRATOR debe usar directamente este signo (ya
+                           coincide con la lectura intuitiva "positivo = mejora").
 
     Returns:
         Diccionario con las tres claves del formato Explingo:
             feature_name    (str, en espanol)
             feature_value   (str, legible y en espanol)
-            shap_value      (float, escala proba_default; signo ya
-                            correcto y listo para el NARRATOR)
+            shap_value      (float, PUNTOS DE SCORE, no probabilidad;
+                            signo ya listo para el NARRATOR)
     """
     nombre_columna, codigo_ohe = parse_onehot_feature_name(shap_feature_name)
 
@@ -297,7 +299,11 @@ def build_narrator_tuple(
     return {
         "feature_name":  nombre_es,
         "feature_value": valor_es,
-        "shap_value":    round(float(shap_value), 4),
+        # CORRECTED: redondeo a 2 decimales en vez de 4 -- shap_value ya
+        # esta en puntos de score (rango tipico de decenas), no en
+        # probabilidad (rango 0-1); 4 decimales aportaban precision
+        # espuria para esta escala.
+        "shap_value":    round(float(shap_value), 2),
         # Campos adicionales para trazabilidad interna y el GRADER:
         "feature_raw":   nombre_columna,
         "codigo_ohe":    codigo_ohe,
@@ -380,13 +386,17 @@ if __name__ == "__main__":
         "credit_amount": 3500, "age": 34,
     }
     print("\nEjemplo de tuplas para el NARRATOR:")
+    # CORRECTED: los valores de ejemplo ahora estan en PUNTOS DE SCORE
+    # (los que produciria node_explainability tras la conversion), no en
+    # espacio de probabilidad como antes -- consistente con el resto del
+    # pipeline. shap_value > 0 -> sube el score.
     casos = [
-        ("cat__checking_status_A11", -0.0871),
-        ("cat__credit_history_A32", +0.0520),
-        ("num__duration", +0.1074),
-        ("num__credit_amount", -0.1041),
-        ("num__age", +0.0320),
+        ("cat__checking_status_A11", +87.1),
+        ("cat__credit_history_A32", -52.0),
+        ("num__duration", -107.4),
+        ("num__credit_amount", +104.1),
+        ("num__age", -32.0),
     ]
     for feat, shap_val in casos:
         t = build_narrator_tuple(feat, cliente_demo, shap_val)
-        print(f"  ({t['feature_name']}, {t['feature_value']}, {t['shap_value']:+.4f})")
+        print(f"  ({t['feature_name']}, {t['feature_value']}, {t['shap_value']:+.1f} pts)")

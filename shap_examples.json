@@ -30,35 +30,35 @@
       {
         "feature_name": "Estado de la cuenta corriente",
         "feature_value": "sin cuenta corriente",
-        "shap_value": -0.0762,
+        "shap_value": 76.22,
         "feature_raw": "checking_status",
         "codigo_ohe": "A14"
       },
       {
         "feature_name": "Historial crediticio",
         "feature_value": "cuenta critica o creditos existentes en otras entidades",
-        "shap_value": -0.0082,
+        "shap_value": 8.2,
         "feature_raw": "credit_history",
         "codigo_ohe": "A34"
       },
       {
         "feature_name": "Duracion del prestamo (meses)",
         "feature_value": "12 meses",
-        "shap_value": -0.0064,
+        "shap_value": 6.35,
         "feature_raw": "duration",
         "codigo_ohe": null
       },
       {
         "feature_name": "Otros planes de pago activos",
         "feature_value": "sin planes de pago adicionales",
-        "shap_value": -0.0057,
+        "shap_value": 5.73,
         "feature_raw": "other_payment_plans",
         "codigo_ohe": "A143"
       },
       {
         "feature_name": "Otros planes de pago activos",
         "feature_value": "planes de pago adicionales en otro banco",
-        "shap_value": -0.0047,
+        "shap_value": 4.73,
         "feature_raw": "other_payment_plans",
         "codigo_ohe": "A141"
       }
@@ -95,35 +95,35 @@
       {
         "feature_name": "Duracion del prestamo (meses)",
         "feature_value": "9 meses",
-        "shap_value": -0.0513,
+        "shap_value": 51.3,
         "feature_raw": "duration",
         "codigo_ohe": null
       },
       {
         "feature_name": "Estado de la cuenta corriente",
         "feature_value": "sin cuenta corriente",
-        "shap_value": 0.0281,
+        "shap_value": -28.1,
         "feature_raw": "checking_status",
         "codigo_ohe": "A14"
       },
       {
         "feature_name": "Propiedades del solicitante",
         "feature_value": "propietario de bienes inmuebles",
-        "shap_value": -0.014,
+        "shap_value": 14.05,
         "feature_raw": "property_magnitude",
         "codigo_ohe": "A121"
       },
       {
         "feature_name": "Importe del credito (DM)",
         "feature_value": "2118 DM",
-        "shap_value": -0.01,
+        "shap_value": 10.01,
         "feature_raw": "credit_amount",
         "codigo_ohe": null
       },
       {
         "feature_name": "Cuota como porcentaje de ingresos",
         "feature_value": "2% de los ingresos netos",
-        "shap_value": -0.0075,
+        "shap_value": 7.52,
         "feature_raw": "installment_rate",
         "codigo_ohe": null
       }
@@ -160,35 +160,35 @@
       {
         "feature_name": "Otros planes de pago activos",
         "feature_value": "planes de pago adicionales en otro banco",
-        "shap_value": 0.0356,
+        "shap_value": -35.58,
         "feature_raw": "other_payment_plans",
         "codigo_ohe": "A141"
       },
       {
         "feature_name": "Estado de la cuenta corriente",
         "feature_value": "sin cuenta corriente",
-        "shap_value": -0.0312,
+        "shap_value": 31.2,
         "feature_raw": "checking_status",
         "codigo_ohe": "A14"
       },
       {
         "feature_name": "Otros planes de pago activos",
         "feature_value": "sin planes de pago adicionales",
-        "shap_value": 0.0244,
+        "shap_value": -24.39,
         "feature_raw": "other_payment_plans",
         "codigo_ohe": "A143"
       },
       {
         "feature_name": "Duracion del prestamo (meses)",
         "feature_value": "6 meses",
-        "shap_value": -0.0165,
+        "shap_value": 16.47,
         "feature_raw": "duration",
         "codigo_ohe": null
       },
       {
         "feature_name": "Importe del credito (DM)",
         "feature_value": "1750 DM",
-        "shap_value": -0.0082,
+        "shap_value": 8.18,
         "feature_raw": "credit_amount",
         "codigo_ohe": null
       }
@@ -225,35 +225,35 @@
       {
         "feature_name": "Estado de la cuenta corriente",
         "feature_value": "sin cuenta corriente",
-        "shap_value": 0.0472,
+        "shap_value": -47.21,
         "feature_raw": "checking_status",
         "codigo_ohe": "A14"
       },
       {
         "feature_name": "Estado de la cuenta corriente",
         "feature_value": "saldo negativo en cuenta corriente",
-        "shap_value": 0.013,
+        "shap_value": -13.04,
         "feature_raw": "checking_status",
         "codigo_ohe": "A11"
       },
       {
         "feature_name": "Importe del credito (DM)",
         "feature_value": "2511 DM",
-        "shap_value": -0.0098,
+        "shap_value": 9.78,
         "feature_raw": "credit_amount",
         "codigo_ohe": null
       },
       {
         "feature_name": "Cuota como porcentaje de ingresos",
         "feature_value": "1% de los ingresos netos",
-        "shap_value": -0.0096,
+        "shap_value": 9.62,
         "feature_raw": "installment_rate",
         "codigo_ohe": null
       },
       {
         "feature_name": "Estado de la cuenta de ahorros",
         "feature_value": "ahorros inferiores a 100 DM",
-        "shap_value": 0.0078,
+        "shap_value": -7.76,
         "feature_raw": "savings_status",
         "codigo_ohe": "A61"
       }
@@ -290,35 +290,35 @@
       {
         "feature_name": "Importe del credito (DM)",
         "feature_value": "18424 DM",
-        "shap_value": 0.0333,
+        "shap_value": -33.28,
         "feature_raw": "credit_amount",
         "codigo_ohe": null
       },
       {
         "feature_name": "Estado de la cuenta corriente",
         "feature_value": "sin cuenta corriente",
-        "shap_value": 0.031,
+        "shap_value": -31.01,
         "feature_raw": "checking_status",
         "codigo_ohe": "A14"
       },
       {
         "feature_name": "Duracion del prestamo (meses)",
         "feature_value": "48 meses",
-        "shap_value": 0.0309,
+        "shap_value": -30.9,
         "feature_raw": "duration",
         "codigo_ohe": null
       },
       {
         "feature_name": "Estado de la cuenta de ahorros",
         "feature_value": "ahorros inferiores a 100 DM",
-        "shap_value": 0.0146,
+        "shap_value": -14.61,
         "feature_raw": "savings_status",
         "codigo_ohe": "A61"
       },
       {
         "feature_name": "Cuota como porcentaje de ingresos",
         "feature_value": "1% de los ingresos netos",
-        "shap_value": -0.0109,
+        "shap_value": 10.88,
         "feature_raw": "installment_rate",
         "codigo_ohe": null
       }

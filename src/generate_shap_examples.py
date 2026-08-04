@@ -123,8 +123,12 @@ def seleccionar_instancias_diversas(X_test: pd.DataFrame, model, n: int, seed: i
 
 
 def formatear_tuplas_narrator(top_features: list) -> list:
+    # shap_value ya viene en PUNTOS DE SCORE (convertido por
+    # node_explainability, no en espacio de probabilidad): positivo sube
+    # el score, negativo lo baja. Formato "+.1f pts" en vez de ".4f",
+    # consistente con data_loader.py y graph.py.
     return [
-        f"({f['feature_name']}, {f['feature_value']}, {f['shap_value']:+.4f})"
+        f"({f['feature_name']}, {f['feature_value']}, {f['shap_value']:+.1f} pts)"
         for f in top_features
     ]
 
@@ -166,9 +170,10 @@ def main():
     with open(args.out, "w", encoding="utf-8") as fh:
         json.dump(resultados, fh, ensure_ascii=False, indent=2)
 
-    print(f"Guardado en {args.out}. Recuerda: shap_value > 0 sube la "
-          f"probabilidad de impago (baja el score); shap_value < 0 la baja "
-          f"(sube el score) -- misma convencion de signo del prompt del NARRATOR.")
+    print(f"Guardado en {args.out}. Recuerda: shap_value esta en PUNTOS DE "
+          f"SCORE (escala 0-1000), no en probabilidad -- shap_value > 0 SUBE "
+          f"el score; shap_value < 0 lo BAJA. Misma convencion de signo del "
+          f"prompt del NARRATOR.")
 
 
 if __name__ == "__main__":

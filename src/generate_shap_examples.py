@@ -10,11 +10,16 @@ model_output='probability', mismo top-5 por |SHAP|, mismo build_narrator_tuple,
 mismo umbral optimo de coste para 'aprobado') que usara luego el NARRATOR
 en produccion.
 
-# CORRECTED: cada instancia generada incluye ahora 'aprobado' (bool), tal
-# como lo devuelve node_scoring() usando el umbral optimo de coste
-# persistido en models/decision_threshold.joblib -- necesario para que
-# las narrativas hand-written (H) puedan comunicar el resultado real de
-# la decision, no solo el score numerico.
+# CORRECTED: cada instancia generada incluye ahora 'aprobado' (bool) y
+# 'nivel_riesgo' ("bajo"/"moderado"/"alto"), tal como los devuelve
+# node_scoring() usando los umbrales optimo de coste y moderado/alto
+# persistidos en models/decision_threshold.joblib y
+# models/risk_band_threshold.joblib -- necesarios para que las narrativas
+# hand-written (H) puedan comunicar tanto el resultado real de la
+# decision como la banda de riesgo, sin que el numero de proba_default
+# ni los umbrales aparezcan en la narrativa (ver scoring.clasificar_riesgo
+# para la justificacion completa de por que esta clasificacion vive en
+# codigo y no en el prompt del NARRATOR).
 
 Criterio de diversidad (para reducir sesgo, tal como pide el TFM):
     (a) Cobertura del rango de riesgo: se parte de percentiles equiespaciados
@@ -164,12 +169,13 @@ def main():
             "score": estado["score"],
             "proba_default": estado["proba_default"],
             "aprobado": estado["aprobado"],
+            "nivel_riesgo": estado["nivel_riesgo"],
             "top_features": estado["top_features"],
         })
 
         decision = "APROBADA" if estado["aprobado"] else "RECHAZADA"
         print(f"--- Instancia {i} (indice testset: {idx}) ---")
-        print(f"Solicitud: {decision}")
+        print(f"Solicitud: {decision}  |  Nivel de riesgo: {estado['nivel_riesgo']}")
         print(f"Score: {estado['score']} / 1000  |  "
               f"Probabilidad de impago: {estado['proba_default']:.2%}")
         print("Top 5 factores SHAP (formato NARRATOR):")

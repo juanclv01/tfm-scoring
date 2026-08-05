@@ -42,7 +42,7 @@ if __name__ == "__main__":
     resultado = app.invoke({"client_data": cliente_ejemplo})
 
     decision = "APROBADA" if resultado["aprobado"] else "RECHAZADA"
-    print(f"Solicitud: {decision}")
+    print(f"Solicitud: {decision}  |  Nivel de riesgo: {resultado['nivel_riesgo']}")
     print(f"Score: {resultado['score']} / 1000")
     print(f"Probabilidad de impago: {resultado['proba_default']:.2%}")
     print()

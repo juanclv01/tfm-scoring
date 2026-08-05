@@ -33,18 +33,18 @@ import shap
 import pandas as pd
 
 from graph_state import PipelineState
-from data_loader import build_narrator_tuple
-from scoring import probability_to_score, SCORE_MAX, SCORE_MIN
+from data_loader import build_narrator_tuple, aggregate_shap_by_feature
+from scoring import probability_to_score, clasificar_riesgo, SCORE_MAX, SCORE_MIN
 
 _model = joblib.load("models/xgb_scoring_pipeline.joblib")
-# CORRECTED: se carga aqui, una sola vez al importar el modulo (mismo
-# patron que _model), el umbral de decision optimo de coste calculado
-# offline por compute_decision_threshold.py. NO se recalcula en cada
-# invocacion del grafo -- requeriria recargar el dataset completo y
-# rehacer el split por cada solicitud de un cliente, coste innecesario
-# para un valor que no cambia entre solicitudes salvo que se reentrene
-# el modelo.
+# CORRECTED: se cargan aqui, una sola vez al importar el modulo (mismo
+# patron que _model), los dos umbrales calculados offline por
+# compute_decision_threshold.py. NO se recalculan en cada invocacion del
+# grafo -- requeriria recargar el dataset completo y rehacer el split por
+# cada solicitud de un cliente, coste innecesario para valores que no
+# cambian entre solicitudes salvo que se reentrene el modelo.
 _decision_threshold = joblib.load("models/decision_threshold.joblib")
+_risk_band_threshold = joblib.load("models/risk_band_threshold.joblib")
 _explainer = None
 _background = None
 
@@ -62,12 +62,27 @@ def node_scoring(state: PipelineState) -> dict:
     # compute_decision_threshold.py). Misma convencion de evaluate.py:
     # y_pred=1 ("malo"/rechazado) cuando proba_default >= umbral; por
     # tanto aprobado = proba_default < umbral.
+
+    # CORRECTED: se anade tambien 'nivel_riesgo' ("bajo"/"moderado"/
+    # "alto"), calculado por scoring.clasificar_riesgo() con los dos
+    # umbrales persistidos. Es una etiqueta ya resuelta -- el NARRATOR
+    # (Nodo 3) debe recibir unicamente esta etiqueta, nunca proba_default
+    # ni los umbrales en si (ver justificacion completa en el docstring
+    # de clasificar_riesgo).
     """
     df = pd.DataFrame([state["client_data"]])
     proba_default = float(_model.predict_proba(df)[0, 1])
     score = probability_to_score(proba_default)
     aprobado = bool(proba_default < _decision_threshold)
-    return {"score": score, "proba_default": proba_default, "aprobado": aprobado}
+    nivel_riesgo = clasificar_riesgo(
+        proba_default, _decision_threshold, _risk_band_threshold
+    )
+    return {
+        "score": score,
+        "proba_default": proba_default,
+        "aprobado": aprobado,
+        "nivel_riesgo": nivel_riesgo,
+    }
 
 
 def node_explainability(state: PipelineState) -> dict:
@@ -142,22 +157,31 @@ def node_explainability(state: PipelineState) -> dict:
 
     feature_names = preprocessor.get_feature_names_out().tolist()
 
-    # Ordenar por |SHAP| descendente y quedarse con los top 5. El orden no
-    # cambia respecto a hacerlo en espacio de probabilidad (multiplicar
-    # por una constante negativa invierte el signo, no la magnitud
-    # relativa), pero se ordena ya en espacio de score para evitar
-    # cualquier ambiguedad sobre que array se esta ordenando.
-    contributions = list(zip(feature_names, shap_values_score))
-    top_5 = sorted(contributions, key=lambda x: abs(x[1]), reverse=True)[:5]
+    # CORRECTED: antes se rankeaba directamente sobre las columnas dummy
+    # transformadas (una por cada categoria de OneHotEncoder). Con eso,
+    # dos dummies de la MISMA variable categorica (p.ej. checking_status:
+    # A14 y A11) podian aparecer ambas en el top-5 de un mismo cliente --
+    # y build_narrator_tuple() las decodificaba como si el cliente
+    # estuviera simultaneamente en dos categorias mutuamente excluyentes
+    # (bug detectado por revision manual de narrativas de ejemplo, ver
+    # docstring de data_loader.aggregate_shap_by_feature). Ahora se
+    # agregan las dummies por variable ORIGINAL antes de rankear: cada
+    # variable categorica aporta una unica cifra (suma de sus dummies),
+    # nunca puede competir consigo misma por dos puestos del top-5.
+    contributions_agregadas = aggregate_shap_by_feature(feature_names, shap_values_score)
+    top_5 = sorted(
+        contributions_agregadas.items(), key=lambda kv: abs(kv[1]), reverse=True
+    )[:5]
 
     # Construir las tuplas completas (feature_name_es, feature_value_es, shap)
-    # usando build_narrator_tuple de data_loader.py. shap_val ya esta en
-    # puntos de score en este punto.
-    # client_data se pasa para que las features numericas puedan recuperar
-    # el valor real del cliente (p.ej. age=34 -> "34 anos").
+    # usando build_narrator_tuple de data_loader.py. shap_val ya esta
+    # agregado (si es categorica) y en puntos de score en este punto.
+    # client_data se pasa para que feature_value se decodifique SIEMPRE a
+    # partir del valor REAL del cliente -- nunca del codigo de una dummy
+    # especifica, que podria no ser su categoria real.
     top_features_decoded = [
-        build_narrator_tuple(feat_name, state["client_data"], shap_val)
-        for feat_name, shap_val in top_5
+        build_narrator_tuple(nombre_columna, state["client_data"], shap_val)
+        for nombre_columna, shap_val in top_5
     ]
 
     return {
@@ -182,11 +206,15 @@ def node_explainability(state: PipelineState) -> dict:
 # requiere ninguna instruccion especial en el prompt para evitar que el
 # LLM la invierta -- coincide con la lectura intuitiva "positivo = mejora".
 #
-# state["aprobado"] (Nodo 1, umbral optimo de coste) ya esta disponible
-# para construir la narrativa -- necesario para que el NARRATOR pueda
-# comunicar el resultado de la decision, no solo el score numerico
-# (imprescindible tambien para generate_shap_examples.py, que reutiliza
-# node_scoring()/node_explainability() para las narrativas de ejemplo).
+# state["aprobado"] (Nodo 1, umbral optimo de coste) y state["nivel_riesgo"]
+# ("bajo"/"moderado"/"alto", Nodo 1, scoring.clasificar_riesgo) ya estan
+# disponibles para construir la narrativa -- necesarios para que el
+# NARRATOR pueda comunicar el resultado de la decision y su banda de
+# riesgo cualitativa, no solo el score numerico. IMPORTANTE: el prompt
+# debe recibir SOLO la etiqueta de nivel_riesgo, NUNCA proba_default ni
+# los umbrales que la generaron -- ver docstring de
+# scoring.clasificar_riesgo() para la justificacion completa (umbrales
+# dinamicos por reentrenamiento + no deben filtrarse al cliente).
 #
 # Las claves feature_raw y codigo_ohe NO deben incluirse en el prompt
 # del NARRATOR (son informacion tecnica interna); SÍ pueden incluirse

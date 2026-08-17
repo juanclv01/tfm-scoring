@@ -1,0 +1,366 @@
+{
+  "H0_B0": {
+    "65": {
+      "narrative": "La solicitud ha sido APROBADA con un nivel de riesgo bajo. El modelo asigna un puntaje de 812 sobre 1000, lo que indica una alta probabilidad de cumplimiento. Los cinco factores más relevantes que elevan la puntuación son, en orden de importancia: no disponer de cuenta corriente, lo que aporta 76,2 puntos; no tener otros planes de pago activos, que suma 10,4 puntos; registrar un historial crediticio con cuenta crítica o créditos existentes en otras entidades, que contribuye con 10,1 puntos; no poseer cuenta de ahorros o tener un importe desconocido en la misma, que añade 7,6 puntos; y la duración del préstamo solicitado de 12 meses, que incrementa la puntuación en 5,9 puntos. Estos elementos, junto con otros factores no detallados, determinan el resultado final favorable.",
+      "client_data_hash": "65bb3117b4a7",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 2
+    },
+    "142": {
+      "narrative": "La solicitud de crédito ha sido APROBADA con un nivel de riesgo bajo. El modelo ha asignado una puntuación final de 808 puntos sobre 1000.\n\nLos principales factores que han influido positivamente en esta evaluación son los siguientes. En primer lugar, el estado de la cuenta corriente, al no disponer de una, aporta 76.7 puntos. En segundo lugar, la ausencia de otros planes de pago activos suma 10.5 puntos. El historial crediticio, que registra una cuenta crítica o créditos existentes en otras entidades, contribuye con 9.6 puntos. La duración del préstamo solicitado, fijada en 12 meses, añade 9.1 puntos. Finalmente, la situación laboral del cliente, empleado desde hace 7 años o más, aporta 3.7 puntos adicionales. Estos cinco elementos son los de mayor relevancia entre los múltiples factores considerados por el modelo.",
+      "client_data_hash": "fcfeea60828b",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 2
+    },
+    "110": {
+      "narrative": "La solicitud ha sido APROBADA con un nivel de riesgo bajo. El modelo ha asignado una puntuación de 801 sobre 1000, donde una puntuación más alta indica menor riesgo de impago. Los factores más relevantes que han influido en esta decisión son los siguientes: el estado de la cuenta corriente, al no disponer de una, ha aportado 92.2 puntos a la puntuación; la ausencia de otros planes de pago activos ha sumado 9.5 puntos; el importe del crédito solicitado, de 1505 DM, ha contribuido con 8.1 puntos; la situación laboral del solicitante, empleado con una antigüedad de entre 1 y 4 años, ha añadido 3.7 puntos; por último, el no contar con propiedades conocidas ha restado 3.9 puntos a la puntuación final. Estos cinco factores son los de mayor peso entre los muchos que el modelo evalúa, y su efecto conjunto, junto con el resto de variables no detalladas, resulta en la puntuación final de 801.",
+      "client_data_hash": "726806c94efe",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 3.84,
+      "gdpr": 2
+    },
+    "10": {
+      "narrative": "La solicitud de crédito ha sido APROBADA con un nivel de riesgo bajo. El modelo asigna un puntaje exacto de 793 sobre 1000, donde un valor más alto indica menor riesgo de incumplimiento. Los cinco factores más influyentes en esta evaluación son los siguientes: el estado de la cuenta corriente, al no disponer de una, aporta 88,9 puntos al resultado final; la duración del préstamo fijada en 36 meses resta 12,8 puntos; la ausencia de otros planes de pago activos suma 9,3 puntos; el importe del crédito solicitado de 2299 DM contribuye con 6,7 puntos; y el estado de la cuenta de ahorros, con un saldo entre 500 y 1000 DM, añade 4,9 puntos. Estos elementos, junto con otras variables consideradas por el modelo, determinan la decisión favorable.",
+      "client_data_hash": "0c0271d900cc",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 2
+    },
+    "187": {
+      "narrative": "El modelo ha asignado una puntuación de 753 puntos sobre 1000, lo que sitúa el perfil en un nivel de riesgo moderado y ha determinado que la solicitud sea RECHAZADA. El factor que más ha influido positivamente es la duración del préstamo de 10 meses, que aporta 53.7 puntos a la puntuación final. También contribuyen de forma favorable la condición de propietario de bienes inmuebles con 15.1 puntos, un historial crediticio que registra cuenta crítica o créditos existentes en otras entidades con 8.3 puntos y el importe del crédito de 2241 DM con 7.7 puntos. En sentido contrario, el estado de la cuenta corriente con saldo negativo resta 25.9 puntos. Estos son los cinco factores más relevantes entre todos los considerados por el modelo.",
+      "client_data_hash": "24f54fcd3b1d",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 2
+    },
+    "137": {
+      "narrative": "La evaluación del modelo ha resultado en una decisión RECHAZADA con un nivel de riesgo moderado y una puntuación final de 750 puntos sobre 1000. El factor que más influyó positivamente fue el estado de la cuenta corriente, específicamente el hecho de no disponer de una, lo que aportó 95.0 puntos al resultado. En sentido contrario, el importe del crédito solicitado de 10974 DM restó 34.5 puntos, mientras que la duración del préstamo de 36 meses redujo la puntuación en 14.7 puntos. La ausencia de otros planes de pago activos sumó 9.8 puntos, y finalmente el estado de la cuenta de ahorros, con ahorros inferiores a 100 DM, disminuyó el total en 5.0 puntos. Estos cinco elementos son los de mayor relevancia entre todos los considerados por el modelo.",
+      "client_data_hash": "5cf353af9ecb",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 2
+    },
+    "153": {
+      "narrative": "La solicitud ha sido RECHAZADA. El modelo asigna una puntuación de 705 sobre 1000, lo que sitúa al cliente en un nivel de riesgo moderado. El factor que más ha reducido la puntuación es la existencia de otros planes de pago activos, incluyendo planes de pago adicionales en otro banco, que resta 62,9 puntos al resultado final. Por el contrario, el hecho de no disponer de cuenta corriente aporta 51,1 puntos, lo que mejora el perfil de riesgo según el modelo. La duración del préstamo de 12 meses suma 9,3 puntos, mientras que el importe solicitado de 2748 DM contribuye con 7,2 puntos adicionales. Finalmente, una cuota que representa entre el 25 % y el 35 % de los ingresos netos añade 5,3 puntos a la puntuación total. Estos cinco elementos son los de mayor influencia, aunque no son los únicos que han intervenido en la decisión.",
+      "client_data_hash": "6336c76db110",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 2
+    },
+    "191": {
+      "narrative": "La solicitud ha sido RECHAZADA con un nivel de riesgo moderado. El modelo asigna un score de 692 puntos sobre 1000. Los principales factores que han influido en esta puntuación son los siguientes. El estado de la cuenta corriente, que presenta un saldo entre 0 y 200 DM, reduce el score en 30.8 puntos. El historial crediticio registra retrasos en pagos en el pasado, lo que resta 9.0 puntos adicionales. La cuota del crédito representa menos del 20% de los ingresos netos, un factor que disminuye la puntuación en 6.1 puntos. Por otro lado, la ausencia de cuenta de ahorros o el importe desconocido de la misma contribuye positivamente con 26.3 puntos, y el importe del crédito de 2427 DM añade 9.3 puntos. Estos cinco elementos son los de mayor relevancia entre todos los considerados por el modelo, aunque no constituyen una lista exhaustiva de las variables evaluadas.",
+      "client_data_hash": "3e7ee115b6ae",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 2
+    },
+    "7": {
+      "narrative": "La solicitud ha sido RECHAZADA. El modelo ha asignado una puntuación de 679 sobre 1000, lo que sitúa al cliente en un nivel de riesgo moderado. El factor que más ha penalizado la puntuación es el estado de la cuenta corriente, que presenta un saldo negativo y resta 48.5 puntos. En sentido favorable, la duración del préstamo solicitado de 6 meses aporta 29.5 puntos. El hecho de que la cuota supere el 35% de los ingresos netos contribuye con 6.9 puntos adicionales. Por otro lado, el historial crediticio con créditos existentes pagados puntualmente hasta la fecha reduce la puntuación en 5.8 puntos, y la tenencia de un seguro de vida o plan de ahorro-vivienda la disminuye en otros 5.5 puntos. Estos cinco elementos son los de mayor influencia relativa, aunque la decisión final incorpora otros factores no detallados aquí.",
+      "client_data_hash": "731be4f56e18",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 2
+    },
+    "149": {
+      "narrative": "La solicitud de crédito ha sido RECHAZADA con un nivel de riesgo moderado y una puntuación final de 672 puntos sobre 1000. Los principales factores que han influido en esta decisión son los siguientes. El estado de la cuenta corriente, con un saldo entre 0 y 200 DM, es el factor que más ha penalizado la puntuación restando 42,2 puntos. La duración del préstamo solicitado de 12 meses ha contribuido positivamente sumando 21,6 puntos. El hecho de que el solicitante sea propietario de bienes inmuebles ha aportado 13,1 puntos adicionales. Por otro lado, el estado de la cuenta de ahorros, con ahorros inferiores a 100 DM, ha restado 8,2 puntos. Finalmente, la cuota como porcentaje de ingresos, al situarse por debajo del 20 por ciento de los ingresos netos, ha disminuido la puntuación en 6,2 puntos. Estos cinco elementos son los de mayor relevancia entre los múltiples factores considerados por el modelo.",
+      "client_data_hash": "9501d3824258",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 3.9466666666666663,
+      "gdpr": 2
+    },
+    "50": {
+      "narrative": "La solicitud ha sido APROBADA con un nivel de riesgo bajo. El modelo asigna una puntuación de 805 sobre 1000, donde una mayor puntuación indica menor riesgo de impago. Los cinco factores más relevantes que han influido en esta decisión son los siguientes: el estado de la cuenta corriente, al no disponer de una, aporta +81,4 puntos; la ausencia de otros planes de pago activos suma +10,6 puntos; el importe del crédito solicitado, 2404 DM, contribuye con +7,7 puntos; el historial crediticio, que refleja una cuenta crítica o créditos existentes en otras entidades, añade +6,4 puntos; y la situación laboral, como empleado con una antigüedad de entre 1 y 4 años, aporta +3,7 puntos. Estos valores representan la contribución en puntos de cada factor sobre la puntuación final, que ya incluye el efecto de otras variables no detalladas en este resumen.",
+      "client_data_hash": "d7a05ccc1083",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 2
+    },
+    "56": {
+      "narrative": "La solicitud ha sido RECHAZADA con un nivel de riesgo moderado. El modelo asigna un puntaje crediticio de 709 sobre 1000, donde un valor más alto indica menor riesgo. Los factores principales que explican este resultado son los siguientes. El hecho de no disponer de una cuenta de ahorros o tener un importe desconocido en la misma aporta 25.7 puntos al puntaje, siendo el factor que más lo eleva. En sentido contrario, mantener un saldo en la cuenta corriente entre 0 y 200 DM reduce el puntaje en 19.4 puntos. La existencia de planes de pago adicionales en otro banco resta 17.5 puntos. Por el lado positivo, el importe del crédito solicitado de 2728 DM suma 9.2 puntos y la condición de propietario de bienes inmuebles agrega 7.0 puntos. Estos cinco elementos son los de mayor relevancia, aunque el modelo considera otras variables adicionales para llegar a la decisión final.",
+      "client_data_hash": "1032a5dd4b55",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 2
+    },
+    "25": {
+      "narrative": "La solicitud ha sido RECHAZADA. El modelo asigna un puntaje de 662 sobre 1000, lo que sitúa el perfil en un nivel de riesgo moderado. Los factores que más han influido en este resultado son, en primer lugar, el estado de la cuenta corriente, que presenta un saldo entre 0 y 200 DM y reduce el puntaje en 43.1 puntos. En segundo lugar, la cuenta de ahorros registra un saldo inferior a 100 DM, con un impacto negativo de 11.5 puntos. Entre los elementos que mejoran la evaluación destacan el importe del crédito solicitado de 3872 DM, que aporta 9.8 puntos, la cuota como porcentaje de ingresos situada entre el 25% y el 35% de los ingresos netos, que suma 8.3 puntos, y la ausencia de otros planes de pago activos, que añade 2.8 puntos. Estos cinco factores son los de mayor relevancia entre los considerados por el modelo, aunque no constituyen una lista exhaustiva de todas las variables que participaron en la decisión final.",
+      "client_data_hash": "64e96467945f",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 3.5999999999999996,
+      "gdpr": 2
+    },
+    "177": {
+      "narrative": "La solicitud ha sido RECHAZADA con un nivel de riesgo alto y una puntuación final de 652 sobre 1000. Los factores más relevantes que han influido en este resultado son, en primer lugar, el estado de la cuenta corriente, que presenta un saldo de 200 DM o más o nómina domiciliada al menos un año, y que ha restado 43.2 puntos a la puntuación. En segundo lugar, el estado de la cuenta de ahorros muestra ahorros inferiores a 100 DM, lo que ha supuesto una reducción de 11.4 puntos. Por el lado positivo, el importe del crédito de 1905 DM ha aportado 9.7 puntos, la cuota como porcentaje de ingresos, al situarse por debajo del 20% de los ingresos netos, ha restado 5.1 puntos, y la duración del préstamo de 15 meses ha sumado 4.3 puntos. Estos cinco elementos son los de mayor peso relativo entre todos los considerados por el modelo, aunque no agotan la totalidad de variables que han participado en la decisión final.",
+      "client_data_hash": "eb3f05430b5b",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 3.5733333333333333,
+      "gdpr": 2
+    },
+    "134": {
+      "narrative": "La solicitud ha sido RECHAZADA con un nivel de riesgo alto. El modelo asigna un puntaje de 645 sobre 1000, donde un valor mayor indica menor riesgo de incumplimiento.\n\nLos principales factores que explican este resultado son los siguientes. El estado de la cuenta corriente presenta un saldo negativo, lo que reduce el puntaje en 54.5 puntos. El estado de la cuenta de ahorros muestra ahorros inferiores a 100 DM, restando 13.1 puntos. La duración del préstamo de 20 meses resta 4.0 puntos adicionales. En sentido contrario, el historial crediticio registra una cuenta crítica o créditos existentes en otras entidades, lo que según el modelo suma 11.0 puntos al puntaje. Asimismo, la cuota como porcentaje de ingresos supera el 35% de los ingresos netos, aportando 6.7 puntos positivos. Estos cinco elementos son los de mayor relevancia entre los muchos que consideró el modelo para llegar a la decisión final.",
+      "client_data_hash": "ce0e0b9e8e06",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 2
+    },
+    "57": {
+      "narrative": "La solicitud ha sido RECHAZADA con un nivel de riesgo alto y una puntuación final de 628 sobre 1000. Los cinco factores que más han influido en este resultado son, en orden de relevancia: el estado de la cuenta corriente, que presenta un saldo entre 0 y 200 DM y resta 40,9 puntos; la ausencia de propiedades conocidas a nombre del solicitante, que resta 12,1 puntos; el estado de la cuenta de ahorros, con ahorros inferiores a 100 DM, que resta 11,1 puntos; el historial crediticio, que registra retrasos en pagos en el pasado y resta 8,9 puntos; y la cuota como porcentaje de ingresos, situada por debajo del 20 % de los ingresos netos, que resta 6,7 puntos. Todos estos factores tienen un impacto negativo sobre la puntuación y, en conjunto con otros elementos no detallados, determinan la decisión final.",
+      "client_data_hash": "520740154cbc",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 2
+    },
+    "62": {
+      "narrative": "La solicitud ha sido evaluada y la decisión final es RECHAZADA, con un nivel de riesgo alto y un puntaje de crédito de 588 sobre 1000. Los principales factores que han influido en este resultado son los siguientes: el importe del crédito solicitado, de 11328 DM, ha restado 32.4 puntos al puntaje; el estado de la cuenta corriente, que presenta un saldo entre 0 y 200 DM, ha reducido el puntaje en 29.6 puntos; la duración del préstamo, fijada en 24 meses, ha restado 19.8 puntos; el estado de la cuenta de ahorros, con ahorros inferiores a 100 DM, ha disminuido el puntaje en 17.6 puntos; y la existencia de otros planes de pago activos en otro banco ha restado 17.2 puntos. Estos cinco elementos son los de mayor relevancia entre los múltiples factores considerados por el modelo.",
+      "client_data_hash": "f16e76cb790e",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 2
+    },
+    "76": {
+      "narrative": "La solicitud ha sido RECHAZADA con un nivel de riesgo alto. El modelo ha asignado una puntuación de 588 sobre 1000, donde una mayor puntuación indica menor riesgo. Los principales factores que han reducido la puntuación son el estado de la cuenta corriente, que presenta saldo negativo y resta 61,2 puntos; la duración del préstamo de 24 meses, que resta 22,9 puntos; y el estado de la cuenta de ahorros, con ahorros inferiores a 100 DM, que resta 16,9 puntos. La cuota como porcentaje de ingresos, al situarse por debajo del 20% de los ingresos netos, resta 7,4 puntos. El importe del crédito de 1823 DM aporta 7,7 puntos a la puntuación final. Estos son los cinco factores más relevantes de entre todos los considerados por el modelo.",
+      "client_data_hash": "c9ec4ce8c9f7",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 2
+    },
+    "155": {
+      "narrative": "La solicitud ha sido RECHAZADA con un nivel de riesgo alto y una puntuación final de 567 puntos sobre 1000. Los principales factores que han reducido la puntuación son el estado de la cuenta corriente, que presenta un saldo negativo y resta 67,2 puntos, la duración del préstamo de 48 meses que resta 32,3 puntos, el estado de la cuenta de ahorros con ahorros inferiores a 100 DM que resta 20,6 puntos, y el importe del crédito de 7685 DM que resta 16,4 puntos. Como factor atenuante, la cuota como porcentaje de ingresos, situada entre el 25% y el 35% de los ingresos netos, aporta 12,1 puntos. Estos son los cinco factores más relevantes de entre todos los considerados por el modelo.",
+      "client_data_hash": "c2f0b41f87fb",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 2
+    },
+    "190": {
+      "narrative": "La solicitud ha sido RECHAZADA con un nivel de riesgo alto. El modelo asigna un puntaje de 527 sobre 1000, donde un valor mayor indica menor riesgo. Los cinco factores que más han influido en este resultado son los siguientes. El estado de la cuenta corriente presenta un saldo negativo, lo que reduce el puntaje en 74.5 puntos. La duración del préstamo solicitada es de 48 meses, factor que resta 37.7 puntos. El estado de la cuenta de ahorros muestra ahorros inferiores a 100 DM, con un impacto negativo de 20.3 puntos. El importe del crédito solicitado asciende a 7119 DM, disminuyendo el puntaje en 16.7 puntos. Finalmente, el solicitante no registra propiedades conocidas, lo que resta 13.3 puntos. Estos son los elementos principales de mayor relevancia; el modelo considera además otros factores no detallados aquí para llegar a la decisión final.",
+      "client_data_hash": "ea806aa316af",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 2
+    }
+  },
+  "H1_B0": {
+    "65": {
+      "narrative": "Su solicitud de préstamo personal ha sido aprobada con una puntuación crediticia de 812 sobre 1000, lo que la clasifica en la categoría de riesgo bajo, superando de esta forma nuestros criterios de aceptación.\n\nLos factores que han favorecido el aumento de su puntuación han sido principalmente que usted no dispone actualmente de una cuenta corriente activa (+76.2 pts), que usted no está suscrito a planes de pago adicionales (+10.4 pts), su historial crediticio, que refleja una cuenta crítica y/o créditos existentes en otras entidades (+10.1 pts), el hecho de no disponer de una cuenta de ahorros o de que su importe sea desconocido (+7.6 pts), y la duración del préstamo solicitado, que abarca un periodo de 12 meses (+5.9 pts).\n\nNo hay factores de su perfil que hayan contribuido negativamente de forma notable sobre su puntuación.\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "65bb3117b4a7",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 3.786666666666667,
+      "gdpr": 3
+    },
+    "142": {
+      "narrative": "Su solicitud de préstamo personal ha sido aprobada con una puntuación crediticia de 808 sobre 1000, lo que la clasifica en la categoría de riesgo bajo, superando de esta forma nuestros criterios de aceptación.\n\nLos factores que han favorecido el aumento de su puntuación han sido principalmente que usted no dispone actualmente de una cuenta corriente activa (+76.7 pts), que usted no está suscrito a planes de pago adicionales (+10.5 pts), su historial crediticio, que refleja una cuenta crítica y/o créditos existentes en otras entidades (+9.6 pts), la duración del préstamo solicitado, que abarca un periodo de 12 meses (+9.1 pts), y su antigüedad laboral, de 7 años o más como empleado (+3.7 pts).\n\nNo hay factores de su perfil que hayan contribuido negativamente de forma notable sobre su puntuación.\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "fcfeea60828b",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 3.9733333333333336,
+      "gdpr": 3
+    },
+    "50": {
+      "narrative": "Su solicitud de préstamo personal ha sido aprobada con una puntuación crediticia de 805 sobre 1000, lo que la clasifica en la categoría de riesgo bajo, superando de esta forma nuestros criterios de aceptación.\n\nLos factores que han favorecido el aumento de su puntuación han sido principalmente que usted no dispone actualmente de una cuenta corriente activa (+81.4 pts), que usted no está suscrito a planes de pago adicionales (+10.6 pts), el importe del crédito solicitado, fijado en 2404 DM (+7.7 pts), su historial crediticio, que refleja una cuenta crítica y/o créditos existentes en otras entidades (+6.4 pts), y su situación laboral, con una antigüedad como empleado de entre 1 y 4 años (+3.7 pts).\n\nNo hay factores de su perfil que hayan contribuido negativamente de forma notable sobre su puntuación.\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "d7a05ccc1083",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 3.9466666666666663,
+      "gdpr": 3
+    },
+    "110": {
+      "narrative": "Su solicitud de préstamo personal ha sido aprobada con una puntuación crediticia de 801 sobre 1000, lo que la clasifica en la categoría de riesgo bajo, superando de esta forma nuestros criterios de aceptación.\n\nLos factores que han favorecido el aumento de su puntuación han sido principalmente que usted no dispone actualmente de una cuenta corriente activa (+92.2 pts), que usted no está suscrito a planes de pago adicionales (+9.5 pts), el importe del crédito solicitado, de 1505 DM (+8.1 pts), y su antigüedad laboral, de entre 1 y 4 años como empleado (+3.7 pts).\n\nEl único factor que ha contribuido negativamente de forma notable ha sido la ausencia de propiedades conocidas a su nombre (-3.9 pts).\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "726806c94efe",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 3
+    },
+    "57": {
+      "narrative": "Su solicitud de préstamo personal ha sido rechazada con una puntuación crediticia de 628 sobre 1000, lo que la clasifica en la categoría de riesgo alto, sin cumplir nuestros criterios de aceptación.\n\nLos factores que han reducido su puntuación han sido principalmente el saldo de su cuenta corriente, situado entre 0 y 200 DM (-40.9 pts), la ausencia de propiedades conocidas a su nombre (-12.1 pts), el estado de su cuenta de ahorros, con ahorros inferiores a 100 DM (-11.1 pts), su historial crediticio, que registra retrasos en pagos en el pasado (-8.9 pts), y la cuota del préstamo solicitado, que representa menos del 20% de sus ingresos netos (-6.7 pts).\n\nNo hay factores de su perfil que hayan contribuido positivamente de forma notable sobre su puntuación.\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "520740154cbc",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 3
+    },
+    "62": {
+      "narrative": "Su solicitud de préstamo personal ha sido rechazada con una puntuación crediticia de 588 sobre 1000, lo que la clasifica en la categoría de riesgo alto, por debajo de nuestros criterios de aceptación.\n\nLos factores que han reducido su puntuación han sido principalmente el importe del crédito solicitado, de 11328 DM (-32.4 pts), el estado de su cuenta corriente, con un saldo entre 0 y 200 DM (-29.6 pts), la duración del préstamo solicitado, de 24 meses (-19.8 pts), el estado de su cuenta de ahorros, con ahorros inferiores a 100 DM (-17.6 pts), y la existencia de otros planes de pago activos en otro banco (-17.2 pts).\n\nNo hay factores de su perfil que hayan contribuido positivamente de forma notable sobre su puntuación.\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "f16e76cb790e",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 3
+    },
+    "76": {
+      "narrative": "Su solicitud de préstamo personal ha sido rechazada con una puntuación crediticia de 588 sobre 1000, lo que la clasifica en la categoría de riesgo alto, por debajo de nuestros criterios de aceptación.\n\nLos factores que han penalizado su puntuación han sido principalmente el saldo negativo en su cuenta corriente (-61.2 pts), la duración del préstamo solicitado de 24 meses (-22.9 pts), disponer de ahorros inferiores a 100 DM (-16.9 pts) y una cuota mensual que representa menos del 20% de sus ingresos netos (-7.4 pts). En sentido favorable, el importe del crédito solicitado de 1823 DM ha contribuido a elevar la puntuación (+7.7 pts).\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "c9ec4ce8c9f7",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 3
+    },
+    "155": {
+      "narrative": "Su solicitud de préstamo personal ha sido rechazada con una puntuación crediticia de 567 sobre 1000, lo que la clasifica en la categoría de riesgo alto, por lo que no cumple con nuestros criterios de aceptación.\n\nLos factores que han penalizado su puntuación han sido principalmente que su cuenta corriente presenta saldo negativo (-67.2 pts), la duración del préstamo solicitado, que abarca un periodo de 48 meses (-32.3 pts), que su cuenta de ahorros refleja un saldo inferior a 100 DM (-20.6 pts), y el importe del crédito solicitado, de 7685 DM (-16.4 pts). Por el contrario, la cuota como porcentaje de sus ingresos netos, situada entre el 25% y el 35%, ha contribuido positivamente a su perfil (+12.1 pts).\n\nNo hay otros factores de su perfil que hayan contribuido positivamente de forma notable sobre su puntuación.\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "c2f0b41f87fb",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 3.786666666666667,
+      "gdpr": 3
+    },
+    "190": {
+      "narrative": "Su solicitud de préstamo personal ha sido rechazada con una puntuación crediticia de 527 sobre 1000, lo que la clasifica en la categoría de riesgo alto, por debajo de nuestros criterios de aceptación.\n\nLos factores que han reducido su puntuación han sido principalmente que su cuenta corriente presenta saldo negativo (-74.5 pts), la duración del préstamo solicitado, que abarca un periodo de 48 meses (-37.7 pts), el estado de su cuenta de ahorros, con un saldo inferior a 100 DM (-20.3 pts), el importe del crédito solicitado, de 7119 DM (-16.7 pts), y la ausencia de propiedades conocidas a su nombre (-13.3 pts).\n\nNo hay factores de su perfil que hayan contribuido positivamente de forma notable sobre su puntuación.\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "ea806aa316af",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 3
+    },
+    "10": {
+      "narrative": "Su solicitud de préstamo personal ha sido aprobada con una puntuación crediticia de 793 sobre 1000, lo que la clasifica en la categoría de riesgo bajo, superando de esta forma nuestros criterios de aceptación.\n\nLos factores que han favorecido el aumento de su puntuación han sido principalmente que usted no dispone actualmente de una cuenta corriente activa (+88.9 pts), que usted no está suscrito a planes de pago adicionales (+9.3 pts), el importe del crédito solicitado, que asciende a 2299 DM (+6.7 pts), y el saldo de su cuenta de ahorros, situado entre 500 y 1000 DM (+4.9 pts). Por el contrario, la duración del préstamo, establecida en 36 meses, ha reducido su puntuación en 12.8 puntos.\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "0c0271d900cc",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 3
+    },
+    "187": {
+      "narrative": "Su solicitud de préstamo personal ha sido rechazada con una puntuación crediticia de 753 sobre 1000, lo que la clasifica en la categoría de riesgo moderado, situándose por debajo del umbral necesario para su aprobación.\n\nEntre los factores que han influido en su puntuación, la duración del préstamo solicitado, de 10 meses, ha aportado +53.7 puntos; la titularidad de bienes inmuebles ha sumado +15.1 puntos; su historial crediticio, que refleja una cuenta crítica y/o créditos existentes en otras entidades, ha añadido +8.3 puntos; y el importe solicitado, de 2241 DM, ha contribuido con +7.7 puntos. Por el contrario, el saldo negativo en su cuenta corriente ha restado -25.9 puntos a su puntuación final.\n\nNo hay otros factores de su perfil que hayan contribuido negativamente de forma notable sobre su puntuación.\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "24f54fcd3b1d",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 3.9733333333333336,
+      "gdpr": 3
+    },
+    "137": {
+      "narrative": "Su solicitud de préstamo personal ha sido rechazada, obteniendo una puntuación crediticia de 750 sobre 1000, lo que la clasifica en la categoría de riesgo moderado, insuficiente para cumplir con nuestros criterios de aprobación.\n\nLos factores que han influido en su puntuación son los siguientes: el no disponer de una cuenta corriente activa ha elevado su puntuación en 95.0 puntos; el importe del crédito solicitado, de 10974 DM, la ha reducido en 34.5 puntos; la duración del préstamo, de 36 meses, la ha disminuido en 14.7 puntos; el no tener otros planes de pago activos ha sumado 9.8 puntos; y el estado de su cuenta de ahorros, con un saldo inferior a 100 DM, ha restado 5.0 puntos.\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "5cf353af9ecb",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 3
+    },
+    "56": {
+      "narrative": "Su solicitud de préstamo personal ha sido rechazada con una puntuación crediticia de 709 sobre 1000, lo que la clasifica en la categoría de riesgo moderado, por debajo del umbral necesario para la aprobación.\n\nLos factores que han contribuido a reducir su puntuación han sido principalmente el saldo de su cuenta corriente, que se sitúa entre 0 y 200 DM (-19.4 pts), y el hecho de mantener planes de pago adicionales en otro banco (-17.5 pts). Por el contrario, han actuado a su favor el no disponer de cuenta de ahorros o tener un importe desconocido en la misma (+25.7 pts), el importe del crédito solicitado de 2728 DM (+9.2 pts) y su condición de propietario de bienes inmuebles (+7.0 pts).\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "1032a5dd4b55",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 3
+    },
+    "191": {
+      "narrative": "Su solicitud de préstamo personal ha sido rechazada con una puntuación crediticia de 692 sobre 1000, lo que la clasifica en la categoría de riesgo moderado, situándose por debajo del umbral requerido para la aprobación.\n\nLos factores que han influido negativamente en su puntuación han sido principalmente el estado de su cuenta corriente, que presenta un saldo entre 0 y 200 DM (-30.8 pts), y su historial crediticio, que registra retrasos en pagos en el pasado (-9.0 pts). Asimismo, la cuota del préstamo solicitado, que representa menos del 20% de sus ingresos netos, ha contribuido a reducir la puntuación (-6.1 pts).\n\nEn sentido favorable, el hecho de no disponer de una cuenta de ahorros o de que su importe sea desconocido ha aportado puntos a su perfil (+26.3 pts), al igual que el importe del crédito solicitado, de 2427 DM (+9.3 pts).\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "3e7ee115b6ae",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 3.6533333333333333,
+      "gdpr": 3
+    },
+    "7": {
+      "narrative": "Su solicitud de préstamo personal ha sido rechazada con una puntuación crediticia de 679 sobre 1000, lo que la clasifica en la categoría de riesgo moderado, por debajo de nuestros criterios de aceptación.\n\nLos factores que han contribuido a reducir su puntuación han sido principalmente que usted presenta un saldo negativo en su cuenta corriente (-48.5 pts), que su historial crediticio refleja créditos existentes pagados puntualmente hasta la fecha (-5.8 pts) y que dispone de un seguro de vida o plan de ahorro-vivienda (-5.5 pts). Por el contrario, han favorecido su puntuación la duración del préstamo solicitado, de 6 meses (+29.5 pts), y que la cuota mensual supere el 35% de sus ingresos netos (+6.9 pts).\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "731be4f56e18",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 3
+    },
+    "149": {
+      "narrative": "Su solicitud de préstamo personal ha sido rechazada con una puntuación crediticia de 672 sobre 1000, lo que la clasifica en la categoría de riesgo moderado, situándose por debajo del umbral requerido para la aprobación.\n\nLos factores que han reducido su puntuación han sido principalmente el estado de su cuenta corriente, que presenta un saldo entre 0 y 200 DM (-42.2 pts), el estado de su cuenta de ahorros, con ahorros inferiores a 100 DM (-8.2 pts), y la cuota del préstamo como porcentaje de sus ingresos, que resulta ser menor al 20% de los ingresos netos (-6.2 pts). Por el lado positivo, han contribuido a mejorar su perfil la duración del préstamo solicitado, de 12 meses (+21.6 pts), y el hecho de ser propietario de bienes inmuebles (+13.1 pts).\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "9501d3824258",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 3.9733333333333336,
+      "gdpr": 3
+    },
+    "25": {
+      "narrative": "Su solicitud de préstamo personal ha sido rechazada con una puntuación crediticia de 662 sobre 1000, lo que la clasifica en la categoría de riesgo moderado, por debajo del umbral requerido para la aprobación.\n\nLos factores que han reducido su puntuación han sido principalmente el estado de su cuenta corriente, que presenta un saldo entre 0 y 200 DM (-43.1 pts), y el estado de su cuenta de ahorros, con ahorros inferiores a 100 DM (-11.5 pts). En sentido contrario, han contribuido positivamente el importe del crédito solicitado, de 3872 DM (+9.8 pts), la cuota como porcentaje de sus ingresos, situada entre el 25% y el 35% de los ingresos netos (+8.3 pts), y el hecho de no disponer de otros planes de pago activos (+2.8 pts).\n\nNo hay otros factores de su perfil que hayan contribuido negativamente de forma notable sobre su puntuación.\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "64e96467945f",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 3.5999999999999996,
+      "gdpr": 3
+    },
+    "153": {
+      "narrative": "Su solicitud de préstamo personal ha sido rechazada con una puntuación crediticia de 705 sobre 1000, lo que la clasifica en la categoría de riesgo moderado, por debajo de nuestros criterios de aceptación.\n\nEl factor que ha penalizado más significativamente su puntuación es la existencia de planes de pago adicionales en otro banco, que ha restado 62.9 puntos. Por el contrario, han contribuido positivamente el no disponer de una cuenta corriente activa (+51.1 pts), la duración del préstamo solicitado de 12 meses (+9.3 pts), el importe del crédito solicitado de 2748 DM (+7.2 pts) y que la cuota mensual represente entre el 25% y el 35% de sus ingresos netos (+5.3 pts).\n\nNo se han identificado otros factores de su perfil que hayan contribuido negativamente de forma notable sobre su puntuación.\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "6336c76db110",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 3.9466666666666663,
+      "gdpr": 3
+    },
+    "177": {
+      "narrative": "Su solicitud de préstamo personal ha sido rechazada con una puntuación crediticia de 652 sobre 1000, lo que la clasifica en la categoría de riesgo alto, quedando por debajo de nuestros criterios de aceptación.\n\nLos factores que han penalizado su puntuación han sido principalmente el estado de su cuenta corriente, que presenta un saldo de 200 DM o más, o nómina domiciliada al menos un año (-43.2 pts), el estado de su cuenta de ahorros, con ahorros inferiores a 100 DM (-11.4 pts), y la cuota como porcentaje de ingresos, situada en menos del 20% de los ingresos netos (-5.1 pts). Por el contrario, han contribuido positivamente el importe del crédito solicitado, de 1905 DM (+9.7 pts), y la duración del préstamo, de 15 meses (+4.3 pts).\n\nNo hay otros factores de su perfil que hayan influido de forma notable sobre el resultado final.\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "eb3f05430b5b",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 3.5999999999999996,
+      "gdpr": 3
+    },
+    "134": {
+      "narrative": "Su solicitud de préstamo personal ha sido rechazada con una puntuación crediticia de 645 sobre 1000, lo que la clasifica en la categoría de riesgo alto, situándola por debajo de nuestros criterios de aceptación.\n\nLos factores que han reducido su puntuación han sido principalmente el saldo negativo en su cuenta corriente (-54.5 pts), el nivel de ahorros inferior a 100 DM (-13.1 pts) y la duración del préstamo solicitado, de 20 meses (-4.0 pts). Por el contrario, han contribuido a mejorar su perfil el historial crediticio, que refleja una cuenta crítica y/o créditos existentes en otras entidades (+11.0 pts), y la cuota como porcentaje de ingresos, que supera el 35% de los ingresos netos (+6.7 pts).\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "ce0e0b9e8e06",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 3
+    }
+  }
+}

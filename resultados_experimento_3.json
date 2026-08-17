@@ -1,0 +1,606 @@
+{
+  "H0_B0": {
+    "65": {
+      "narrative": "La solicitud ha sido APROBADA con un nivel de riesgo bajo. El modelo asigna una puntuación de 812 puntos sobre 1000. Los principales factores que han elevado la puntuación son: el estado de la cuenta corriente, al no disponer de cuenta corriente, aporta 76,2 puntos; la ausencia de otros planes de pago activos suma 10,4 puntos; el historial crediticio, que refleja cuenta crítica o créditos existentes en otras entidades, contribuye con 10,1 puntos; no disponer de cuenta de ahorros o tener importe desconocido añade 7,6 puntos; y una duración del préstamo de 12 meses proporciona 5,9 puntos adicionales. Estos son los cinco factores más relevantes de entre todos los considerados por el modelo.",
+      "client_data_hash": "65bb3117b4a7",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 2,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación (812). Todos los factores mencionados, sus valores y la dirección de su contribución (positiva) coinciden plenamente con la explicación proporcionada.",
+        "completeness": "La narrativa incluye todos los nombres de las características, sus valores correspondientes y la dirección de la contribución (puntos sumados) para cada uno de los cinco factores.",
+        "fluency": "El texto presenta una redacción fluida, profesional y natural en español, con una estructura clara y un registro formal adecuado para un informe técnico o financiero.",
+        "gdpr": "La narrativa cumple con el sentido de la decisión (a) al indicar correctamente que fue aprobada, pero no menciona en ningún momento el derecho del cliente a impugnar la decisión o solicitar revisión humana (b)."
+      }
+    },
+    "142": {
+      "narrative": "La solicitud ha sido APROBADA con un nivel de riesgo bajo. El cliente obtiene una puntuación final de 808 puntos sobre 1000.\n\nLos factores que más han influido positivamente en esta puntuación son, en primer lugar, el estado de la cuenta corriente: el hecho de no disponer de cuenta corriente ha aportado 76,7 puntos. En segundo lugar, la ausencia de otros planes de pago activos ha sumado 10,5 puntos. En tercer lugar, el historial crediticio que refleja una cuenta crítica o créditos existentes en otras entidades ha contribuido con 9,6 puntos. La duración del préstamo solicitado, fijada en 12 meses, ha añadido 9,1 puntos. Finalmente, la situación laboral del cliente, empleado desde hace 7 años o más, ha aportado 3,7 puntos adicionales. Estos son los cinco factores más relevantes de entre todos los considerados por el modelo.",
+      "client_data_hash": "fcfeea60828b",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 2,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación del ground truth. Además, todos los factores mencionados, sus valores y sus direcciones de contribución coinciden plenamente con la explicación proporcionada.",
+        "completeness": "La narrativa incluye todos los nombres de las características, sus valores correspondientes y la dirección de la contribución (puntos sumados) para cada uno de los cinco factores.",
+        "fluency": "El texto presenta una redacción clara, formal y profesional, con una estructura lógica y un uso correcto de la gramática y el léxico técnico en español. Al no haber ejemplares, se evalúa su alta fluidez y naturalidad.",
+        "gdpr": "La narrativa cumple con el sentido de la decisión (a) al indicar correctamente que fue aprobada y explicar los factores, pero no menciona en ningún momento el derecho del cliente a impugnar la decisión o solicitar revisión humana (b)."
+      }
+    },
+    "50": {
+      "narrative": "La solicitud ha sido APROBADA con un nivel de riesgo bajo. El modelo asigna una puntuación de 805 puntos sobre 1000. Los factores que más han influido positivamente en esta puntuación son, en primer lugar, el estado de la cuenta corriente, al no disponer de una, lo que aporta 81,4 puntos. En segundo lugar, la ausencia de otros planes de pago activos suma 10,6 puntos. El importe del crédito solicitado, 2404 DM, contribuye con 7,7 puntos. El historial crediticio, que registra una cuenta crítica o créditos existentes en otras entidades, añade 6,4 puntos. Finalmente, la situación laboral como empleado con una antigüedad entre 1 y 4 años aporta 3,7 puntos adicionales. Estos cinco elementos son los de mayor relevancia entre todos los considerados por el modelo.",
+      "client_data_hash": "d7a05ccc1083",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 2,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación (805). Todos los factores mencionados, sus valores y la dirección de su contribución (positiva) coinciden plenamente con la explicación proporcionada.",
+        "completeness": "La narrativa incluye todos los nombres de las características, sus valores correspondientes y la dirección de la contribución (puntos sumados) para cada uno de los cinco factores.",
+        "fluency": "El texto presenta una redacción clara, formal y natural en español, con una estructura lógica y un uso correcto de la terminología técnica y conectores.",
+        "gdpr": "La narrativa cumple con el sentido de la decisión (a) al indicar correctamente que fue aprobada y explicar los factores, pero no menciona en ningún momento el derecho del cliente a impugnar la decisión o solicitar revisión humana (b)."
+      }
+    },
+    "110": {
+      "narrative": "La solicitud ha sido APROBADA con un nivel de riesgo bajo. El modelo ha asignado una puntuación de 801 puntos sobre 1000. Los factores que más han influido en este resultado son, en primer lugar, el estado de la cuenta corriente, que al no disponer de una ha aportado 92,2 puntos a la puntuación final. En segundo lugar, la ausencia de otros planes de pago activos ha sumado 9,5 puntos. El importe del crédito solicitado, de 1505 DM, ha contribuido con 8,1 puntos adicionales. La situación laboral del solicitante, empleado con una antigüedad de entre 1 y 4 años, ha añadido 3,7 puntos. Por el lado contrario, el hecho de no tener propiedades conocidas ha restado 3,9 puntos a la puntuación total. Estos cinco elementos son los de mayor relevancia entre todos los considerados por el modelo.",
+      "client_data_hash": "726806c94efe",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 2,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación del ground truth. Además, todos los factores mencionados, sus valores y la dirección de su contribución coinciden plenamente con la explicación proporcionada.",
+        "completeness": "La narrativa incluye todas las características, sus valores correspondientes y la dirección de contribución (puntos sumados o restados) para cada uno de los cinco factores.",
+        "fluency": "El texto presenta una redacción clara, formal y natural en español, con una estructura lógica y un uso correcto de la terminología técnica y gramatical.",
+        "gdpr": "La narrativa cumple con el sentido de la decisión (a) al indicar correctamente que fue aprobada y explicar la dirección de los factores, pero no menciona en ningún momento el derecho del cliente a impugnar la decisión o solicitar revisión humana (b)."
+      }
+    },
+    "10": {
+      "narrative": "La solicitud ha sido APROBADA con un nivel de riesgo bajo. El modelo ha asignado una puntuación de 793 puntos sobre 1000.\n\nLos principales factores que han influido en esta decisión son los siguientes. El hecho de no disponer de cuenta corriente ha aportado 88,9 puntos a la puntuación final. La duración del préstamo, fijada en 36 meses, ha restado 12,8 puntos. No tener otros planes de pago activos ha sumado 9,3 puntos. El importe del crédito solicitado, 2299 DM, ha contribuido con 6,7 puntos adicionales. Finalmente, contar con un nivel de ahorros situado entre 500 y 1000 DM ha añadido 4,9 puntos. Estos cinco elementos son los de mayor relevancia entre el conjunto de variables que el modelo ha evaluado para determinar el resultado.",
+      "client_data_hash": "0c0271d900cc",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 2,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación del ground truth. Además, todos los factores mencionados, sus valores y sus direcciones de contribución coinciden plenamente con la explicación proporcionada.",
+        "completeness": "La narrativa menciona todas las características, sus valores correspondientes y la dirección de su contribución (sumando o restando puntos) exactamente como se indica en la explicación.",
+        "fluency": "El texto presenta una redacción clara, formal y natural en español, con una estructura lógica y un uso correcto de la terminología técnica y gramatical.",
+        "gdpr": "La narrativa cumple con el sentido de la decisión (a) al coincidir con la verdad fundamental y explicar la dirección de los factores, pero no menciona en ningún momento el derecho a impugnar o solicitar revisión humana (b)."
+      }
+    },
+    "187": {
+      "narrative": "La solicitud ha sido RECHAZADA con un nivel de riesgo moderado y una puntuación final de 753 puntos. Los principales factores que han influido en este resultado son los siguientes. La duración del préstamo, fijada en 10 meses, aporta 53,7 puntos y es el elemento que más eleva la puntuación. Por el contrario, el estado de la cuenta corriente con saldo negativo resta 25,9 puntos, reduciendo la valoración global. La condición de propietario de bienes inmuebles suma 15,1 puntos adicionales. El historial crediticio, que refleja una cuenta crítica o créditos existentes en otras entidades, contribuye con 8,3 puntos. Finalmente, el importe del crédito solicitado, de 2241 DM, añade 7,7 puntos. Estos cinco factores son los más relevantes, aunque no los únicos, que han determinado la decisión final.",
+      "client_data_hash": "24f54fcd3b1d",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 2,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación del ground truth. Además, todos los factores mencionados, sus valores y sus direcciones de contribución coinciden plenamente con la explicación proporcionada.",
+        "completeness": "La narrativa incluye todos los nombres de las características, sus valores correspondientes y la dirección de su contribución (suma o resta de puntos) para cada uno de los cinco factores.",
+        "fluency": "El texto presenta una redacción formal, clara y natural en español, con una estructura lógica y un uso preciso del vocabulario técnico-administrativo. Al no haber ejemplares, se evalúa su alta fluidez y coherencia.",
+        "gdpr": "La narrativa cumple con el sentido de la decisión (a) al indicar correctamente que fue rechazada y explicar la dirección de los factores, pero no menciona en ningún momento el derecho del cliente a impugnar la decisión o solicitar revisión humana (b)."
+      }
+    },
+    "137": {
+      "narrative": "La solicitud ha sido RECHAZADA con un nivel de riesgo moderado y una puntuación final de 750 puntos sobre 1000. El factor que más influyó positivamente en la evaluación fue el estado de la cuenta corriente: al no disponer de cuenta corriente, el modelo asignó +95,0 puntos, mejorando notablemente el perfil. Por el contrario, el importe del crédito solicitado, fijado en 10974 DM, restó 34,5 puntos. La duración del préstamo, establecida en 36 meses, redujo la puntuación en 14,7 puntos. La ausencia de otros planes de pago activos aportó +9,8 puntos. Finalmente, el estado de la cuenta de ahorros, con ahorros inferiores a 100 DM, restó 5,0 puntos. Estos cinco factores son los de mayor relevancia, aunque el modelo consideró otros elementos adicionales para llegar a la decisión final.",
+      "client_data_hash": "5cf353af9ecb",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 2,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación del ground truth. Además, todos los factores mencionados, sus valores y la dirección de su contribución (puntos sumados o restados) coinciden plenamente con la explicación proporcionada.",
+        "completeness": "La narrativa menciona todas las características, sus valores correspondientes y la dirección de su contribución (puntos sumados o restados) para cada uno de los cinco factores.",
+        "fluency": "El texto presenta una redacción clara, formal y natural en español, con una estructura lógica y un uso preciso del vocabulario técnico-administrativo. Al no haber ejemplares, se evalúa su alta fluidez y coherencia.",
+        "gdpr": "La narrativa cumple con el sentido de la decisión (a) al indicar correctamente que fue rechazada y explicar la dirección de los factores, pero no menciona en ningún momento el derecho a impugnar o solicitar revisión humana (b)."
+      }
+    },
+    "56": {
+      "narrative": "La solicitud ha sido RECHAZADA con un nivel de riesgo moderado. El modelo asigna una puntuación final de 709 puntos sobre 1000, donde un valor más alto indica menor riesgo. Los cinco factores más influyentes que determinan este resultado son los siguientes. El hecho de no disponer de cuenta de ahorros o tener un importe desconocido en la misma aporta 25,7 puntos, mejorando el perfil del cliente. Por el contrario, mantener un saldo en cuenta corriente entre 0 y 200 DM resta 19,4 puntos. La existencia de otros planes de pago activos en otra entidad financiera reduce la puntuación en 17,5 puntos. El importe del crédito solicitado, fijado en 2728 DM, suma 9,2 puntos. Finalmente, ser propietario de bienes inmuebles contribuye con 7,0 puntos adicionales. Estos elementos, junto con otros factores no listados aquí por ser de menor relevancia individual, conforman la evaluación global que conduce a la decisión final.",
+      "client_data_hash": "1032a5dd4b55",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 2,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación del ground truth. Además, todos los factores mencionados reflejan correctamente los valores y la dirección de contribución (puntos sumados o restados) indicados en la explicación.",
+        "completeness": "La narrativa menciona todas las características, sus valores correspondientes y la dirección de su contribución (suma o resta de puntos) para cada uno de los cinco factores.",
+        "fluency": "El texto presenta una redacción fluida, profesional y natural en español, con un registro formal adecuado para un informe técnico o financiero. No hay ejemplares para comparar, por lo que se evalúa su alta calidad lingüística.",
+        "gdpr": "La narrativa cumple con el sentido de la decisión (a) al indicar correctamente que fue rechazada y explicar la dirección de los factores, pero no menciona en ningún momento el derecho del cliente a impugnar la decisión o solicitar revisión humana (b)."
+      }
+    },
+    "153": {
+      "narrative": "La solicitud ha sido RECHAZADA con un nivel de riesgo moderado y una puntuación final de 705 puntos. El factor que más ha influido en la decisión es la existencia de otros planes de pago activos, incluyendo planes adicionales en otro banco, que reduce la puntuación en 62,9 puntos. En sentido contrario, el no disponer de cuenta corriente aporta 51,1 puntos a la puntuación. La duración del préstamo de 12 meses suma 9,3 puntos, mientras que el importe del crédito de 2748 DM contribuye con 7,2 puntos adicionales. Finalmente, que la cuota represente entre el 25 % y el 35 % de los ingresos netos añade 5,3 puntos. Estos cinco factores son los más relevantes del modelo, aunque no son los únicos que han intervenido en el resultado final.",
+      "client_data_hash": "6336c76db110",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 2,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación del ground truth. Además, todos los factores mencionados, sus valores y la dirección de su contribución (puntos sumados o restados) coinciden plenamente con la explicación proporcionada.",
+        "completeness": "La narrativa menciona todas las características, sus valores correspondientes y la dirección de su contribución (puntos sumados o reducidos) para cada uno de los cinco factores.",
+        "fluency": "El texto presenta una redacción fluida, profesional y natural en español, con una estructura clara y un uso correcto del registro técnico-administrativo.",
+        "gdpr": "La narrativa cumple con claridad el sentido de la decisión (RECHAZADA) y la dirección de los factores, pero no menciona en ningún momento el derecho del cliente a expresar su punto de vista ni a solicitar una revisión humana."
+      }
+    },
+    "191": {
+      "narrative": "La solicitud ha sido RECHAZADA con un nivel de riesgo moderado y una puntuación final de 692 puntos. Los factores que más han influido en este resultado son, en primer lugar, el estado de la cuenta corriente, que presenta un saldo entre 0 y 200 DM, lo que reduce la puntuación en 30,8 puntos. En segundo lugar, la ausencia de cuenta de ahorros o el importe desconocido de la misma aporta 26,3 puntos. El importe del crédito solicitado, de 2.427 DM, contribuye con 9,3 puntos adicionales. Por otro lado, el historial crediticio registra retrasos en pagos anteriores, lo que resta 9,0 puntos. Finalmente, la cuota mensual representa menos del 20% de los ingresos netos, un factor que disminuye la puntuación en 6,1 puntos. Estos son los cinco elementos más relevantes de entre todos los considerados por el modelo.",
+      "client_data_hash": "3e7ee115b6ae",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 2,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación del ground truth. Además, todos los factores mencionados, sus valores y la dirección de su contribución (puntos sumados o restados) coinciden plenamente con la explicación proporcionada.",
+        "completeness": "La narrativa menciona todas las características, sus valores correspondientes y la dirección de su contribución (suma o resta de puntos) para cada uno de los cinco factores.",
+        "fluency": "El texto presenta una redacción formal, clara y natural en español, con una estructura lógica y un uso preciso del vocabulario técnico-administrativo.",
+        "gdpr": "La narrativa cumple con el sentido de la decisión (a) al indicar correctamente que fue rechazada y explicar los factores, pero no menciona en ningún momento el derecho del cliente a impugnar la decisión o solicitar revisión humana (b)."
+      }
+    },
+    "7": {
+      "narrative": "El modelo ha asignado a su solicitud una puntuación final de 679 puntos sobre 1.000, lo que sitúa el nivel de riesgo en moderado y ha determinado la decisión de RECHAZADA. El factor que más ha pesado en la evaluación es el estado de su cuenta corriente, que presenta un saldo negativo y resta 48,5 puntos a la puntuación. En sentido favorable, la duración del préstamo solicitado, de 6 meses, aporta 29,5 puntos. La cuota mensual, al superar el 35 % de sus ingresos netos, contribuye con 6,9 puntos adicionales. Por otro lado, el historial crediticio, que registra créditos existentes pagados puntualmente hasta la fecha, reduce la puntuación en 5,8 puntos, y la tenencia de un seguro de vida o plan de ahorro-vivienda la disminuye en 5,5 puntos. Estos son los cinco factores más relevantes de entre todos los considerados por el modelo.",
+      "client_data_hash": "731be4f56e18",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 2,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación del ground truth. Además, todos los factores mencionados reflejan correctamente los valores y la dirección de contribución (puntos sumados o restados) indicados en la explicación.",
+        "completeness": "La narrativa menciona todas las características, sus valores correspondientes y la dirección de su contribución (puntos sumados o restados) para cada uno de los cinco factores.",
+        "fluency": "El texto presenta una redacción formal, clara y natural, con un uso correcto de la terminología técnica y una estructura gramatical fluida en español.",
+        "gdpr": "La narrativa cumple con el sentido de la decisión (a) al indicar correctamente que fue RECHAZADA y explicar los factores, pero no menciona en ningún momento el derecho a impugnar o solicitar revisión humana b)."
+      }
+    },
+    "149": {
+      "narrative": "La solicitud ha sido RECHAZADA con un nivel de riesgo moderado y una puntuación final de 672 puntos. Los factores que más han influido en esta decisión son, en primer lugar, el estado de la cuenta corriente con un saldo entre 0 y 200 DM, que ha restado 42,2 puntos a la puntuación. En sentido favorable, la duración del préstamo de 12 meses ha aportado 21,6 puntos y el hecho de ser propietario de bienes inmuebles ha sumado 13,1 puntos. Por otro lado, disponer de una cuenta de ahorros con un saldo inferior a 100 DM ha reducido la puntuación en 8,2 puntos y una cuota mensual inferior al 20 % de los ingresos netos ha restado 6,2 puntos adicionales. Estos cinco elementos son los de mayor relevancia entre el conjunto de variables consideradas por el modelo.",
+      "client_data_hash": "9501d3824258",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 2,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación del ground truth. Además, todos los factores mencionados reflejan correctamente los valores y la dirección de contribución (puntos sumados o restados) indicados en la explicación.",
+        "completeness": "La narrativa menciona todas las características, sus valores correspondientes y la dirección de su contribución (puntos sumados o restados) para cada uno de los cinco factores.",
+        "fluency": "El texto presenta una redacción formal, clara y fluida, con una estructura lógica y un uso correcto del registro administrativo/financiero en español.",
+        "gdpr": "La narrativa cumple con el sentido de la decisión (a), ya que indica correctamente que fue rechazada y explica la dirección de los factores. Sin embargo, no menciona en ningún momento el derecho del cliente a expresar su punto de vista o solicitar una revisión humana (b)."
+      }
+    },
+    "25": {
+      "narrative": "La solicitud ha sido RECHAZADA con un nivel de riesgo moderado y una puntuación final de 662 puntos sobre 1000. Los cinco factores más relevantes que han influido en esta decisión son los siguientes. En primer lugar, el estado de la cuenta corriente presenta un saldo entre 0 y 200 DM, lo que ha restado 43,1 puntos a la puntuación. En segundo lugar, el estado de la cuenta de ahorros muestra ahorros inferiores a 100 DM, con un impacto negativo de 11,5 puntos. En tercer lugar, el importe del crédito solicitado, de 3872 DM, ha aportado 9,8 puntos positivos. En cuarto lugar, la cuota como porcentaje de ingresos se sitúa entre el 25 % y el 35 % de los ingresos netos, contribuyendo con 8,3 puntos. Por último, la ausencia de otros planes de pago activos ha añadido 2,8 puntos. Estos elementos, junto con otros factores no detallados, determinan el resultado final.",
+      "client_data_hash": "64e96467945f",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 3.9466666666666663,
+      "gdpr": 2,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación del ground truth. Además, todos los factores mencionados reflejan correctamente los valores y la dirección de contribución (positiva/negativa) indicados en la explicación.",
+        "completeness": "La narrativa incluye todas las características, sus valores correspondientes y la dirección de su contribución (puntos sumados o restados) para cada uno de los cinco factores.",
+        "fluency": "El texto presenta una redacción sumamente fluida, natural y profesional en español, con una estructura lógica y un registro formal adecuado para un informe técnico.",
+        "gdpr": "La narrativa cumple con el sentido de la decisión (a), ya que indica correctamente que fue rechazada y explica la dirección de los factores. Sin embargo, no menciona en ningún momento el derecho del cliente a impugnar la decisión o solicitar revisión humana (b)."
+      }
+    },
+    "177": {
+      "narrative": "La solicitud ha sido RECHAZADA con un nivel de riesgo alto y una puntuación final de 652 puntos. Los factores más relevantes que han influido en este resultado son los siguientes: el estado de la cuenta corriente, que presenta un saldo de 200 DM o más o nómina domiciliada al menos un año, ha restado 43,2 puntos a la puntuación; el estado de la cuenta de ahorros, con ahorros inferiores a 100 DM, ha reducido la puntuación en 11,4 puntos; la cuota como porcentaje de ingresos, situada por debajo del 20 % de los ingresos netos, ha disminuido la puntuación en 5,1 puntos; por el lado positivo, el importe del crédito de 1905 DM ha aportado 9,7 puntos y la duración del préstamo de 15 meses ha sumado 4,3 puntos. Estos cinco elementos son los de mayor peso entre todos los considerados por el modelo, aunque no constituyen una lista exhaustiva de los factores que han determinado la decisión final.",
+      "client_data_hash": "eb3f05430b5b",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 3.7333333333333334,
+      "gdpr": 2,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación del ground truth. Además, además, todos los factores mencionados reflejan correctamente los valores y la dirección de contribución (positiva o negativa) indicados en la explicación.",
+        "completeness": "La narrativa incluye todas las características, sus valores correspondientes y la dirección de su contribución (suman o restan puntos) según la explicación proporcionada.",
+        "fluency": "El texto presenta una redacción formal, clara y técnicamente precisa, con una estructura gramatical correcta y un flujo natural en español.",
+        "gdpr": "El texto comunica correctamente la decisión de rechazo y la dirección de los factores (sentido de la decisión), pero no menciona en ningún momento el derecho del cliente a impugnar la decisión o solicitar revisión humana."
+      }
+    },
+    "134": {
+      "narrative": "La solicitud ha sido RECHAZADA con un nivel de riesgo alto. El modelo ha asignado una puntuación de 645 puntos sobre 1000. Los factores más relevantes que han influido en este resultado son los siguientes. El estado de la cuenta corriente presenta un saldo negativo, lo que reduce la puntuación en 54,5 puntos. El estado de la cuenta de ahorros muestra un saldo inferior a 100 DM, con un impacto negativo de 13,1 puntos. El historial crediticio registra una cuenta crítica o créditos existentes en otras entidades, factor que, según el modelo, aporta 11,0 puntos a la puntuación. La cuota del préstamo representa más del 35 % de los ingresos netos, contribuyendo con 6,7 puntos adicionales. Por último, la duración del préstamo de 20 meses resta 4,0 puntos. Estos cinco elementos son los de mayor peso relativo entre todos los considerados por el modelo, aunque no constituyen una lista exhaustiva de las variables evaluadas.",
+      "client_data_hash": "ce0e0b9e8e06",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 3.8933333333333335,
+      "gdpr": 2,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación del ground truth. Además, todos los factores mencionados reflejan correctamente los valores y la dirección de contribución (positiva o negativa) indicados en la explicación.",
+        "completeness": "La narrativa menciona todas las características, sus valores correspondientes y la dirección de su contribución (puntos sumados o restados) para cada uno de los cinco factores.",
+        "fluency": "El texto presenta una redacción formal, clara y natural en español, con una estructura lógica y un vocabulario preciso y profesional. Al no haber ejemplares, se evalúa su alta fluidez y coherencia.",
+        "gdpr": "La narrativa cumple con el sentido de la decisión (a) al indicar correctamente que fue rechazada y explicar la dirección de los factores, pero no menciona en ningún momento el derecho del cliente a impugnar la decisión o solicitar revisión humana (b)."
+      }
+    },
+    "57": {
+      "narrative": "La solicitud ha sido RECHAZADA con un nivel de riesgo ALTO. El modelo asigna a este cliente una puntuación exacta de 628 puntos sobre 1000, donde una puntuación más alta indica menor riesgo de impago.\n\nLos cinco factores que más han influido en esta decisión, ordenados por relevancia, son los siguientes. En primer lugar, el estado de la cuenta corriente muestra un saldo entre 0 y 200 DM, lo que reduce la puntuación en 40,9 puntos. En segundo lugar, el solicitante no tiene propiedades conocidas, lo que resta 12,1 puntos. En tercer lugar, el estado de la cuenta de ahorros refleja ahorros inferiores a 100 DM, con un impacto negativo de 11,1 puntos. En cuarto lugar, el historial crediticio registra retrasos en pagos en el pasado, lo que disminuye la puntuación en 8,9 puntos. Por último, la cuota como porcentaje de ingresos se sitúa por debajo del 20 % de los ingresos netos, un factor que en este modelo reduce la puntuación en 6,7 puntos. Estos elementos son los principales determinantes, aunque otros factores adicionales también han contribuido al resultado final.",
+      "client_data_hash": "520740154cbc",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 3.173333333333333,
+      "gdpr": 2,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación del ground truth. Además, todos los factores mencionados, sus valores y la dirección de su contribución (todos negativos/restan) coinciden plenamente con la explicación.",
+        "completeness": "La narrativa incluye todas las características, sus valores correspondientes y la dirección de su contribución (puntos negativos/reducción de puntuación) de manera exacta.",
+        "fluency": "El texto presenta una redacción sumamente fluida, natural y profesional en español, con una estructura lógica y un registro formal adecuado para un informe técnico.",
+        "gdpr": "La narrativa cumple con el sentido de la decisión (a) al indicar correctamente que fue rechazada y explicar la dirección de los factores, pero no menciona en ningún momento el derecho a impugnar o solicitar revisión humana (b)."
+      }
+    },
+    "62": {
+      "narrative": "La solicitud ha sido RECHAZADA con un nivel de riesgo alto. El modelo asigna a este cliente una puntuación de 588 puntos sobre 1000. Los cinco factores más relevantes que han reducido la puntuación son los siguientes: el importe del crédito solicitado, de 11328 DM, resta 32,4 puntos; el estado de la cuenta corriente, con un saldo entre 0 y 200 DM, resta 29,6 puntos; la duración del préstamo, de 24 meses, resta 19,8 puntos; el estado de la cuenta de ahorros, con ahorros inferiores a 100 DM, resta 17,6 puntos; y la existencia de otros planes de pago activos en otro banco, que resta 17,2 puntos. Estos factores, junto con otras variables consideradas por el modelo, sitúan la puntuación final en 588 puntos, lo que determina la decisión de rechazo.",
+      "client_data_hash": "f16e76cb790e",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 2,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación del ground truth. Además, todos los factores mencionados, sus valores y la dirección de su contribución (restan puntos) coinciden plenamente con la explicación proporcionada.",
+        "completeness": "La narrativa incluye todas las características, sus valores correspondientes y la dirección de contribución (restan puntos) para cada uno de los cinco factores.",
+        "fluency": "El texto presenta una redacción sumamente fluida, natural y profesional en español, con una estructura lógica y un registro formal adecuado para un informe técnico o financiero.",
+        "gdpr": "La narrativa cumple con el sentido de la decisión (a) al indicar correctamente que fue rechazada y explicar la dirección de los factores. Sin embargo, no menciona en ningún momento el derecho del cliente a impugnar la decisión o solicitar revisión humana (b)."
+      }
+    },
+    "76": {
+      "narrative": "La solicitud ha sido RECHAZADA con un nivel de riesgo alto y una puntuación final de 588 puntos. Los principales factores que han influido en este resultado son, en primer lugar, el estado de la cuenta corriente, que presenta un saldo negativo y reduce la puntuación en 61,2 puntos. En segundo lugar, la duración del préstamo de 24 meses resta 22,9 puntos. En tercer lugar, el estado de la cuenta de ahorros, con ahorros inferiores a 100 DM, disminuye la puntuación en 16,9 puntos. Por el lado positivo, el importe del crédito de 1823 DM aporta 7,7 puntos. Finalmente, la cuota como porcentaje de ingresos, al ser menor del 20 % de los ingresos netos, reduce la puntuación en 7,4 puntos. Estos son los cinco factores más relevantes de entre todos los considerados por el modelo.",
+      "client_data_hash": "c9ec4ce8c9f7",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 2,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo, la puntuación y todos los factores (valores y dirección de contribución) detallados en la explicación.",
+        "completeness": "La narrativa incluye todas las características, sus valores correspondientes y la dirección de su contribución (puntos sumados o restados) para cada uno de los cinco factores.",
+        "fluency": "El texto presenta una redacción sumamente fluida, natural y profesional, con una estructura lógica y un uso preciso del vocabulario técnico-administrativo en español.",
+        "gdpr": "La narrativa comunica correctamente la decisión de rechazo y la dirección de los factores (sentido de la decisión), pero no menciona en ningún momento el derecho del cliente a impugnar la decisión o solicitar revisión humana."
+      }
+    },
+    "155": {
+      "narrative": "La solicitud ha sido RECHAZADA y se clasifica con un nivel de riesgo alto. El modelo ha asignado una puntuación de 567 puntos sobre 1000. Los principales factores que han influido en este resultado son, en primer lugar, el estado de la cuenta corriente con saldo negativo, que reduce la puntuación en 67,2 puntos. En segundo lugar, la duración del préstamo de 48 meses resta 32,3 puntos. En tercer lugar, el estado de la cuenta de ahorros, al registrar ahorros inferiores a 100 DM, disminuye la puntuación en 20,6 puntos. El importe del crédito solicitado, 7685 DM, supone una reducción adicional de 16,4 puntos. Como factor atenuante, la cuota como porcentaje de ingresos, situada entre el 25 % y el 35 % de los ingresos netos, aporta 12,1 puntos a la puntuación final. Estos cinco elementos son los de mayor relevancia entre los múltiples factores considerados por el modelo.",
+      "client_data_hash": "c2f0b41f87fb",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 2,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, nivel de riesgo y puntuación del ground truth, y refleja correctamente todos los factores, valores y direcciones de contribución indicados en la explicación.",
+        "completeness": "La narrativa incluye todas las características, sus valores correspondientes y la dirección de su contribución (puntos sumados o restados) según la explicación proporcionada.",
+        "fluency": "El texto presenta una redacción sumamente fluida, natural y profesional en español, con una estructura lógica y un registro formal adecuado para un informe técnico.",
+        "gdpr": "La narrativa cumple con el sentido de la decisión (a) al indicar correctamente que fue rechazada y explicar la dirección de los factores, pero no menciona en ningún momento el derecho a impugnar o solicitar revisión humana (b)."
+      }
+    },
+    "190": {
+      "narrative": "La solicitud ha sido RECHAZADA con un nivel de riesgo alto. El modelo ha asignado una puntuación de 527 puntos sobre 1000.\n\nLos principales factores que han reducido la puntuación son, en orden de relevancia: el estado de la cuenta corriente con saldo negativo, que resta 74,5 puntos; la duración del préstamo de 48 meses, que resta 37,7 puntos; el estado de la cuenta de ahorros con ahorros inferiores a 100 DM, que resta 20,3 puntos; el importe del crédito de 7119 DM, que resta 16,7 puntos; y la ausencia de propiedades conocidas del solicitante, que resta 13,3 puntos. Estos cinco factores son los más influyentes de entre todos los considerados por el modelo, aunque no constituyen una lista exhaustiva de todas las variables que participaron en la decisión final.",
+      "client_data_hash": "ea806aa316af",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 2,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación del ground truth. Además, todos los factores mencionados, sus valores y la dirección de su contribución (restan puntos) coinciden plenamente con la explicación proporcionada.",
+        "completeness": "La narrativa incluye todos los nombres de las características, sus valores correspondientes y la dirección de su contribución (puntos restados) para cada uno de los cinco factores.",
+        "fluency": "El texto presenta una redacción sumamente natural, formal y precisa en español, con una estructura lógica y un uso correcto de la terminología técnica y gramatical.",
+        "gdpr": "La narrativa cumple con el sentido de la decisión (a) al indicar correctamente que fue rechazada y explicar la dirección de los factores, pero no menciona en ningún momento el derecho del cliente a impugnar la decisión o solicitar revisión humana (b)."
+      }
+    }
+  },
+  "H1_B0": {
+    "65": {
+      "narrative": "Su solicitud de préstamo personal ha sido aprobada con una puntuación crediticia de 812 sobre 1000, lo que la clasifica en la categoría de riesgo bajo, superando de esta forma nuestros criterios de aceptación.\n\nLos factores que han favorecido el aumento de su puntuación han sido principalmente que usted no dispone actualmente de una cuenta corriente activa (+76,2 pts), que usted no está suscrito a planes de pago adicionales (+10,4 pts), su historial crediticio, que refleja una cuenta crítica y/o créditos existentes en otras entidades (+10,1 pts), el hecho de no tener una cuenta de ahorros o que su importe sea desconocido (+7,6 pts), y la duración del préstamo solicitado, que abarca un periodo de 12 meses (+5,9 pts).\n\nNo hay factores de su perfil que hayan contribuido negativamente de forma notable sobre su puntuación.\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "65bb3117b4a7",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 3.84,
+      "gdpr": 3,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación del ground truth. Además, todos los factores mencionados y sus direcciones de contribución coinciden plenamente con la explicación proporcionada.",
+        "completeness": "La narrativa menciona todas las características, sus valores correspondientes y la dirección de la contribución (puntos positivos) para cada uno de los cinco factores.",
+        "fluency": "El texto es prácticamente idéntico a los ejemplares en cuanto a estructura, léxico, tono formal y registro administrativo, variando únicamente en los datos numéricos y un factor específico.",
+        "gdpr": "La narrativa comunica correctamente la decisión de aprobación (coincidiendo con el ground truth) y explica la dirección de los factores. Además, informa explícitamente sobre el derecho a solicitar una revisión humana."
+      }
+    },
+    "142": {
+      "narrative": "Su solicitud de préstamo personal ha sido aprobada con una puntuación crediticia de 808 sobre 1000, lo que la clasifica en la categoría de riesgo bajo, superando de esta forma nuestros criterios de aceptación.\n\nLos factores que han favorecido el aumento de su puntuación han sido principalmente que usted no dispone actualmente de una cuenta corriente activa (+76,7 pts), que usted no está suscrito a planes de pago adicionales (+10,5 pts), su historial crediticio, que refleja una cuenta crítica y/o créditos existentes en otras entidades (+9,6 pts), la duración del préstamo solicitado, que abarca un periodo de 12 meses (+9,1 pts), y su antigüedad laboral, de 7 años o más como empleado (+3,7 pts).\n\nNo hay factores de su perfil que hayan contribuido negativamente de forma notable sobre su puntuación.\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "fcfeea60828b",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 3.9733333333333336,
+      "gdpr": 3,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación (808). Además, todos los factores mencionados reflejan correctamente los valores y la dirección de contribución (positiva) indicados en la explicación.",
+        "completeness": "La narrativa menciona todas las características, sus valores correspondientes y la dirección de la contribución (indicada como factores que favorecieron el aumento y mediante los puntos positivos).",
+        "fluency": "El texto es prácticamente idéntico a los ejemplares, manteniendo exactamente la misma estructura, registro formal, vocabulario y sintaxis, variando únicamente los valores numéricos.",
+        "gdpr": "La narrativa comunica correctamente la decisión de aprobación (coincidiendo con el ground truth) y explica la dirección de los factores. Además, informa explícitamente sobre el derecho a solicitar una revisión humana."
+      }
+    },
+    "50": {
+      "narrative": "Su solicitud de préstamo personal ha sido aprobada con una puntuación crediticia de 805 sobre 1000, lo que la clasifica en la categoría de riesgo bajo, superando de esta forma nuestros criterios de aceptación.\n\nLos factores que han favorecido el aumento de su puntuación han sido principalmente que usted no dispone actualmente de una cuenta corriente activa (+81,4 pts), que usted no está suscrito a planes de pago adicionales (+10,6 pts), el importe del crédito solicitado, de 2.404 DM (+7,7 pts), su historial crediticio, que refleja una cuenta crítica y/o créditos existentes en otras entidades (+6,4 pts), y su antigüedad laboral, de entre 1 y 4 años como empleado (+3,7 pts).\n\nNo hay factores de su perfil que hayan contribuido negativamente de forma notable sobre su puntuación.\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "d7a05ccc1083",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 3,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación del ground truth. Además, todos los factores mencionados, sus valores y la dirección de su contribución coinciden plenamente con la explicación proporcionada.",
+        "completeness": "La narrativa incluye todos los nombres de las características, sus valores aproximados y la dirección de contribución (positiva) para los cinco factores mencionados en la explicación.",
+        "fluency": "El texto es prácticamente idéntico a los ejemplares en cuanto a estructura, léxico, tono formal y registro administrativo, variando únicamente los datos específicos.",
+        "gdpr": "La narrativa comunica correctamente la decisión de aprobación (coincidiendo con el ground truth) y explica la dirección de los factores. Además, informa explícitamente sobre el derecho a solicitar una revisión humana."
+      }
+    },
+    "110": {
+      "narrative": "Su solicitud de préstamo personal ha sido aprobada con una puntuación crediticia de 801 sobre 1000, lo que la clasifica en la categoría de riesgo bajo, superando de esta forma nuestros criterios de aceptación.\n\nLos factores que han favorecido el aumento de su puntuación han sido principalmente que usted no dispone actualmente de una cuenta corriente activa (+92,2 pts), que usted no está suscrito a planes de pago adicionales (+9,5 pts), el importe del crédito solicitado, de 1505 DM (+8,1 pts), y su antigüedad laboral, de entre 1 y 4 años como empleado (+3,7 pts). Por el contrario, la ausencia de propiedades conocidas a su nombre ha reducido ligeramente su puntuación (-3,9 pts).\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "726806c94efe",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 3,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y puntuación del ground truth. Además, todos los factores mencionados reflejan correctamente los valores y la dirección de contribución (positiva o negativa) indicados en la explicación.",
+        "completeness": "La narrativa incluye todas las características, sus valores correspondientes y la dirección de su contribución (puntos positivos y negativos) según la explicación proporcionada.",
+        "fluency": "El texto sigue exactamente la misma estructura, registro formal y fórmulas lingüísticas que los ejemplares, variando únicamente los datos específicos y la inclusión de un factor negativo.",
+        "gdpr": "La narrativa comunica correctamente la decisión de aprobación y la dirección de los factores (a), e informa explícitamente sobre el derecho a la revisión humana (b)."
+      }
+    },
+    "10": {
+      "narrative": "Su solicitud de préstamo personal ha sido aprobada con una puntuación crediticia de 793 sobre 1000, lo que la clasifica en la categoría de riesgo bajo, superando de esta forma nuestros criterios de aceptación.\n\nLos factores que han favorecido el aumento de su puntuación han sido principalmente que usted no dispone actualmente de una cuenta corriente activa (+88,9 pts), que usted no está suscrito a planes de pago adicionales (+9,3 pts), el importe del crédito solicitado, de 2.299 DM (+6,7 pts), y el saldo de su cuenta de ahorros, que se encuentra entre 500 y 1.000 DM (+4,9 pts).\n\nEl único factor que ha contribuido a reducir su puntuación de forma notable ha sido la duración del préstamo solicitado, que abarca un periodo de 36 meses (-12,8 pts).\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "0c0271d900cc",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 3,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, nivel de riesgo y puntuación del ground truth. Además, todos los factores mencionados reflejan correctamente los valores y la dirección de contribución (positiva o negativa) indicados en la explicación.",
+        "completeness": "La narrativa incluye todas las características mencionadas en la explicación, detallando correctamente sus valores y la dirección de su contribución (puntos positivos y negativos).",
+        "fluency": "La narrativa es prácticamente idéntica a los ejemplares en cuanto a estructura, registro formal, vocabulario técnico y sintaxis, siguiendo exactamente el mismo patrón de comunicación bancaria.",
+        "gdpr": "La narrativa comunica correctamente la decisión de aprobación (coincidiendo con el ground truth) y explica la dirección de los factores. Además, informa explícitamente sobre el derecho a solicitar una revisión humana."
+      }
+    },
+    "187": {
+      "narrative": "Su solicitud de préstamo personal ha sido rechazada con una puntuación crediticia de 753 sobre 1000, lo que la clasifica en la categoría de riesgo moderado, por lo que no cumple con el umbral mínimo de aprobación requerido.\n\nLos factores que han influido positivamente en su puntuación han sido la duración del préstamo solicitado, de 10 meses (+53,7 pts), el hecho de ser propietario de bienes inmuebles (+15,1 pts), su historial crediticio, que refleja una cuenta crítica y/o créditos existentes en otras entidades (+8,3 pts), y el importe del crédito solicitado, de 2241 DM (+7,7 pts).\n\nEl factor que ha contribuido negativamente a su puntuación ha sido el estado de su cuenta corriente, que presenta un saldo negativo (-25,9 pts).\n\nNo existen otros factores de su perfil que hayan contribuido negativamente de forma notable sobre su puntuación.\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "24f54fcd3b1d",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 3.786666666666667,
+      "gdpr": 3,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación del ground truth. Además, todos los factores mencionados y sus direcciones de contribución coinciden plenamente con la explicación proporcionada.\n]]",
+        "completeness": "La narrativa incluye todas las características mencionadas en la explicación, detallando correctamente sus valores y la dirección de su contribución (puntos positivos y negativos).",
+        "fluency": "El texto sigue exactamente la misma estructura, estructura, tono formal y registro administrativo que los ejemplares, utilizando incluso las mismas fórmulas legales y la misma metodología de desglose de puntos.",
+        "gdpr": "La narrativa comunica correctamente la decisión de rechazo y la dirección de los factores (a), y menciona explícitamente el derecho a solicitar una revisión humana (b)."
+      }
+    },
+    "137": {
+      "narrative": "Su solicitud de préstamo personal ha sido rechazada con una puntuación crediticia de 750 sobre 1000, lo que la clasifica en la categoría de riesgo moderado, por debajo de nuestros criterios de aceptación.\n\nEntre los factores que han influido en su puntuación, el hecho de no disponer de una cuenta corriente activa ha aportado +95,0 puntos, mientras que el importe del crédito solicitado, de 10.974 DM, ha restado -34,5 puntos. La duración del préstamo, de 36 meses, ha reducido la puntuación en -14,7 puntos, y el estado de la cuenta de ahorros, con ahorros inferiores a 100 DM, ha restado -5,0 puntos. Por el contrario, no estar suscrito a planes de pago adicionales ha sumado +9,8 puntos.\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "5cf353af9ecb",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 3,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación del ground truth. Todos los factores mencionados coinciden en valor y dirección de contribución con la explicación proporcionada.",
+        "completeness": "La narrativa incluye todas las características mencionadas en la explicación, detallando correctamente sus valores y la dirección de su contribución (puntos sumados o restados).",
+        "fluency": "El texto sigue exactamente la misma estructura, registro formal y terminología técnica que los ejemplares, incluyendo la mención legal final y la forma de desglosar los puntos.",
+        "gdpr": "La narrativa comunica correctamente la decisión de rechazo (a) e informa explícitamente sobre el derecho a solicitar una revisión humana (b)."
+      }
+    },
+    "56": {
+      "narrative": "Su solicitud de préstamo personal ha sido rechazada con una puntuación crediticia de 709 sobre 1000, lo que la clasifica en la categoría de riesgo moderado, no cumpliendo con los criterios mínimos de aceptación.\n\nLos factores que han tenido mayor influencia en su evaluación son la ausencia de una cuenta de ahorros o la imposibilidad de determinar su importe (+25,7 pts), el saldo de su cuenta corriente, situado entre 0 y 200 DM (-19,4 pts), la existencia de planes de pago adicionales en otra entidad (-17,5 pts), el importe del crédito solicitado de 2728 DM (+9,2 pts) y su condición de propietario de bienes inmuebles (+7,0 pts).\n\nNo hay factores adicionales de su perfil que hayan contribuido positivamente de forma notable sobre su puntuación.\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "1032a5dd4b55",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 3,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación del ground truth. Además, y todos los factores mencionados coinciden en valor y dirección de contribución con la explicación.",
+        "completeness": "La narrativa incluye todas las características, sus valores correspondientes y la dirección de la contribución (puntos positivos y negativos) para cada uno de los cinco factores.",
+        "fluency": "El texto sigue exactamente la misma estructura, registro formal y fórmulas lingüísticas que los ejemplares, variando únicamente los datos específicos y el resultado de la solicitud.",
+        "gdpr": "La narrativa comunica correctamente la decisión de rechazo (a) e informa explícitamente sobre el derecho a solicitar una revisión humana (b)."
+      }
+    },
+    "153": {
+      "narrative": "Su solicitud de préstamo personal ha sido rechazada con una puntuación crediticia de 705 sobre 1000, lo que la clasifica en la categoría de riesgo moderado, por debajo de nuestros criterios de aceptación.\n\nEl factor que ha penalizado de forma determinante su puntuación es la existencia de planes de pago adicionales en otro banco (-62,9 pts). Por el contrario, han contribuido positivamente el hecho de no disponer de una cuenta corriente activa (+51,1 pts), la duración del préstamo solicitado de 12 meses (+9,3 pts), el importe del crédito de 2748 DM (+7,2 pts) y que la cuota mensual represente entre el 25 % y el 35 % de sus ingresos netos (+5,3 pts).\n\nNo hay otros factores de su perfil que hayan contribuido negativamente de forma notable sobre su puntuación.\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "6336c76db110",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 3.9733333333333336,
+      "gdpr": 3,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación del ground truth. Además, todos los factores mencionados reflejan correctamente los valores y la dirección de contribución (signo del shap_value) indicados en la explicación.",
+        "completeness": "La narrativa incluye todas las características, sus valores correspondientes y la dirección de su contribución (puntos positivos/negativos) según la explicación proporcionada.",
+        "fluency": "El texto sigue exactamente la misma estructura, registro formal y fórmulas lingüísticas que los ejemplares, utilizando el mismo vocabulario técnico y la misma disposición de los datos.",
+        "gdpr": "La narrativa comunica correctamente la decisión de rechazo y la dirección de los factores (a), e informa explícitamente sobre el derecho a la revisión humana (b), aunque es ligeramente incompleta al no mencionar explícitamente el derecho a \"expresar su punto de vista\", cumple con la esencia del derecho a impugnar."
+      }
+    },
+    "191": {
+      "narrative": "Su solicitud de préstamo personal ha sido rechazada con una puntuación crediticia de 692 sobre 1000, lo que la clasifica en la categoría de riesgo moderado, no alcanzando el umbral necesario para su aprobación.\n\nLos factores que han reducido su puntuación han sido principalmente el estado de su cuenta corriente, con un saldo entre 0 y 200 DM (-30,8 pts), su historial crediticio, que registra retrasos en pagos en el pasado (-9,0 pts), y la cuota del préstamo como porcentaje de sus ingresos, situada por debajo del 20% de los ingresos netos (-6,1 pts). Por el contrario, han contribuido positivamente el hecho de no disponer de cuenta de ahorros o de que su importe sea desconocido (+26,3 pts) y el importe del crédito solicitado, de 2427 DM (+9,3 pts).\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "3e7ee115b6ae",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 3,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación del ground truth. Además, todos los factores mencionados reflejan correctamente los valores y la dirección de contribución (positiva/negativa) indicados en la explicación.",
+        "completeness": "La narrativa incluye todas las características mencionadas en la explicación, detallando correctamente sus valores y la dirección de su contribución (puntos positivos y negativos).",
+        "fluency": "El texto sigue exactamente la misma estructura, registro formal y terminología técnica que los ejemplares, replicando incluso la cláusula legal final y la forma de detallar los puntos.",
+        "gdpr": "La narrativa comunica correctamente la decisión de rechazo y la dirección de los factores (a), e informa explícitamente sobre el derecho a la revisión humana (b)."
+      }
+    },
+    "7": {
+      "narrative": "Su solicitud de préstamo personal ha sido rechazada con una puntuación crediticia de 679 sobre 1000, lo que la clasifica en la categoría de riesgo moderado, no superando de esta forma nuestros criterios de aceptación.\n\nEl factor que más ha penalizado su puntuación es el estado de su cuenta corriente, que presenta un saldo negativo (-48,5 pts). En sentido favorable, la duración del préstamo solicitado, de 6 meses, ha aportado +29,5 puntos, y el hecho de que la cuota supere el 35 % de sus ingresos netos ha sumado +6,9 puntos. Por el contrario, su historial crediticio, que refleja créditos existentes pagados puntualmente hasta la fecha, ha restado -5,8 puntos, y la tenencia de propiedades como un seguro de vida o un plan de ahorro-vivienda ha restado -5,5 puntos.\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "731be4f56e18",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 3,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación del ground truth. Además, todos los factores mencionados reflejan correctamente los valores y la dirección de contribución (puntos positivos y negativos) indicados en la explicación.",
+        "completeness": "La narrativa incluye todas las características, sus valores correspondientes y la dirección de la contribución (puntos positivos/negativos) para cada uno de los cinco factores.",
+        "fluency": "El texto sigue exactamente la misma estructura, estructura, registro formal y terminología técnica que los ejemplares, incluyendo la mención legal final y la forma de desglosar los puntos.",
+        "gdpr": "La narrativa comunica correctamente la decisión de rechazo (a) e informa explícitamente sobre el derecho a solicitar una revisión humana (b)."
+      }
+    },
+    "149": {
+      "narrative": "Su solicitud de préstamo personal ha sido rechazada con una puntuación crediticia de 672 sobre 1000, lo que la clasifica en la categoría de riesgo moderado, por debajo de nuestros criterios de aceptación.\n\nLos factores que han reducido su puntuación han sido principalmente el saldo en su cuenta corriente, situado entre 0 y 200 DM (-42,2 pts), y el estado de su cuenta de ahorros, con ahorros inferiores a 100 DM (-8,2 pts). Asimismo, la cuota del préstamo como porcentaje de sus ingresos netos, inferior al 20 %, ha restado 6,2 puntos a su perfil.\n\nPor el contrario, han contribuido positivamente la duración del préstamo solicitado, de 12 meses (+21,6 pts), y el hecho de ser propietario de bienes inmuebles (+13,1 pts).\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "9501d3824258",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 3,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación del ground truth. Además, todos los factores mencionados reflejan correctamente los valores y la dirección de contribución (positiva/negativa) indicados en la explicación.",
+        "completeness": "La narrativa menciona todas las características, sus valores correspondientes y la dirección de su contribución (puntos positivos y negativos) según la explicación proporcionada.",
+        "fluency": "El texto sigue exactamente la misma estructura, registro formal y terminología técnica que los ejemplares, incluyendo la mención legal final y la forma de desglosar los puntos.",
+        "gdpr": "La narrativa comunica correctamente la decisión de rechazo y la dirección de los factores (a), e informa explícitamente sobre el derecho a la revisión humana (b)."
+      }
+    },
+    "25": {
+      "narrative": "Su solicitud de préstamo personal ha sido rechazada con una puntuación crediticia de 662 sobre 1000, lo que la clasifica en la categoría de riesgo moderado, no superando de esta forma nuestros criterios de aceptación.\n\nLos factores que han reducido su puntuación han sido principalmente el saldo de su cuenta corriente, que se sitúa entre 0 y 200 DM (-43,1 pts), y el saldo de su cuenta de ahorros, que refleja ahorros inferiores a 100 DM (-11,5 pts). Por el contrario, han contribuido positivamente el importe del crédito solicitado, de 3.872 DM (+9,8 pts), la cuota como porcentaje de sus ingresos, que se encuentra entre el 25 % y el 35 % de los ingresos netos (+8,3 pts), y el hecho de no disponer de otros planes de pago activos (+2,8 pts).\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "64e96467945f",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 3.92,
+      "gdpr": 3,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación del ground truth. Además, todos los factores mencionados, sus valores y la dirección de su contribución coinciden plenamente con la explicación proporcionada.",
+        "completeness": "La narrativa incluye todas las características mencionadas en la explicación, detallando correctamente sus valores y la dirección de su contribución (puntos positivos y negativos).",
+        "fluency": "El texto sigue exactamente la misma estructura, registro formal y fórmulas lingüísticas que los ejemplares, adaptando únicamente los datos y el resultado de la decisión.",
+        "gdpr": "La narrativa comunica correctamente la decisión de rechazo y la dirección de los factores (a), y menciona explícitamente el derecho a la revisión humana según el RGPD (b)."
+      }
+    },
+    "177": {
+      "narrative": "Su solicitud de préstamo personal ha sido rechazada con una puntuación crediticia de 652 sobre 1000, lo que la clasifica en la categoría de riesgo alto, por no cumplir nuestros criterios de aceptación.\n\nLos factores que han penalizado su puntuación han sido principalmente el estado de su cuenta corriente, que presenta un saldo de 200 DM o más o nómina domiciliada desde hace al menos un año (-43,2 pts), y el estado de su cuenta de ahorros, con ahorros inferiores a 100 DM (-11,4 pts). También ha influido negativamente la cuota del préstamo, que representa menos del 20% de sus ingresos netos (-5,1 pts).\n\nEntre los factores que han mejorado su perfil se encuentran el importe del crédito solicitado, de 1.905 DM (+9,7 pts), y la duración del préstamo, de 15 meses (+4,3 pts).\n\nNo hay otros factores de su perfil que hayan contribuido positivamente de forma notable sobre su puntuación.\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "eb3f05430b5b",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 3.413333333333333,
+      "gdpr": 3,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación del ground truth. Todos los factores mencionados coinciden en valor y dirección de contribución con la explicación proporcionada.",
+        "completeness": "La narrativa incluye todas las características mencionadas en la explicación, detallando correctamente sus valores y la dirección de su contribución (puntos positivos y negativos).",
+        "fluency": "El texto sigue exactamente la misma estructura, registro formal y fórmulas lingüísticas que los ejemplares, incluyendo la mención legal final y la forma de detallar los puntos.",
+        "gdpr": "La narrativa comunica correctamente la decisión de rechazo y la dirección de los factores (a), e informa explícitamente sobre el derecho a solicitar una revisión humana (b)."
+      }
+    },
+    "134": {
+      "narrative": "Su solicitud de préstamo personal ha sido rechazada con una puntuación crediticia de 645 sobre 1000, lo que la clasifica en la categoría de riesgo alto, por lo que no cumple con nuestros criterios de aceptación.\n\nLos factores que han penalizado su puntuación han sido principalmente el saldo negativo en su cuenta corriente (-54,5 pts), disponer de ahorros inferiores a 100 DM (-13,1 pts) y la duración del préstamo solicitado, de 20 meses (-4,0 pts). Por otro lado, su historial crediticio, que refleja una cuenta crítica y/o créditos existentes en otras entidades, ha aportado +11,0 pts, y la cuota como porcentaje de sus ingresos, superior al 35% de los ingresos netos, ha contribuido con +6,7 pts.\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "ce0e0b9e8e06",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 3,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación del ground truth. Además, todos los factores mencionados reflejan correctamente los valores y la dirección de contribución (positiva o negativa) indicados en la explicación.",
+        "completeness": "La narrativa incluye todas las características, sus valores correspondientes y la dirección de la contribución (puntos positivos y negativos) para cada uno de los cinco factores.",
+        "fluency": "El texto sigue exactamente la misma estructura, registro formal y fórmulas legales que el ejemplar, variando únicamente los datos y el resultado de la solicitud.",
+        "gdpr": "La narrativa comunica correctamente la decisión de rechazo y la dirección de los factores (a), e informa explícitamente sobre el derecho a solicitar una revisión humana (b)."
+      }
+    },
+    "57": {
+      "narrative": "Su solicitud de préstamo personal ha sido denegada con una puntuación crediticia de 628 sobre 1000, lo que la clasifica en la categoría de riesgo alto, por debajo de nuestros criterios de aceptación.\n\nLos factores que han reducido su puntuación han sido principalmente el saldo de su cuenta corriente, que se encuentra entre 0 y 200 DM (-40,9 pts), el hecho de no disponer de propiedades conocidas (-12,1 pts), el estado de su cuenta de ahorros, con un saldo inferior a 100 DM (-11,1 pts), su historial crediticio, que registra retrasos en pagos en el pasado (-8,9 pts), y la cuota del préstamo solicitado, que representa menos del 20 % de sus ingresos netos (-6,7 pts).\n\nNo hay factores de su perfil que hayan contribuido positivamente de forma notable sobre su puntuación.\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "520740154cbc",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 3.92,
+      "gdpr": 3,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación del ground truth. Además, todos los factores mencionados reflejan correctamente los valores y la dirección de contribución (negativa) indicados en la explicación.",
+        "completeness": "La narrativa incluye todas las características, sus valores correspondientes y la dirección de la contribución (puntos negativos) para cada uno de los cinco factores.",
+        "fluency": "El texto sigue exactamente la misma estructura, registro formal y fórmulas lingüísticas que los ejemplares, adaptando únicamente los valores y la decisión (denegación en lugar de aprobación).",
+        "gdpr": "La narrativa comunica correctamente la decisión de rechazo (coincidiendo con el ground truth) y explica la dirección de los factores. Además, informa explícitamente sobre el derecho a solicitar una revisión humana."
+      }
+    },
+    "62": {
+      "narrative": "Su solicitud de préstamo personal ha sido rechazada con una puntuación crediticia de 588 sobre 1000, lo que la clasifica en la categoría de riesgo alto, sin cumplir los criterios mínimos de aceptación.\n\nLos factores que han penalizado su puntuación han sido principalmente el importe del crédito solicitado, de 11.328 DM (-32,4 pts), el estado de su cuenta corriente, que presenta un saldo entre 0 y 200 DM (-29,6 pts), la duración del préstamo, de 24 meses (-19,8 pts), el estado de su cuenta de ahorros, con ahorros inferiores a 100 DM (-17,6 pts), y la existencia de otros planes de pago activos en otro banco (-17,2 pts).\n\nNo hay factores de su perfil que hayan contribuido positivamente de forma notable sobre su puntuación.\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "f16e76cb790e",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 3,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación del ground truth. Todos los cinco factores mencionados coinciden en valor y dirección (todos negativos/penalizan) con la explicación proporcionada.",
+        "completeness": "La narrativa incluye todas las características, sus valores correspondientes y la dirección de su contribución (indicada por el signo negativo y la palabra \"penalizado\").",
+        "fluency": "El texto sigue exactamente la misma estructura, registro formal y fórmulas lingüísticas que los ejemplares, adaptando únicamente los valores y el resultado de la decisión.",
+        "gdpr": "La narrativa comunica correctamente la decisión de rechazo y la dirección de los factores (a), e informa explícitamente sobre el derecho a la revisión humana (b)."
+      }
+    },
+    "76": {
+      "narrative": "Su solicitud de préstamo personal ha sido rechazada con una puntuación crediticia de 588 sobre 1000, lo que la clasifica en la categoría de riesgo alto, no superando de esta forma nuestros criterios de aceptación.\n\nLos factores que han penalizado su puntuación han sido principalmente el saldo negativo en su cuenta corriente (-61,2 pts), la duración del préstamo solicitado, que abarca un periodo de 24 meses (-22,9 pts), disponer de ahorros inferiores a 100 DM en su cuenta de ahorros (-16,9 pts) y una cuota mensual que representa menos del 20% de sus ingresos netos (-7,4 pts).\n\nComo factor favorable, el importe del crédito solicitado, de 1823 DM, ha contribuido positivamente (+7,7 pts).\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "c9ec4ce8c9f7",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 3,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación del ground truth. Además, todos los factores mencionados reflejan correctamente los valores y la dirección de contribución (positiva/negativa) indicados en la explicación.",
+        "completeness": "La narrativa incluye todas las características, sus valores correspondientes y la dirección de su contribución (puntos positivos y negativos) según la explicación proporcionada.",
+        "fluency": "El texto sigue exactamente la misma estructura, registro formal y fórmulas lingüísticas que los ejemplares, adaptando únicamente los datos y el resultado de la solicitud.",
+        "gdpr": "La narrativa comunica correctamente la decisión de rechazo y la dirección de los factores (a), e informa explícitamente sobre el derecho a la revisión humana (b)."
+      }
+    },
+    "155": {
+      "narrative": "Su solicitud de préstamo personal ha sido rechazada con una puntuación crediticia de 567 sobre 1000, lo que la clasifica en la categoría de riesgo alto, por debajo de nuestros criterios de aceptación.\n\nLos factores que han reducido su puntuación han sido principalmente el saldo negativo en su cuenta corriente (-67,2 pts), la duración del préstamo solicitado de 48 meses (-32,3 pts), el estado de su cuenta de ahorros con un saldo inferior a 100 DM (-20,6 pts) y el importe del crédito solicitado de 7685 DM (-16,4 pts). Como factor favorable, la cuota como porcentaje de sus ingresos se sitúa entre el 25% y el 35% de los ingresos netos, lo que ha aportado +12,1 pts.\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "c2f0b41f87fb",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 3,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación del ground truth. Además, todos los factores mencionados reflejan correctamente los valores y la dirección de contribución (puntos positivos y negativos) indicados en la explicación.",
+        "completeness": "La narrativa incluye todas las características, sus valores correspondientes y la dirección de su contribución (puntos positivos/negativos) según la explicación proporcionada.",
+        "fluency": "El texto sigue exactamente la misma estructura, registro formal y terminología técnica que los ejemplares, replicando incluso la cláusula legal final y la forma de presentar los puntos.",
+        "gdpr": "La narrativa comunica correctamente la decisión de rechazo y la dirección de los factores (a), e informa explícitamente menciona el derecho a solicitar una revisión humana (b)."
+      }
+    },
+    "190": {
+      "narrative": "Su solicitud de préstamo personal ha sido rechazada con una puntuación crediticia de 527 sobre 1000, lo que la clasifica en la categoría de riesgo alto, por lo que no cumple con nuestros criterios de aceptación.\n\nLos factores que han penalizado su puntuación han sido principalmente que su cuenta corriente presenta un saldo negativo (-74,5 pts), la duración del préstamo solicitado, que abarca un periodo de 48 meses (-37,7 pts), el estado de su cuenta de ahorros, con un saldo inferior a 100 DM (-20,3 pts), el importe del crédito solicitado, de 7119 DM (-16,7 pts), y la ausencia de propiedades conocidas a su nombre (-13,3 pts).\n\nNo hay factores de su perfil que hayan contribuido positivamente de forma notable sobre su puntuación.\n\nEn virtud del artículo 22 del RGPD, tiene derecho a solicitar revisión humana de esta decisión, conforme a la normativa aplicable.",
+      "client_data_hash": "ea806aa316af",
+      "accuracy": 1,
+      "completeness": 2,
+      "fluency": 4,
+      "conciseness": 4.0,
+      "gdpr": 3,
+      "justificaciones": {
+        "accuracy": "La narrativa coincide exactamente con la decisión, el nivel de riesgo y la puntuación del ground truth. Además, todos los factores mencionados reflejan correctamente los valores y la dirección de contribución (negativa) indicados en la explicación.",
+        "completeness": "La narrativa incluye todas las características, los valores asociados y la dirección de la contribución (puntos negativos) para cada una de las cinco características mencionadas en la explicación.",
+        "fluency": "El texto sigue exactamente la misma estructura, registro formal y fórmulas lingüísticas que los ejemplares, adaptando únicamente los valores y la decisión (aprobación vs. rechazo).",
+        "gdpr": "La narrativa comunica correctamente la decisión de rechazo y la dirección de los factores (a), e informa explícitamente sobre el derecho a la revisión humana (b)."
+      }
+    }
+  }
+}

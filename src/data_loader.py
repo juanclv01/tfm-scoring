@@ -250,11 +250,11 @@ NUM_DEPENDENTS_LABELS = {
 # a diferencia de installment_rate y num_dependents, para los que SI
 # existe una fuente que documenta explicitamente su naturaleza de tramo.
 NUMERIC_FEATURE_FORMAT = {
-    "duration":          "{value} meses",
-    "credit_amount":     "{value} DM",
-    "residence_since":   "{value} años",
-    "age":               "{value} años",
-    "existing_credits":  "{value} crédito(s)",
+    "duration":          ("{value} mes", "{value} meses"),
+    "credit_amount":     ("{value} DM", "{value} DM"),
+    "residence_since":   ("{value} año", "{value} años"),
+    "age":               ("{value} año", "{value} años"),
+    "existing_credits":  ("{value} crédito", "{value} créditos"),
 }
 
 
@@ -264,11 +264,17 @@ def _format_numeric_value(feature_name: str, value) -> str:
     para variables ordinales por tramos (installment_rate,
     num_dependents), el diccionario de tramos correspondiente en vez de
     tratar el codigo como una cifra continua.
+
+    # CORRECTED: bug de concordancia de numero detectado al enumerar los
+    # valores posibles para redactar narrativas -- el template anterior
+    # ("{value} anos"/"{value} credito(s)") producia "1 anos" (incorrecto
+    # en espanol) para cualquier cliente con residence_since=1, y el
+    # parche "(s)" en credito(s) no es una forma real del idioma. Ahora
+    # NUMERIC_FEATURE_FORMAT guarda un par (singular, plural) por feature
+    # y se elige segun el valor real -- singular solo para 1 exacto
+    # (no para 1.0 vs 1.5, aunque estas features son siempre enteras en
+    # la practica).
     """
-    # CORRECTED: se generaliza a un solo diccionario de "variables por
-    # tramos" (antes solo cubria installment_rate con un if aislado) para
-    # que anadir una tercera en el futuro no requiera duplicar la misma
-    # rama de nuevo.
     variables_por_tramo = {
         "installment_rate": INSTALLMENT_RATE_LABELS,
         "num_dependents": NUM_DEPENDENTS_LABELS,
@@ -279,11 +285,17 @@ def _format_numeric_value(feature_name: str, value) -> str:
         except (ValueError, TypeError):
             return str(value)
 
-    template = NUMERIC_FEATURE_FORMAT.get(feature_name, "{value}")
+    if feature_name not in NUMERIC_FEATURE_FORMAT:
+        return str(value)
+
+    template_singular, template_plural = NUMERIC_FEATURE_FORMAT[feature_name]
     try:
-        return template.format(value=int(value) if float(value) == int(float(value)) else round(float(value), 2))
+        valor_num = int(value) if float(value) == int(float(value)) else round(float(value), 2)
     except (ValueError, TypeError):
         return str(value)
+
+    template = template_singular if valor_num == 1 else template_plural
+    return template.format(value=valor_num)
 
 
 def parse_onehot_feature_name(shap_feature_name: str) -> tuple:

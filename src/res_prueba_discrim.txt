@@ -1,0 +1,40 @@
+(.venv) PS D:\Juan\tfm-scoring> python src/prueba_discrim.py
+======================================================================
+PRUEBA DE VALIDEZ DISCRIMINATIVA DEL GRADER
+======================================================================
+
+Narrativa evaluada (deliberadamente mala):
+
+  La solicitud ha sido aprobada, con un nivel de riesgo bajo. El hecho de no disponer de cuenta corriente ha reducido la puntuación en 75 puntos. Además, la ausencia de planes de pago adicionales ha sumado 9 puntos, y la duración del préstamo de 12 meses ha aportado 6 puntos adicionales.
+
+Fallos esperados: direccion SHAP invertida, score ausente, 2/5 factores omitidos, sin mencion al art. 22 RGPD.
+
+    (pool compartido saturado, esperando 10s antes de reintentar...)
+----------------------------------------------------------------------
+Dimension      Puntuacion     Esperado       Resultado
+----------------------------------------------------------------------
+accuracy       0              debe ser 0 (direccion invertida + score ausente)OK
+completeness   0              debe ser 0 (2/5 factores omitidos)           OK
+gdpr           1              debe ser <=1 (sin mencion al art. 22)        OK
+fluency        4              (informativo, no forma parte de los 4 fallos probados)
+conciseness    4.0            (informativo, formula deterministica, no aplica aqui)
+
+----------------------------------------------------------------------
+JUSTIFICACIONES DEL GRADER (solo para ti, nunca se muestran al cliente):
+----------------------------------------------------------------------
+
+[accuracy]
+  La narrativa indica erróneamente que no disponer de cuenta corriente redujo la puntuación, cuando la explicación indica que sumó 75 puntos (+75.0 pts). Además, omite mencionar el Score exacto (812/1000), lo cual es un error según la rúbrica.
+
+[completeness]
+  La narrativa omite completamente dos de las características mencionadas en la explicación: 'Historial crediticio' y 'Situación laboral'.
+
+[fluency]
+  Ambos textos mantienen un registro formal, técnico y administrativo y un tono neutro y objetivo, utilizando una estructura sintáctica similar para comunicar decisiones financieras.
+
+[gdpr]
+  La narrativa comunica correctamente la decisión de aprobación (a), pero no menciona en ningún momento informa al cliente sobre su derecho a expresar su punto de vista o solicitar una revisión humana (b).
+
+======================================================================
+RESULTADO: el GRADER detecto correctamente los fallos deliberados (puntuaciones bajas donde se esperaban). Validez discriminativa confirmada con este caso de prueba.
+======================================================================

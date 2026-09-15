@@ -6,7 +6,7 @@ Línea T-002 — IA y Agentes Inteligentes con LLMs.
 ## Estado del pipeline
 
 ```
-[CSV cliente] -> Nodo 1 (XGBoost) -> Nodo 2 (SHAP) -> Nodo 3 (LLM) -> Nodo 4 (Validador GDPR)
+[.data cliente] -> Nodo 1 (XGBoost) -> Nodo 2 (SHAP) -> Nodo 3 (LLM) -> Nodo 4 (Validador GDPR)
                  [implementado]      [implementado]    [pendiente]     [pendiente]
 ```
 

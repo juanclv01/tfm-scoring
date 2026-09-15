@@ -42,6 +42,7 @@ from dspy_modules import (
     NarratorSignature, AccuracySignature, CompletenessSignature,
     construir_lm_narrator, construir_lm_grader, llamar_con_pausa, limpiar_narrativa,
 )
+from pipeline_helpers import formatear_explanation, construir_ground_truth
 from experiment_config import (
     MAX_B, BOOTSTRAP_ACCURACY_MIN, BOOTSTRAP_COMPLETENESS_MIN,
     BOOTSTRAP_CANDIDATE_POOL_FILE, BOOTSTRAP_EXAMPLES_FILE,
@@ -55,13 +56,6 @@ N_CANDIDATOS_POOL = 20  # tamano del pool diverso a explorar; se para en cuanto
 _narrator_predict = dspy.Predict(NarratorSignature)
 _accuracy_predict = dspy.Predict(AccuracySignature)
 _completeness_predict = dspy.Predict(CompletenessSignature)
-
-
-def _formatear_explanation(top_features: list) -> str:
-    return "\n".join(
-        f"({f['feature_name']}, {f['feature_value']}, {f['shap_value']:+.1f} pts)"
-        for f in top_features
-    )
 
 
 def _cargar_pool() -> dict:
@@ -125,8 +119,8 @@ def generar_ejemplares_bootstrapped(max_llamadas: int = None) -> list:
         print(f"Ya hay {len(aceptados)} candidatos aceptados (>= MAX_B={MAX_B}). Nada que hacer.")
         return _guardar_ejemplares_finales(pool)
 
-    lm_narrator = construir_lm_narrator()
-    lm_grader = construir_lm_grader()
+    lm_narrator = construir_lm_narrator(num_retries=5)
+    lm_grader = construir_lm_grader(num_retries=5)
 
     for candidato_id, info in pool.items():
         aceptados = [v for v in pool.values() if v.get("estado") == "aceptado"]
@@ -141,12 +135,8 @@ def generar_ejemplares_bootstrapped(max_llamadas: int = None) -> list:
 
         try:
             estado = evaluar_estado_completo(info["client_data"])
-            explanation = _formatear_explanation(estado["top_features"])
-            ground_truth = (
-                f"Decision: {'APROBADA' if estado['aprobado'] else 'RECHAZADA'}\n"
-                f"Risk level: {estado['nivel_riesgo']}\n"
-                f"Score: {estado['score']}/1000"
-            )
+            explanation = formatear_explanation(estado["top_features"])
+            ground_truth = construir_ground_truth(estado)
 
             narrator_out = llamar_con_pausa(
                 _narrator_predict, lm_narrator, NARRATOR_SECONDS_BETWEEN_CALLS,

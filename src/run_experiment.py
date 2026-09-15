@@ -27,7 +27,6 @@ Uso tipico (repetido dia a dia hasta completar):
     python build_results_table.py     # cuando este todo completo
 """
 import argparse
-import hashlib
 import json
 import os
 
@@ -42,31 +41,13 @@ from narrativas_hand_written import CONTEXT, EXPLANATION_FORMAT, obtener_demos_n
 from bootstrap_generator import obtener_demos_bootstrapped
 from dspy_modules import NarratorSignature, construir_lm_narrator, construir_lm_grader, llamar_con_pausa, limpiar_narrativa
 from metrics import evaluar_narrativa
+from pipeline_helpers import hash_client_data, formatear_explanation, construir_ground_truth
 from experiment_config import (
     CONFIGURACIONES_HB, config_key, RESULTS_CHECKPOINT_FILE,
     NARRATOR_SECONDS_BETWEEN_CALLS,
 )
 
 _narrator_predict = dspy.Predict(NarratorSignature)
-
-
-def _hash_client_data(client_data: dict) -> str:
-    """Huella corta y estable de un client_data, para detectar si una
-    entrada de checkpoint sigue correspondiendo al mismo cliente. Se
-    recalcula cada vez que se selecciona/carga el test set y se compara
-    contra la huella guardada en el checkpoint -- si no coincide, la
-    entrada se trata como obsoleta y se recalcula, en vez de confiar
-    ciegamente en que el numero de indice_test significa lo mismo que
-    la ultima vez (no lo significa si test_instances_20.json se regenero)."""
-    serializado = json.dumps(client_data, sort_keys=True, ensure_ascii=False)
-    return hashlib.md5(serializado.encode("utf-8")).hexdigest()[:12]
-
-
-def _formatear_explanation(top_features: list) -> str:
-    return "\n".join(
-        f"({f['feature_name']}, {f['feature_value']}, {f['shap_value']:+.1f} pts)"
-        for f in top_features
-    )
 
 
 def _cargar_checkpoint(checkpoint_file: str = RESULTS_CHECKPOINT_FILE) -> dict:
@@ -113,14 +94,10 @@ def _construir_cache_instancias(instancias: list) -> dict:
         estado = evaluar_estado_completo(inst["client_data"])
         cache[inst_id] = {
             "estado": estado,
-            "explanation": _formatear_explanation(estado["top_features"]),
-            "ground_truth": (
-                f"Decision: {'APROBADA' if estado['aprobado'] else 'RECHAZADA'}\n"
-                f"Risk level: {estado['nivel_riesgo']}\n"
-                f"Score: {estado['score']}/1000"
-            ),
+            "explanation": formatear_explanation(estado["top_features"]),
+            "ground_truth": construir_ground_truth(estado),
             "num_features": len(estado["top_features"]),
-            "client_data_hash": _hash_client_data(inst["client_data"]),
+            "client_data_hash": hash_client_data(inst["client_data"]),
         }
     return cache
 
@@ -131,8 +108,8 @@ def ejecutar(configs_a_procesar: list, max_llamadas: int = None,
     instancias = cargar_o_seleccionar_instancias()
     cache_instancias = _construir_cache_instancias(instancias)
 
-    lm_narrator = construir_lm_narrator()
-    lm_grader = construir_lm_grader()
+    lm_narrator = construir_lm_narrator(num_retries=5)
+    lm_grader = construir_lm_grader(num_retries=5)
 
     llamadas_hechas = 0
     LLAMADAS_POR_INSTANCIA = 5  # 1 narrator + 4 grader (accuracy, completeness, fluency, gdpr)

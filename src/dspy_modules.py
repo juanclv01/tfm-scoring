@@ -78,12 +78,29 @@ def limpiar_narrativa(texto: str) -> str:
 # Nemotron vs Google Gemma) -- se preserva el requisito de diseno de
 # "proveedores distintos, sin puntos ciegos compartidos".
 # ---------------------------------------------------------------------
-def construir_lm_narrator() -> dspy.LM:
+def construir_lm_narrator(num_retries: int = 1) -> dspy.LM:
+    """
+    num_retries: cuantas veces reintenta litellm INTERNAMENTE una llamada
+    fallida, en silencio, antes de que la excepcion suba a nuestro propio
+    backoff visible (llamar_con_pausa, con sus mensajes de "pool
+    compartido saturado"). Con timeout=90s por intento:
+      - num_retries=1 (default, usado por app_backend.py): sin reintento
+        interno -- cualquier fallo se ve enseguida en consola. Preferible
+        para la app en vivo, donde alguien esta esperando la respuesta y
+        conviene saber pronto si algo va mal (evita que 5 reintentos
+        silenciosos de litellm, hasta 450s, se sumen antes de que se vea
+        nada).
+      - num_retries=5 (usado por run_experiment.py/bootstrap_generator.py):
+        litellm absorbe mas fallos transitorios por su cuenta sin marcar
+        la instancia como ERROR -- preferible en experimentacion por
+        lotes sin nadie esperando en vivo, donde importa mas terminar sin
+        intervencion manual que ver cada reintento en el momento.
+    """
     kwargs = dict(
         api_key=NARRATOR_API_KEY,
         temperature=NARRATOR_TEMPERATURE,
         max_tokens=1500,
-        num_retries=5,
+        num_retries=num_retries,
         timeout=LLM_REQUEST_TIMEOUT_SECONDS,
         # extra_body/chat_template_kwargs -- confirmado por el propio
         # ejemplo de codigo de NVIDIA en build.nvidia.com para este modelo:
@@ -101,7 +118,8 @@ def construir_lm_narrator() -> dspy.LM:
     return dspy.LM(NARRATOR_MODEL, **kwargs)
 
 
-def construir_lm_grader() -> dspy.LM:
+def construir_lm_grader(num_retries: int = 1) -> dspy.LM:
+    """Ver docstring de construir_lm_narrator -- mismo parametro, mismo motivo."""
     return dspy.LM(
         GRADER_MODEL,
         api_key=GRADER_API_KEY,
@@ -110,7 +128,7 @@ def construir_lm_grader() -> dspy.LM:
         max_tokens=1200,  # subido de 800: cada dimension ahora devuelve
                           # tambien una justificacion textual (1-2 frases)
                           # ademas del digito, antes solo era el digito.
-        num_retries=5,
+        num_retries=num_retries,
         timeout=LLM_REQUEST_TIMEOUT_SECONDS,
         # Gemma 4 31B en NVIDIA Build lista "Reasoning: Supported" como
         # capacidad -- no confirmado si viene activado por defecto como en

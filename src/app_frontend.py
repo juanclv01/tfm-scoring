@@ -138,44 +138,69 @@ def _renderizar_resultado(resultado: dict):
     colores = ["#4ade80" if v > 0 else "#f87171" for v in valores]
     etiquetas_valor = [f"{'+' if v > 0 else ''}{v:.1f} pts".replace(".", ",") for v in valores]
 
+    # CORRECTED: las etiquetas "-147,3 pts" / "+80,3 pts" se cortaban porque
+    # (a) con textposition="outside" el texto de las barras mas largas cae
+    # fuera del rango autoajustado del eje X, y (b) Plotly recorta por
+    # defecto (cliponaxis=True) todo lo que queda fuera del area de trazado.
+    # Se fija un rango explicito con holgura proporcional a la barra mas
+    # larga (para que el texto quepa dentro del area) y se desactiva el
+    # recorte como red de seguridad.
+    max_abs = max((abs(v) for v in valores), default=1) or 1
+    holgura = max_abs * 0.45
+    rango_x = [min(0, min(valores, default=0)) - holgura,
+               max(0, max(valores, default=0)) + holgura]
+
     fig = go.Figure(go.Bar(
         x=valores, y=nombres, orientation="h",
         marker_color=colores,
         text=etiquetas_valor, textposition="outside",
+        cliponaxis=False,
     ))
     fig.update_layout(
         title="Factores determinantes — importancia SHAP",
         paper_bgcolor="#1e2128", plot_bgcolor="#1e2128",
         font_color="#e5e7eb",
-        margin=dict(l=10, r=60, t=40, b=10),
+        margin=dict(l=10, r=20, t=40, b=10),
         height=280,
-        xaxis=dict(showgrid=False, zeroline=True, zerolinecolor="#3f4451", visible=False),
+        xaxis=dict(showgrid=False, zeroline=True, zerolinecolor="#3f4451",
+                   visible=False, range=rango_x),
+        yaxis=dict(automargin=True),
     )
     st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
     # --- Narrativa ---
+    # CORRECTED: cuando el GRADER no aprueba la narrativa tras MAX_INTENTOS,
+    # el grafo enruta a node_human_review(), que SOBRESCRIBE "narrative" con
+    # una plantilla fija sin LLM (aviso del art. 22 RGPD dirigido al
+    # solicitante). Por tanto, en ese caso resultado["narrativa"] nunca es el
+    # borrador rechazado y SI debe mostrarse: es el mensaje de escalado. Lo
+    # que era incorrecto en la version original es que el pie de la tarjeta
+    # afirmaba "Generado por NARRATOR y GRADER via DSPy", atribuyendo a los
+    # LLM un texto que es una plantilla fija; ademas la insignia
+    # Aprobada/Rechazada (veredicto del GRADER) contradecia visualmente la
+    # decision crediticia. Ambas cosas se eliminan en la rama de revision.
     if resultado["requiere_revision_humana"]:
-        color_borde = "#f59e0b"
-        cabecera = "⚠️ REVISIÓN HUMANA REQUERIDA — ART. 22 RGPD"
-        badge_intentos = (
-            f'<span class="badge" style="background-color:#3a2a0f;color:#f59e0b;">'
-            f'Rechazada</span>'
-        )
-    else:
-        color_borde = "#4ade80"
-        cabecera = "EXPLICACIÓN GENERADA POR LLM — ART. 22 RGPD"
-        badge_intentos = (
-            f'<span class="badge" style="background-color:#16332b;color:#4ade80;">'
-            f'Aprobada</span>'
-        )
+        st.markdown(f"""
+        <div class="card" style="border-color:#f59e0b;">
+            <div style="font-size:0.75rem;color:#f59e0b;letter-spacing:0.05em;margin-bottom:0.6rem;">
+                ⚠️ REVISIÓN HUMANA REQUERIDA — ART. 22 RGPD
+            </div>
+            <div class="narrativa-box" style="border-left-color:#f59e0b;">{resultado['narrativa']}</div>
+            <div class="footer-meta">
+                Mensaje fijo, sin LLM · Intentos del NARRATOR: {resultado['intentos_narrator']} ·
+                Hash de trazabilidad: {resultado['id_solicitante']} ·
+                {resultado['tiempo_generacion_seg']}s
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+        return
 
     st.markdown(f"""
     <div class="card">
         <div style="font-size:0.75rem;color:#9ca3af;letter-spacing:0.05em;margin-bottom:0.6rem;">
-            {cabecera}
+            EXPLICACIÓN GENERADA POR LLM — ART. 22 RGPD
         </div>
-        <div style="margin-bottom:0.6rem;">{badge_intentos}</div>
-        <div class="narrativa-box" style="border-left-color:{color_borde};">{resultado['narrativa']}</div>
+        <div class="narrativa-box" style="border-left-color:#4ade80;">{resultado['narrativa']}</div>
         <div class="footer-meta">
             Generado por {resultado['modelo_narrator']} (NARRATOR) y {resultado['modelo_grader']} (GRADER) vía DSPy + LangGraph ·
             Configuración NARRATOR: {resultado['configuracion_narrator']} ·

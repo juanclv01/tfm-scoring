@@ -1,0 +1,20 @@
+Cuadro 4.1: Contrato de datos de PipelineState
+================================================
+
+Clave                   | Tipo             | Nodo que la escribe                                              | Nodo que la consume
+------------------------|------------------|-------------------------------------------------------------------|------------------------------------------------------
+client_data             | dict             | Entrada del pipeline                                               | Nodo 1, Nodo 2
+score                   | Optional[int]    | Nodo 1                                                             | ---
+proba_default           | Optional[float]  | Nodo 1                                                             | Nodo 2 (verificación de precisión local)
+aprobado                | Optional[bool]   | Nodo 1 (umbral óptimo de coste, la Sección 4.2.3)                  | Nodo 3
+nivel_riesgo            | Optional[str]    | Nodo 1 (bajo/moderado/alto, la Sección 4.2.3)                      | Nodo 3
+shap_values             | Optional[list]   | Nodo 2 (en puntos de puntuación, la Sección 4.3.2)                 | Verificación de precisión local (tests)
+base_value              | Optional[float]  | Nodo 2 (en puntos de puntuación, la Sección 4.3.2)                 | Verificación de precisión local (tests)
+feature_names           | Optional[list]   | Nodo 2                                                             | ---
+top_features            | Optional[list]   | Nodo 2 (agregado por variable, la Sección 4.3.2) Nodo 3            | (diseño especificado)
+top_features_decoded    | Optional[list]   | Nodo 2 (ya poblado como parte de top_features)                     | Nodo 3
+narrative                | Optional[str]    | Nodo 3 (node_narrative); también el nodo de revisión humana        | Nodo 4 (node_grader)
+                         |                  | (node_human_review) en caso de escalado                           |
+validation_result       | Optional[dict]   | Nodo 4 (node_grader)                                               | Arista condicional decide_after_grader (retry / approved / escalate)
+intentos                | int              | Nodo 3, incrementado en cada ejecución                             | Arista condicional decide_after_grader
+motivo_reintento        | str              | Nodo 4 (node_grader), si la narrativa se rechaza                   | Nodo 3, en el siguiente intento
